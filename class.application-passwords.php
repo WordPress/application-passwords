@@ -326,7 +326,7 @@ class Application_Passwords {
 		?>
 		<div class="application-passwords" id="application-passwords-section">
 			<h3><?php esc_html_e( 'Application Passwords' ); ?></h3>
-			<p><?php esc_html_e( 'Application Passwords are used to allow authentication via non-interactive systems, such as XMLRPC or the REST API, without providing your actual password. They can be easily deleted, and can never be used for traditional logins to your website..' ); ?></p>
+			<p><?php esc_html_e( 'Application Passwords are used to allow authentication via non-interactive systems, such as XMLRPC or the REST API, without providing your actual password. They can be easily deleted, and can never be used for traditional logins to your website.' ); ?></p>
 			<div class="create-application-password">
 				<input type="text" size="30" name="new_application_password_name" placeholder="<?php esc_attr_e( 'New Application Password Name' ); ?>" class="input" />
 				<?php submit_button( __( 'Add New' ), 'secondary', 'do_new_application_password', false ); ?>
