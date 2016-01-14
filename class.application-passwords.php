@@ -25,10 +25,13 @@ class Application_Passwords {
 	public static function add_hooks() {
 		add_filter( 'authenticate',                array( __CLASS__, 'authenticate' ), 10, 3 );
 		add_action( 'show_user_profile',           array( __CLASS__, 'show_user_profile' ) );
+
+		// These four functions and their callbacks can be removed if we're willing to make interactions javascript only.
 		add_action( 'personal_options_update',     array( __CLASS__, 'catch_submission' ), 0 );
 		add_action( 'edit_user_profile_update',    array( __CLASS__, 'catch_submission' ), 0 );
 		add_action( 'load-profile.php',            array( __CLASS__, 'catch_delete_application_password' ) );
 		add_action( 'load-user-edit.php',          array( __CLASS__, 'catch_delete_application_password' ) );
+
 		add_action( 'rest_api_init',               array( __CLASS__, 'rest_api_init' ) );
 		add_filter( 'determine_current_user',      array( __CLASS__, 'rest_api_auth_handler' ), 20 );
 	}
