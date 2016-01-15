@@ -56,7 +56,7 @@ class Application_Passwords_List_Table extends WP_List_Table {
 		switch ( $column_name ) {
 			case 'name':
 				$actions = array(
-					'delete' => Application_Passwords::delete_link( $item ),
+					'delete' => '<a href="#">' . esc_html__( 'Delete' ) . '</a>',
 				);
 				return esc_html( $item['name'] ) . self::row_actions( $actions );
 			case 'created':
