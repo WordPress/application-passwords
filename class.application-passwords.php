@@ -25,13 +25,6 @@ class Application_Passwords {
 	public static function add_hooks() {
 		add_filter( 'authenticate',                array( __CLASS__, 'authenticate' ), 10, 3 );
 		add_action( 'show_user_profile',           array( __CLASS__, 'show_user_profile' ) );
-
-		// These four functions and their callbacks can be removed if we're willing to make interactions javascript only.
-		add_action( 'personal_options_update',     array( __CLASS__, 'catch_submission' ), 0 );
-		add_action( 'edit_user_profile_update',    array( __CLASS__, 'catch_submission' ), 0 );
-		add_action( 'load-profile.php',            array( __CLASS__, 'catch_delete_application_password' ) );
-		add_action( 'load-user-edit.php',          array( __CLASS__, 'catch_delete_application_password' ) );
-
 		add_action( 'rest_api_init',               array( __CLASS__, 'rest_api_init' ) );
 		add_filter( 'determine_current_user',      array( __CLASS__, 'rest_api_auth_handler' ), 20 );
 	}
@@ -133,26 +126,7 @@ class Application_Passwords {
 	 * @return array
 	 */
 	public static function rest_add_application_password( $data ) {
-		// Modified version of `self::create_new_application_password` as that only returns the pw, not the row.
-		$new_password    = wp_generate_password( 16, false );
-		$hashed_password = wp_hash_password( $new_password );
-		$new_item        = array(
-			'name'      => $data['name'],
-			'password'  => $hashed_password,
-			'created'   => time(),
-			'last_used' => null,
-			'last_ip'   => null,
-		);
-
-		// Fetch the existing records.
-		$passwords = self::get_user_application_passwords( $data['user_id'] );
-		if ( ! $passwords ) {
-			$passwords = array();
-		}
-
-		// Save the new one in the db.
-		$passwords[] = $new_item;
-		self::set_user_application_passwords( $data['user_id'], $passwords );
+		list( $new_password, $new_item ) = self::create_new_application_password( $data['user_id'], $data['name'] );
 
 		// Some tidying before we return it.
 		$new_item['slug']      = self::password_unique_slug( $new_item );
@@ -320,28 +294,8 @@ class Application_Passwords {
 			'user_id'    => $user->ID,
 		) );
 
-		wp_nonce_field( "user_application_passwords-{$user->ID}", '_nonce_user_application_passwords' );
-		$new_password      = null;
-		$new_password_name = null;
-
-		$application_passwords = self::get_user_application_passwords( $user->ID );
-		if ( $application_passwords ) {
-			foreach ( $application_passwords as &$application_password ) {
-				if ( ! empty( $application_password['raw'] ) ) {
-					$new_password      = $application_password['raw'];
-					$new_password_name = $application_password['name'];
-					unset( $application_password['raw'] );
-				}
-			}
-			unset( $application_password );
-		}
-
-		// If we've got a new one, update the db record to not save it there any longer.
-		if ( $new_password ) {
-			self::set_user_application_passwords( $user->ID, $application_passwords );
-		}
 		?>
-		<div class="application-passwords" id="application-passwords-section">
+		<div class="application-passwords hide-if-no-js" id="application-passwords-section">
 			<h3><?php esc_html_e( 'Application Passwords' ); ?></h3>
 			<p><?php esc_html_e( 'Application Passwords are used to allow authentication via non-interactive systems, such as XMLRPC or the REST API, without providing your actual password. They can be easily deleted, and can never be used for traditional logins to your website.' ); ?></p>
 			<div class="create-application-password">
@@ -349,23 +303,11 @@ class Application_Passwords {
 				<?php submit_button( __( 'Add New' ), 'secondary', 'do_new_application_password', false ); ?>
 			</div>
 
-			<?php if ( $new_password ) : ?>
-			<p class="new-application-password">
-				<?php
-				printf(
-					esc_html_x( 'Your new password for %1$s: %2$s', 'application, password' ),
-					'<strong>' . esc_html( $new_password_name ) . '</strong>',
-					'<kbd>' . esc_html( self::chunk_password( $new_password ) ) . '</kbd>'
-				);
-				?>
-			</p>
-			<?php endif; ?>
-
 			<?php
 				require( dirname( __FILE__ ) . '/class.application-passwords-list-table.php' );
 				// @todo Isn't this class already loaded in Two_Factor_Core::get_providers()?
 				$application_passwords_list_table = new Application_Passwords_List_Table();
-				$application_passwords_list_table->items = $application_passwords;
+				$application_passwords_list_table->items = self::get_user_application_passwords( $user->ID );
 				$application_passwords_list_table->prepare_items();
 				$application_passwords_list_table->display();
 			?>
@@ -382,6 +324,7 @@ class Application_Passwords {
 				?>
 			</p>
 		</script>
+		
 		<script type="text/html" id="tmpl-application-password-row">
 			<tr data-slug="{{ data.slug }}">
 				<td class="name column-name has-row-actions column-primary" data-colname="<?php echo esc_attr( 'Name' ); ?>">
@@ -402,53 +345,6 @@ class Application_Passwords {
 	}
 
 	/**
-	 * Catch the non-ajax submission from the new form.
-	 *
-	 * This executes during the `personal_options_update` & `edit_user_profile_update` actions.
-	 *
-	 * @since 0.1-dev
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param int $user_id User ID.
-	 */
-	public static function catch_submission( $user_id ) {
-		if ( ! empty( $_REQUEST['do_new_application_password'] ) ) {
-			check_admin_referer( "user_application_passwords-{$user_id}", '_nonce_user_application_passwords' );
-
-			self::create_new_application_password( $user_id, sanitize_text_field( $_POST['new_application_password_name'] ) );
-
-			wp_safe_redirect( add_query_arg( array(
-				'new_app_pass' => 1,
-			), wp_get_referer() ) . '#application-passwords-section' );
-			exit;
-		}
-	}
-
-	/**
-	 * Catch the delete application password request.
-	 *
-	 * This executes during the `load-profile.php` & `load-user-edit.php` actions.
-	 *
-	 * @since 0.1-dev
-	 *
-	 * @access public
-	 * @static
-	 */
-	public static function catch_delete_application_password() {
-		$user_id = get_current_user_id();
-		if ( ! empty( $_REQUEST['delete_application_password'] ) ) {
-			$slug = $_REQUEST['delete_application_password'];
-			check_admin_referer( "delete_application_password-{$slug}", '_nonce_delete_application_password' );
-
-			self::delete_application_password( $user_id, $slug );
-
-			wp_safe_redirect( remove_query_arg( 'new_app_pass', wp_get_referer() ) . '#application-passwords-section' );
-		}
-	}
-
-	/**
 	 * Generate a new application password.
 	 *
 	 * @since 0.1-dev
@@ -457,23 +353,22 @@ class Application_Passwords {
 	 * @static
 	 *
 	 * @param int    $user_id User ID.
-	 * @param string $name Password name.
-	 * @return string
+	 * @param string $name    Password name.
+	 * @return array          The first key in the array is the new password, the second is its row in the table.
 	 */
 	public static function create_new_application_password( $user_id, $name ) {
-		$passwords       = self::get_user_application_passwords( $user_id );
 		$new_password    = wp_generate_password( 16, false );
 		$hashed_password = wp_hash_password( $new_password );
 
-		$new_item  = array(
+		$new_item = array(
 			'name'      => $name,
-			'raw'       => $new_password, // THIS LINE GETS DELETED IN SUBSEQUENT REQUEST.
 			'password'  => $hashed_password,
 			'created'   => time(),
 			'last_used' => null,
 			'last_ip'   => null,
 		);
 
+		$passwords = self::get_user_application_passwords( $user_id );
 		if ( ! $passwords ) {
 			$passwords = array();
 		}
@@ -481,25 +376,7 @@ class Application_Passwords {
 		$passwords[] = $new_item;
 		self::set_user_application_passwords( $user_id, $passwords );
 
-		return self::chunk_password( $new_password );
-	}
-
-	/**
-	 * Generate a link to delete a specified application password.
-	 *
-	 * @since 0.1-dev
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param array $item The current item.
-	 * @return string
-	 */
-	public static function delete_link( $item ) {
-		$slug = self::password_unique_slug( $item );
-		$delete_link = add_query_arg( 'delete_application_password', $slug );
-		$delete_link = wp_nonce_url( $delete_link, "delete_application_password-{$slug}", '_nonce_delete_application_password' );
-		return sprintf( '<a href="%1$s">%2$s</a>', esc_url( $delete_link ), esc_html__( 'Delete' ) );
+		return array( $new_password, $new_item );
 	}
 
 	/**
