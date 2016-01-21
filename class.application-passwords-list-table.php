@@ -91,6 +91,12 @@ class Application_Passwords_List_Table extends WP_List_Table {
 		?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
+			<?php if ( 'bottom' === $which ) : ?>
+			<div class="alignright">
+				<?php submit_button( __( 'Revoke all application passwords' ), 'delete', 'revoke-all-application-passwords', false ); ?>
+			</div>
+			<?php endif; ?>
+
 			<div class="alignleft actions bulkactions">
 				<?php $this->bulk_actions( $which ); ?>
 			</div>

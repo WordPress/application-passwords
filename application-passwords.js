@@ -6,6 +6,7 @@
 		$newAppPassButton = $newAppPassForm.find( '.button' ),
 		$appPassTbody     = $appPassSection.find( 'tbody' ),
 		$appPassTrNoItems = $appPassTbody.find( '.no-items' ),
+		$removeAllBtn     = $( '#revoke-all-application-passwords' ),
 		tmplNewAppPass    = wp.template( 'new-application-password' ),
 		tmplAppPassRow    = wp.template( 'application-password-row' );
 
@@ -41,7 +42,7 @@
 
 			$appPassTbody.prepend( tmplAppPassRow( response.row ) );
 
-			$appPassTrNoItems.remove();
+			$appPassTrNoItems.hide();
 		} );
 	});
 
@@ -59,6 +60,25 @@
 		} ).done( function ( response ) {
 			if ( response ) {
 				$tr.remove();
+			}
+		} );
+	});
+
+	$removeAllBtn.on( 'click', function(e) {
+		e.preventDefault();
+
+		$.ajax( {
+			url        : appPass.root + appPass.namespace + '/application-passwords/' + appPass.user_id,
+			method     : 'DELETE',
+			beforeSend : function ( xhr ) {
+				xhr.setRequestHeader( 'X-WP-Nonce', appPass.nonce );
+			}
+		} ).done( function ( response ) {
+			// If we've successfully removed them…
+			if ( parseInt( response, 10 ) > 0 ) {
+				$appPassTbody.children().not( $appPassTrNoItems ).remove();
+				$appPassTrNoItems.show();
+				$appPassSection.children( '.new-application-password' ).remove();
 			}
 		} );
 	});
