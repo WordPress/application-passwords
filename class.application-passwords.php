@@ -38,18 +38,14 @@ class Application_Passwords {
 	 * @static
 	 */
 	public static function rest_api_init() {
-		/**
-		 * List existing application passwords
-		 */
+		// List existing application passwords
 		register_rest_route( '2fa/v1', '/application-passwords/(?P<user_id>[\d]+)', array(
 			'methods' => WP_REST_Server::READABLE,
 			'callback' => __CLASS__ . '::rest_list_application_passwords',
 			'permission_callback' => __CLASS__ . '::rest_edit_user_callback',
 		) );
 
-		/**
-		 * Add new application passwords
-		 */
+		// Add new application passwords
 		register_rest_route( '2fa/v1', '/application-passwords/(?P<user_id>[\d]+)/add', array(
 			'methods' => WP_REST_Server::CREATABLE,
 			'callback' => __CLASS__ . '::rest_add_application_password',
@@ -61,12 +57,17 @@ class Application_Passwords {
 			),
 		) );
 
-		/**
-		 * Delete an application password
-		 */
+		// Delete an application password
 		register_rest_route( '2fa/v1', '/application-passwords/(?P<user_id>[\d]+)/(?P<slug>[\da-fA-F]{12})', array(
 			'methods' => WP_REST_Server::DELETABLE,
 			'callback' => __CLASS__ . '::rest_delete_application_password',
+			'permission_callback' => __CLASS__ . '::rest_edit_user_callback',
+		) );
+
+		// Delete all application passwords for a given user
+		register_rest_route( '2fa/v1', '/application-passwords/(?P<user_id>[\d]+)', array(
+			'methods' => WP_REST_Server::DELETABLE,
+			'callback' => __CLASS__ . '::rest_delete_all_application_passwords',
 			'permission_callback' => __CLASS__ . '::rest_edit_user_callback',
 		) );
 	}
@@ -154,6 +155,22 @@ class Application_Passwords {
 	 */
 	public static function rest_delete_application_password( $data ) {
 		return self::delete_application_password( $data['user_id'], $data['slug'] );
+	}
+
+	/**
+	 * REST API endpoint to delete all of a user's application passwords.
+	 *
+	 * @since 0.1-dev
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param $data
+	 *
+	 * @return int The number of deleted passwords
+	 */
+	public static function rest_delete_all_application_passwords( $data ) {
+		return self::delete_all_application_passwords( $data['user_id'] );
 	}
 
 	/**
@@ -300,7 +317,7 @@ class Application_Passwords {
 			<p class="new-application-password">
 				<?php
 				printf(
-					esc_html_x( 'Your new password for %1$s is %2$s.', 'application, password' ),
+					esc_html_x( 'Your new password for %1$s: %2$s', 'application, password' ),
 					'<strong>{{ data.name }}</strong>',
 					'<kbd>{{ data.password }}</kbd>'
 				);
@@ -389,6 +406,28 @@ class Application_Passwords {
 
 		// Specified Application Password not found!
 		return false;
+	}
+
+	/**
+	 * Deletes all application passwords for the given user.
+	 *
+	 * @since 0.1-dev
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int    $user_id User ID.
+	 * @return int   The number of passwords that were deleted.
+	 */
+	public static function delete_all_application_passwords( $user_id ) {
+		$passwords = self::get_user_application_passwords( $user_id );
+
+		if ( is_array( $passwords ) ) {
+			self::set_user_application_passwords( $user_id, array() );
+			return sizeof( $passwords );
+		}
+
+		return 0;
 	}
 
 	/**
