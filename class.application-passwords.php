@@ -306,7 +306,6 @@ class Application_Passwords {
 			<div class="application-passwords-list-table-wrapper">
 			<?php
 				require( dirname( __FILE__ ) . '/class.application-passwords-list-table.php' );
-				// @todo Isn't this class already loaded in Two_Factor_Core::get_providers()?
 				$application_passwords_list_table = new Application_Passwords_List_Table();
 				$application_passwords_list_table->items = self::get_user_application_passwords( $user->ID );
 				$application_passwords_list_table->prepare_items();
