@@ -339,6 +339,9 @@ class Application_Passwords {
 				<td class="last_ip column-last_ip" data-colname="<?php echo esc_attr( 'Last IP' ); ?>">
 					{{ data.last_ip }}
 				</td>
+				<td class="revoke column-revoke" data-colname="<?php echo esc_attr( 'Revoke' ); ?>">
+					<input type="submit" name="revoke-application-password" class="button delete" value="<?php esc_attr_e( 'Revoke' ); ?>">
+				</td>
 			</tr>
 		</script>
 		<?php

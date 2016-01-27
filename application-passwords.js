@@ -46,7 +46,7 @@
 		} );
 	});
 
-	$appPassTbody.on( 'click', '.delete a', function(e){
+	$appPassTbody.on( 'click', '.delete', function(e){
 		e.preventDefault();
 		var $tr  = $( e.target ).closest( 'tr' ),
 			slug = $tr.data( 'slug' );

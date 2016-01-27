@@ -27,6 +27,7 @@ class Application_Passwords_List_Table extends WP_List_Table {
 			'created'   => wp_strip_all_tags( __( 'Created' ) ),
 			'last_used' => wp_strip_all_tags( __( 'Last Used' ) ),
 			'last_ip'   => wp_strip_all_tags( __( 'Last IP' ) ),
+			'revoke'    => wp_strip_all_tags( __( 'Revoke' ) ),
 		);
 	}
 
@@ -55,10 +56,7 @@ class Application_Passwords_List_Table extends WP_List_Table {
 	protected function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
 			case 'name':
-				$actions = array(
-					'delete' => '<a href="#">' . esc_html__( 'Delete' ) . '</a>',
-				);
-				return esc_html( $item['name'] ) . self::row_actions( $actions );
+				return esc_html( $item['name'] );
 			case 'created':
 				if ( empty( $item['created'] ) ) {
 					return esc_html__( 'Unknown' );
@@ -74,6 +72,8 @@ class Application_Passwords_List_Table extends WP_List_Table {
 					return esc_html__( 'Never Used' );
 				}
 				return $item['last_ip'];
+			case 'revoke':
+				return get_submit_button( __( 'Revoke' ), 'delete', 'revoke-application-password', false );
 			default:
 				return 'WTF^^?';
 		}
