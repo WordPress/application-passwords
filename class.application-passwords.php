@@ -303,6 +303,7 @@ class Application_Passwords {
 				<?php submit_button( __( 'Add New' ), 'secondary', 'do_new_application_password', false ); ?>
 			</div>
 
+			<div class="application-passwords-list-table-wrapper">
 			<?php
 				require( dirname( __FILE__ ) . '/class.application-passwords-list-table.php' );
 				// @todo Isn't this class already loaded in Two_Factor_Core::get_providers()?
@@ -311,6 +312,7 @@ class Application_Passwords {
 				$application_passwords_list_table->prepare_items();
 				$application_passwords_list_table->display();
 			?>
+			</div>
 		</div>
 
 		<script type="text/html" id="tmpl-new-application-password">

@@ -4,6 +4,7 @@
 		$newAppPassForm   = $appPassSection.find( '.create-application-password' ),
 		$newAppPassField  = $newAppPassForm.find( '.input' ),
 		$newAppPassButton = $newAppPassForm.find( '.button' ),
+		$appPassTwrapper  = $appPassSection.find( '.application-passwords-list-table-wrapper' ),
 		$appPassTbody     = $appPassSection.find( 'tbody' ),
 		$appPassTrNoItems = $appPassTbody.find( '.no-items' ),
 		$removeAllBtn     = $( '#revoke-all-application-passwords' ),
@@ -42,7 +43,8 @@
 
 			$appPassTbody.prepend( tmplAppPassRow( response.row ) );
 
-			$appPassTrNoItems.hide();
+			$appPassTwrapper.show();
+			$appPassTrNoItems.remove();
 		} );
 	});
 
@@ -59,6 +61,9 @@
 			}
 		} ).done( function ( response ) {
 			if ( response ) {
+				if ( 0 === $tr.siblings().length ) {
+					$appPassTwrapper.hide();
+				}
 				$tr.remove();
 			}
 		} );
@@ -76,10 +81,15 @@
 		} ).done( function ( response ) {
 			// If we've successfully removed them…
 			if ( parseInt( response, 10 ) > 0 ) {
-				$appPassTbody.children().not( $appPassTrNoItems ).remove();
-				$appPassTrNoItems.show();
+				$appPassTbody.children().remove();
 				$appPassSection.children( '.new-application-password' ).remove();
+				$appPassTwrapper.hide();
 			}
 		} );
 	});
+
+	// If there are no items, don't display the table yet.  If there are, show it.
+	if ( 0 === $appPassTbody.children( 'tr' ).not( $appPassTrNoItems ).length ) {
+		$appPassTwrapper.hide();
+	}
 })(jQuery,appPass);
