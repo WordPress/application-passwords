@@ -59,17 +59,17 @@ class Application_Passwords_List_Table extends WP_List_Table {
 				return esc_html( $item['name'] );
 			case 'created':
 				if ( empty( $item['created'] ) ) {
-					return esc_html__( 'Unknown' );
+					return '&mdash;';
 				}
 				return date( get_option( 'date_format', 'r' ), $item['created'] );
 			case 'last_used':
 				if ( empty( $item['last_used'] ) ) {
-					return esc_html__( 'Never' );
+					return '&mdash;';
 				}
 				return date( get_option( 'date_format', 'r' ), $item['last_used'] );
 			case 'last_ip':
 				if ( empty( $item['last_ip'] ) ) {
-					return esc_html__( 'Never Used' );
+					return '&mdash;';
 				}
 				return $item['last_ip'];
 			case 'revoke':
