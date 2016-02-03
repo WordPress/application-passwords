@@ -197,7 +197,7 @@ class Application_Passwords {
 	 * @access public
 	 * @static
 	 *
-	 * @param $user
+	 * @param $input_user
 	 *
 	 * @return WP_User|bool
 	 */
