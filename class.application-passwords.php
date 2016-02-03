@@ -42,7 +42,11 @@ class Application_Passwords {
 	 * @static
 	 */
 	public static function wp_rest_server_class( $class ) {
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		global $current_user;
+		if ( defined( 'REST_REQUEST' )
+		     && REST_REQUEST
+		     && $current_user instanceof WP_User
+		     && 0 === $current_user->ID ) {
 			/*
 			 * For our authentication to work, we need to remove the cached lack
 			 * of a current user, so the next time it checks, we can detect that
@@ -50,7 +54,7 @@ class Application_Passwords {
 			 * is because the constant is defined later than the first get current
 			 * user call may run.
 			 */
-			unset( $GLOBALS['current_user'] );
+			$current_user = null;
 		}
 		return $class;
 	}
