@@ -20,7 +20,7 @@ This test uses the technologies listed below, but you can use any REST API or XM
 * cURL
 * OS X
 * terminal
-* localhost (MAMP)
+* local development environment (e.g. MAMP) running on localhost
 
 1. Now that you have your new password you can base64 encode it via the terminal with your username to create a new access token.
  
