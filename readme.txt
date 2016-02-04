@@ -1,6 +1,6 @@
 === Application Passwords ===
 Contributors: georgestephanis, valendesigns, kraftbj
-Tags: application-passwords
+Tags: application-passwords, rest api, xml-rpc, security, authentication
 Requires at least: 4.4
 Tested up to: 4.5
 Stable tag: trunk
