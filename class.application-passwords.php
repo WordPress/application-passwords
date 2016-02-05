@@ -22,12 +22,35 @@ class Application_Passwords {
 	 * @access public
 	 * @static
 	 */
-	public static function add_hooks() {
-		add_filter( 'authenticate',                array( __CLASS__, 'authenticate' ), 10, 3 );
-		add_action( 'show_user_profile',           array( __CLASS__, 'show_user_profile' ) );
-		add_action( 'rest_api_init',               array( __CLASS__, 'rest_api_init' ) );
-		add_filter( 'determine_current_user',      array( __CLASS__, 'rest_api_auth_handler' ), 20 );
-		add_filter( 'wp_rest_server_class',        array( __CLASS__, 'wp_rest_server_class' ) );
+	public static function add_hooks($file) {
+
+		add_filter( 'plugin_action_links_' . $file, 					array( __CLASS__, 'add_action_links') );
+		add_filter( 'authenticate',                						array( __CLASS__, 'authenticate' ), 10, 3 );
+		add_action( 'show_user_profile',           						array( __CLASS__, 'show_user_profile' ) );
+		add_action( 'rest_api_init',               						array( __CLASS__, 'rest_api_init' ) );
+		add_filter( 'determine_current_user',      						array( __CLASS__, 'rest_api_auth_handler' ), 20 );
+		add_filter( 'wp_rest_server_class',        						array( __CLASS__, 'wp_rest_server_class' ) );
+
+	}
+
+	/**
+	 * Add a new plugin link to the Application passwords.  Without this link it is hard to find out where to go
+	 * to create these passwords.
+	 *
+	 * @since 0.1-dev
+	 *
+	 * @access public
+	 * @static
+	 * @param mixed $links
+	 * @return array
+	 */
+	public static function add_action_links($links) {
+
+		$password_link = array(
+			'<a href="' . admin_url( 'profile.php#application-passwords' ) . '">' . __('Passwords') . '</a>',
+		);
+
+		return array_merge( $links, $password_link );
 	}
 
 	/**
@@ -326,7 +349,7 @@ class Application_Passwords {
 
 		?>
 		<div class="application-passwords hide-if-no-js" id="application-passwords-section">
-			<h3><?php esc_html_e( 'Application Passwords' ); ?></h3>
+			<h2 id="application-passwords"><?php esc_html_e( 'Application Passwords' ); ?></h2>
 			<p><?php esc_html_e( 'Application Passwords are used to allow authentication via non-interactive systems, such as XMLRPC or the REST API, without providing your actual password. They can be easily revoked, and can never be used for traditional logins to your website.' ); ?></p>
 			<div class="create-application-password">
 				<input type="text" size="30" name="new_application_password_name" placeholder="<?php esc_attr_e( 'New Application Password Name' ); ?>" class="input" />
@@ -355,7 +378,7 @@ class Application_Passwords {
 				?>
 			</p>
 		</script>
-		
+
 		<script type="text/html" id="tmpl-application-password-row">
 			<tr data-slug="{{ data.slug }}">
 				<td class="name column-name has-row-actions column-primary" data-colname="<?php echo esc_attr( 'Name' ); ?>">
