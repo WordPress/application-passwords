@@ -28,7 +28,7 @@ This test uses the technologies listed below, but you can use any REST API or XM
 echo -n "username:password" | base64
 ```
 
-2. Once you have your access token you can then make a simple REST API call via the terminal to update a post.  Since the you are performing a POST request you will need to authorize yourself which is where you will use this access token.  You will see the post will update its title to "New Title".
+2. Once you have your access token you can then make a simple REST API call via the terminal to update a post.  Since you are performing a POST request you will need to authorize the request using this access token. If authorized correctly, you will see the post title update to "New Title."
 
 ```shell 
 curl --header "Authorization: Basic ${ACCESS_TOKEN}" -X POST -d "title=New Title" http://localhost:8888/wp-json/wp/v2/posts/${post_id}
