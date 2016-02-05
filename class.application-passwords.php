@@ -339,8 +339,9 @@ class Application_Passwords {
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 */
 	public static function show_user_profile( $user ) {
-		wp_enqueue_script( 'application-passwords', plugin_dir_url( __FILE__ ) . 'application-passwords.js', array() );
-		wp_localize_script( 'application-passwords', 'appPass', array(
+		wp_enqueue_style( 'application-passwords-css', plugin_dir_url( __FILE__ ) . 'application-passwords.css', array() );
+		wp_enqueue_script( 'application-passwords-js', plugin_dir_url( __FILE__ ) . 'application-passwords.js', array() );
+		wp_localize_script( 'application-passwords-js', 'appPass', array(
 			'root'       => esc_url_raw( rest_url() ),
 			'namespace'  => '2fa/v1',
 			'nonce'      => wp_create_nonce( 'wp_rest' ),
@@ -368,15 +369,22 @@ class Application_Passwords {
 		</div>
 
 		<script type="text/html" id="tmpl-new-application-password">
-			<p class="new-application-password">
-				<?php
-				printf(
-					esc_html_x( 'Your new password for %1$s: %2$s', 'application, password' ),
-					'<strong>{{ data.name }}</strong>',
-					'<kbd>{{ data.password }}</kbd>'
-				);
-				?>
-			</p>
+			<div class="new-application-password notification-dialog-wrap">
+				<div class="app-pass-dialog-background notification-dialog-background">
+					<div class="app-pass-dialog notification-dialog">
+						<div class="new-application-password-content">
+							<?php
+							printf(
+								esc_html_x( 'Your new password for %1$s: %2$s', 'application, password' ),
+								'<strong>{{ data.name }}</strong>',
+								'<kbd>{{ data.password }}</kbd>'
+							);
+							?>
+						</div>
+						<button class="button button-primary application-password-modal-dismiss"><?php _e( 'Dismiss' ); ?></button>
+					</div>
+				</div>
+			</div>
 		</script>
 
 		<script type="text/html" id="tmpl-application-password-row">
