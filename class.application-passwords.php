@@ -23,7 +23,7 @@ class Application_Passwords {
 	 * @static
 	 */
 	 public static function add_hooks($file) {
-		add_filter( 'plugin_action_links_' . $file, 	array( __CLASS__, 'add_action_links' ) );
+		add_filter( 'plugin_action_links_' . $file, 		array( __CLASS__, 'add_action_links' ) );
  		add_filter( 'authenticate',                		array( __CLASS__, 'authenticate' ), 10, 3 );
  		add_action( 'show_user_profile',           		array( __CLASS__, 'show_user_profile' ) );
  		add_action( 'rest_api_init',               		array( __CLASS__, 'rest_api_init' ) );
