@@ -23,7 +23,7 @@ class Application_Passwords {
 	 * @static
 	 */
 	 public static function add_hooks($file) {
-		add_filter( 'plugin_action_links_' . $file, 		array( __CLASS__, 'add_action_links' ) );
+		add_filter( 'plugin_action_links_' . $file,		array( __CLASS__, 'add_action_links' ) );
  		add_filter( 'authenticate',                		array( __CLASS__, 'authenticate' ), 10, 3 );
  		add_action( 'show_user_profile',           		array( __CLASS__, 'show_user_profile' ) );
  		add_action( 'rest_api_init',               		array( __CLASS__, 'rest_api_init' ) );
@@ -379,8 +379,8 @@ class Application_Passwords {
 							);
 							?>
 						</div>
-						<p><?php esc_attr( 'Be sure to save this in a safe location.  You will not be able to retrieve it.' ); ?></p>
-						<button class="button button-primary application-password-modal-dismiss"><?php esc_attr( 'Dismiss' ); ?></button>
+						<p><?php esc_attr_e( 'Be sure to save this in a safe location.  You will not be able to retrieve it.' ); ?></p>
+						<button class="button button-primary application-password-modal-dismiss"><?php esc_attr_e( 'Dismiss' ); ?></button>
 					</div>
 				</div>
 			</div>
