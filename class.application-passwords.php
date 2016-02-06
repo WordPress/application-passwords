@@ -22,15 +22,12 @@ class Application_Passwords {
 	 * @access public
 	 * @static
 	 */
-	public static function add_hooks($file) {
-
-		add_filter( 'plugin_action_links_' . $file, 					array( __CLASS__, 'add_action_links') );
-		add_filter( 'authenticate',                						array( __CLASS__, 'authenticate' ), 10, 3 );
-		add_action( 'show_user_profile',           						array( __CLASS__, 'show_user_profile' ) );
-		add_action( 'rest_api_init',               						array( __CLASS__, 'rest_api_init' ) );
-		add_filter( 'determine_current_user',      						array( __CLASS__, 'rest_api_auth_handler' ), 20 );
-		add_filter( 'wp_rest_server_class',        						array( __CLASS__, 'wp_rest_server_class' ) );
-
+	 public static function add_hooks() {
+ 		add_filter( 'authenticate',                array( __CLASS__, 'authenticate' ), 10, 3 );
+ 		add_action( 'show_user_profile',           array( __CLASS__, 'show_user_profile' ) );
+ 		add_action( 'rest_api_init',               array( __CLASS__, 'rest_api_init' ) );
+ 		add_filter( 'determine_current_user',      array( __CLASS__, 'rest_api_auth_handler' ), 20 );
+ 		add_filter( 'wp_rest_server_class',        array( __CLASS__, 'wp_rest_server_class' ) );
 	}
 
 	/**
@@ -339,8 +336,9 @@ class Application_Passwords {
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 */
 	public static function show_user_profile( $user ) {
-		wp_enqueue_script( 'application-passwords', plugin_dir_url( __FILE__ ) . 'application-passwords.js', array() );
-		wp_localize_script( 'application-passwords', 'appPass', array(
+		wp_enqueue_style( 'application-passwords-css', plugin_dir_url( __FILE__ ) . 'application-passwords.css', array() );
+		wp_enqueue_script( 'application-passwords-js', plugin_dir_url( __FILE__ ) . 'application-passwords.js', array() );
+		wp_localize_script( 'application-passwords-js', 'appPass', array(
 			'root'       => esc_url_raw( rest_url() ),
 			'namespace'  => '2fa/v1',
 			'nonce'      => wp_create_nonce( 'wp_rest' ),
@@ -349,8 +347,8 @@ class Application_Passwords {
 
 		?>
 		<div class="application-passwords hide-if-no-js" id="application-passwords-section">
-			<h2 id="application-passwords"><?php esc_html_e( 'Application Passwords' ); ?></h2>
-			<p><?php esc_html_e( 'Application Passwords are used to allow authentication via non-interactive systems, such as XMLRPC or the REST API, without providing your actual password. They can be easily revoked, and can never be used for traditional logins to your website.' ); ?></p>
+			<h3><?php esc_html_e( 'Application Passwords' ); ?></h3>
+			<p><?php esc_html_e( 'Application passwords allow authentication via non-interactive systems, such as XMLRPC or the REST API, without providing your actual password. Application passwords can be easily revoked. They cannot be used for traditional logins to your website.' ); ?></p>
 			<div class="create-application-password">
 				<input type="text" size="30" name="new_application_password_name" placeholder="<?php esc_attr_e( 'New Application Password Name' ); ?>" class="input" />
 				<?php submit_button( __( 'Add New' ), 'secondary', 'do_new_application_password', false ); ?>
@@ -368,15 +366,23 @@ class Application_Passwords {
 		</div>
 
 		<script type="text/html" id="tmpl-new-application-password">
-			<p class="new-application-password">
-				<?php
-				printf(
-					esc_html_x( 'Your new password for %1$s: %2$s', 'application, password' ),
-					'<strong>{{ data.name }}</strong>',
-					'<kbd>{{ data.password }}</kbd>'
-				);
-				?>
-			</p>
+			<div class="new-application-password notification-dialog-wrap">
+				<div class="app-pass-dialog-background notification-dialog-background">
+					<div class="app-pass-dialog notification-dialog">
+						<div class="new-application-password-content">
+							<?php
+							printf(
+								esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
+								'<strong>{{ data.name }}</strong>',
+								'<kbd>{{ data.password }}</kbd>'
+							);
+							?>
+						</div>
+						<p><?php esc_attr( 'Be sure to save this in a safe location.  You will not be able to retrieve it.' ); ?></p>
+						<button class="button button-primary application-password-modal-dismiss"><?php esc_attr( 'Dismiss' ); ?></button>
+					</div>
+				</div>
+			</div>
 		</script>
 
 		<script type="text/html" id="tmpl-application-password-row">
