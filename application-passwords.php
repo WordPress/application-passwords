@@ -12,4 +12,4 @@
  * Include the application passwords system.
  */
 require_once( dirname( __FILE__ ) . '/class.application-passwords.php' );
-Application_Passwords::add_hooks();
+Application_Passwords::add_hooks( plugin_basename( __FILE__ ) );
