@@ -372,13 +372,14 @@ class Application_Passwords {
 						<div class="new-application-password-content">
 							<?php
 							printf(
-								esc_html_x( 'Your new password for %1$s: %2$s', 'application, password' ),
+								esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
 								'<strong>{{ data.name }}</strong>',
 								'<kbd>{{ data.password }}</kbd>'
 							);
 							?>
 						</div>
-						<button class="button button-primary application-password-modal-dismiss"><?php _e( 'Dismiss' ); ?></button>
+						<p><?php esc_attr( 'Be sure to save this in a safe location.  You will not be able to retrieve it.' ); ?></p>
+						<button class="button button-primary application-password-modal-dismiss"><?php esc_attr( 'Dismiss' ); ?></button>
 					</div>
 				</div>
 			</div>
