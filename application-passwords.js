@@ -1,15 +1,15 @@
 /* global appPass, console, wp */
 (function($,appPass){
-	var $appPassSection   = $( '#application-passwords-section' ),
-		$newAppPassForm   = $appPassSection.find( '.create-application-password' ),
-		$newAppPassField  = $newAppPassForm.find( '.input' ),
-		$newAppPassButton = $newAppPassForm.find( '.button' ),
-		$appPassTwrapper  = $appPassSection.find( '.application-passwords-list-table-wrapper' ),
-		$appPassTbody     = $appPassSection.find( 'tbody' ),
-		$appPassTrNoItems = $appPassTbody.find( '.no-items' ),
-		$removeAllBtn     = $( '#revoke-all-application-passwords' ),
-		tmplNewAppPass    = wp.template( 'new-application-password' ),
-		tmplAppPassRow    = wp.template( 'application-password-row' );
+	var $appPassSection        	  = $( '#application-passwords-section' ),
+		$newAppPassForm           = $appPassSection.find( '.create-application-password' ),
+		$newAppPassField          = $newAppPassForm.find( '.input' ),
+		$newAppPassButton         = $newAppPassForm.find( '.button' ),
+		$appPassTwrapper          = $appPassSection.find( '.application-passwords-list-table-wrapper' ),
+		$appPassTbody             = $appPassSection.find( 'tbody' ),
+		$appPassTrNoItems         = $appPassTbody.find( '.no-items' ),
+		$removeAllBtn             = $( '#revoke-all-application-passwords' ),
+		tmplNewAppPass            = wp.template( 'new-application-password' ),
+		tmplAppPassRow            = wp.template( 'application-password-row' );
 
 	$newAppPassButton.click( function(e){
 		e.preventDefault();
@@ -86,6 +86,12 @@
 				$appPassTwrapper.hide();
 			}
 		} );
+	});
+
+	$(document).on('click', '.application-password-modal-dismiss', function(e){
+		e.preventDefault();
+
+		$('.new-application-password.notification-dialog-wrap').hide();
 	});
 
 	// If there are no items, don't display the table yet.  If there are, show it.
