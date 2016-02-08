@@ -22,12 +22,13 @@ class Application_Passwords {
 	 * @access public
 	 * @static
 	 */
-	 public static function add_hooks() {
- 		add_filter( 'authenticate',                array( __CLASS__, 'authenticate' ), 10, 3 );
- 		add_action( 'show_user_profile',           array( __CLASS__, 'show_user_profile' ) );
- 		add_action( 'rest_api_init',               array( __CLASS__, 'rest_api_init' ) );
- 		add_filter( 'determine_current_user',      array( __CLASS__, 'rest_api_auth_handler' ), 20 );
- 		add_filter( 'wp_rest_server_class',        array( __CLASS__, 'wp_rest_server_class' ) );
+	 public static function add_hooks($file) {
+		add_filter( 'plugin_action_links_' . $file,		array( __CLASS__, 'add_action_links' ) );
+ 		add_filter( 'authenticate',                		array( __CLASS__, 'authenticate' ), 10, 3 );
+ 		add_action( 'show_user_profile',           		array( __CLASS__, 'show_user_profile' ) );
+ 		add_action( 'rest_api_init',               		array( __CLASS__, 'rest_api_init' ) );
+ 		add_filter( 'determine_current_user',      		array( __CLASS__, 'rest_api_auth_handler' ), 20 );
+ 		add_filter( 'wp_rest_server_class',        		array( __CLASS__, 'wp_rest_server_class' ) );
 	}
 
 	/**
@@ -347,7 +348,7 @@ class Application_Passwords {
 
 		?>
 		<div class="application-passwords hide-if-no-js" id="application-passwords-section">
-			<h3><?php esc_html_e( 'Application Passwords' ); ?></h3>
+			<h2 id="application-passwords"><?php esc_html_e( 'Application Passwords' ); ?></h2>
 			<p><?php esc_html_e( 'Application passwords allow authentication via non-interactive systems, such as XMLRPC or the REST API, without providing your actual password. Application passwords can be easily revoked. They cannot be used for traditional logins to your website.' ); ?></p>
 			<div class="create-application-password">
 				<input type="text" size="30" name="new_application_password_name" placeholder="<?php esc_attr_e( 'New Application Password Name' ); ?>" class="input" />
@@ -378,8 +379,8 @@ class Application_Passwords {
 							);
 							?>
 						</div>
-						<p><?php esc_attr( 'Be sure to save this in a safe location.  You will not be able to retrieve it.' ); ?></p>
-						<button class="button button-primary application-password-modal-dismiss"><?php esc_attr( 'Dismiss' ); ?></button>
+						<p><?php esc_attr_e( 'Be sure to save this in a safe location.  You will not be able to retrieve it.' ); ?></p>
+						<button class="button button-primary application-password-modal-dismiss"><?php esc_attr_e( 'Dismiss' ); ?></button>
 					</div>
 				</div>
 			</div>
