@@ -177,7 +177,16 @@ class Application_Passwords {
 	 * @return array
 	 */
 	public static function rest_add_application_password( $data ) {
-		list( $new_password, $new_item ) = self::create_new_application_password( $data['user_id'], $data['name'] );
+
+		$new_password_array = self::create_new_application_password( $data['user_id'], $data['name'] );
+
+		if ( isset( $new_password_array['error'] ) ) {
+			return array(
+				'error'	=> $new_password_array['error'],
+			);
+		}
+		
+		list( $new_password, $new_item ) = $new_password_array;
 
 		// Some tidying before we return it.
 		$new_item['slug']      = self::password_unique_slug( $new_item );
@@ -421,6 +430,25 @@ class Application_Passwords {
 	 * @return array          The first key in the array is the new password, the second is its row in the table.
 	 */
 	public static function create_new_application_password( $user_id, $name ) {
+
+		// Get all the current passwords, set to empty array if there are none
+
+		$passwords = self::get_user_application_passwords( $user_id );
+
+		if ( ! $passwords ) {
+			$passwords = array();
+		}
+
+		// Check if this is a duplciate and if yes then show error message
+
+		foreach ( $passwords as $password ) {
+			if ( $password['name'] === $name ) {
+				return array( 'error' => esc_attr__( 'A passord with this name already exists, please choose a different name.' ) );
+			}
+		}
+
+		// Create the password and other attributes
+
 		$new_password    = wp_generate_password( 16, false );
 		$hashed_password = wp_hash_password( $new_password );
 
@@ -432,10 +460,7 @@ class Application_Passwords {
 			'last_ip'   => null,
 		);
 
-		$passwords = self::get_user_application_passwords( $user_id );
-		if ( ! $passwords ) {
-			$passwords = array();
-		}
+		// Add new password to aray of all passwords
 
 		$passwords[] = $new_item;
 		self::set_user_application_passwords( $user_id, $passwords );
