@@ -49,8 +49,47 @@
 	});
 
 	$appPassTbody.on( 'click', '.delete', function(e){
+
+		var revoke_password = confirm(appPass.translations.revoke_password);
+
+		if (revoke_password === true) {
+		    ap_revoke_password(e);
+		} else {
+			e.preventDefault();
+		}
+	});
+
+	$removeAllBtn.on( 'click', function(e) {
+
+		var revoke_all_passwords = confirm(appPass.translations.revoke_all_passwords);
+
+		if (revoke_all_passwords === true) {
+		  ap_revoke_all_passwords(e);
+		} else {
+			e.preventDefault();
+		}
+	});
+
+	$(document).on('click', '.application-password-modal-dismiss', function(e){
 		e.preventDefault();
-		var $tr  = $( e.target ).closest( 'tr' ),
+
+		$('.new-application-password.notification-dialog-wrap').hide();
+	});
+
+	// If there are no items, don't display the table yet.  If there are, show it.
+	if ( 0 === $appPassTbody.children( 'tr' ).not( $appPassTrNoItems ).length ) {
+		$appPassTwrapper.hide();
+	}
+
+	/**
+	 * Revoke a password from the list table
+	 *
+	 * @param element
+	 */
+	function ap_revoke_password(element) {
+
+		element.preventDefault();
+		var $tr  = $( element.target ).closest( 'tr' ),
 			slug = $tr.data( 'slug' );
 
 		$.ajax( {
@@ -67,10 +106,16 @@
 				$tr.remove();
 			}
 		} );
-	});
+	}
 
-	$removeAllBtn.on( 'click', function(e) {
-		e.preventDefault();
+	/**
+	 * Revoke a password from the list table
+	 *
+	 * @param element
+	 */
+	function ap_revoke_all_passwords(element) {
+
+		element.preventDefault();
 
 		$.ajax( {
 			url        : appPass.root + appPass.namespace + '/application-passwords/' + appPass.user_id,
@@ -86,16 +131,6 @@
 				$appPassTwrapper.hide();
 			}
 		} );
-	});
-
-	$(document).on('click', '.application-password-modal-dismiss', function(e){
-		e.preventDefault();
-
-		$('.new-application-password.notification-dialog-wrap').hide();
-	});
-
-	// If there are no items, don't display the table yet.  If there are, show it.
-	if ( 0 === $appPassTbody.children( 'tr' ).not( $appPassTrNoItems ).length ) {
-		$appPassTwrapper.hide();
 	}
+
 })(jQuery,appPass);

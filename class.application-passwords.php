@@ -340,10 +340,14 @@ class Application_Passwords {
 		wp_enqueue_style( 'application-passwords-css', plugin_dir_url( __FILE__ ) . 'application-passwords.css', array() );
 		wp_enqueue_script( 'application-passwords-js', plugin_dir_url( __FILE__ ) . 'application-passwords.js', array() );
 		wp_localize_script( 'application-passwords-js', 'appPass', array(
-			'root'       => esc_url_raw( rest_url() ),
-			'namespace'  => '2fa/v1',
-			'nonce'      => wp_create_nonce( 'wp_rest' ),
-			'user_id'    => $user->ID,
+			'root'       		=> esc_url_raw( rest_url() ),
+			'namespace'  		=> '2fa/v1',
+			'nonce'      		=> wp_create_nonce( 'wp_rest' ),
+			'user_id'    		=> $user->ID,
+			'translations'	=> array(
+				'revoke_password'				=> esc_attr__( 'Are you sure you want to revoke this password? This action cannot be undone.' ),
+				'revoke_all_passwords'	=> esc_attr__( 'Are you sure you want to revoke all passwords? This action cannot be undone.' ),
+			),
 		) );
 
 		?>
