@@ -8,8 +8,12 @@
  * Author URI: http://stephanis.info
  */
 
+if ( ! defined('APPLICATION_PASSWORDS_PLUGIN_DIR_URL') ) {
+  define('APPLICATION_PASSWORDS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
+}
+
 /**
  * Include the application passwords system.
  */
-require_once( dirname( __FILE__ ) . '/class.application-passwords.php' );
+require_once( dirname( __FILE__ ) . '/classes/class.application-passwords.php' );
 Application_Passwords::add_hooks( plugin_basename( __FILE__ ) );
