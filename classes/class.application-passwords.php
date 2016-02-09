@@ -337,8 +337,8 @@ class Application_Passwords {
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 */
 	public static function show_user_profile( $user ) {
-		wp_enqueue_style( 'application-passwords-css', plugin_dir_url( __FILE__ ) . 'application-passwords.css', array() );
-		wp_enqueue_script( 'application-passwords-js', plugin_dir_url( __FILE__ ) . 'application-passwords.js', array() );
+		wp_enqueue_style( 'application-passwords-css', APPLICATION_PASSWORDS_PLUGIN_DIR_URL . 'css/application-passwords.css', array() );
+		wp_enqueue_script( 'application-passwords-js', APPLICATION_PASSWORDS_PLUGIN_DIR_URL . 'js/application-passwords.js', array() );
 		wp_localize_script( 'application-passwords-js', 'appPass', array(
 			'root'       => esc_url_raw( rest_url() ),
 			'namespace'  => '2fa/v1',
