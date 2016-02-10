@@ -359,7 +359,7 @@ class Application_Passwords {
 			<?php
 				require( dirname( __FILE__ ) . '/class.application-passwords-list-table.php' );
 				$application_passwords_list_table = new Application_Passwords_List_Table();
-				$application_passwords_list_table->items = self::get_user_application_passwords( $user->ID );
+				$application_passwords_list_table->items = array_reverse( self::get_user_application_passwords( $user->ID ) );
 				$application_passwords_list_table->prepare_items();
 				$application_passwords_list_table->display();
 			?>
