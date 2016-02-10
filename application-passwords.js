@@ -33,15 +33,23 @@
 				name : name
 			}
 		} ).done( function ( response ) {
+
 			$newAppPassField.prop( 'disabled', false ).val('');
 			$newAppPassButton.prop( 'disabled', false );
+
+			// Check if password was added
+
+			if ( typeof response.error !== 'undefined' ) {
+				alert(response.error);
+				return;
+			}
 
 			$newAppPassForm.after( tmplNewAppPass( {
 				name     : name,
 				password : response.password
 			} ) );
 
-			$appPassTbody.prepend( tmplAppPassRow( response.row ) );
+			$appPassTbody.append( tmplAppPassRow( response.row ) );
 
 			$appPassTwrapper.show();
 			$appPassTrNoItems.remove();
