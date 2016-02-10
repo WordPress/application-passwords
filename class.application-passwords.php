@@ -259,11 +259,36 @@ class Application_Passwords {
 		}
 
 		// Check that we're trying to authenticate
-		if ( ! isset( $_SERVER['PHP_AUTH_USER'] ) ) {
+
+		$headers = getallheaders();
+
+		$basic_header = $headers['X-Authentication'];
+
+		if ( isset( $_SERVER['PHP_AUTH_USER'] ) ) {
+
+			$username = $_SERVER['PHP_AUTH_USER'];
+			$password = $_SERVER['PHP_AUTH_PW'];
+
+		} else if ( ! empty( $basic_header ) ) {
+
+			$basic_header_args = preg_split( "/Basic/", $basic_header );
+			$basic_header_hash = $basic_header_args[1];
+
+			if ( empty( $basic_header_hash ) ) {
+				error_log('omnistream_auth_handler basic header hash not found');
+			}
+
+			$credentials = preg_split("/:/", base64_decode( $basic_header_hash ));
+			$username = $credentials[0];
+			$password = $credentials[1];
+
+		} else {
+
+			// Check that we're trying to authenticate
 			return $input_user;
 		}
 
-		$user = self::authenticate( $input_user, $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
+		$user = self::authenticate( $input_user, $username, $password );
 
 		if ( is_a( $user, 'WP_User' ) ) {
 			return $user->ID;
