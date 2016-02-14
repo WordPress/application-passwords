@@ -388,19 +388,19 @@ class Application_Passwords {
 
 		<script type="text/html" id="tmpl-application-password-row">
 			<tr data-slug="{{ data.slug }}">
-				<td class="name column-name has-row-actions column-primary" data-colname="<?php echo esc_attr( 'Name' ); ?>">
+				<td class="name column-name has-row-actions column-primary" data-colname="<?php esc_attr_e( 'Name' ); ?>">
 					{{ data.name }}
 				</td>
-				<td class="created column-created" data-colname="<?php echo esc_attr( 'Created' ); ?>">
+				<td class="created column-created" data-colname="<?php esc_attr_e( 'Created' ); ?>">
 					{{ data.created }}
 				</td>
-				<td class="last_used column-last_used" data-colname="<?php echo esc_attr( 'Last Used' ); ?>">
+				<td class="last_used column-last_used" data-colname="<?php esc_attr_e( 'Last Used' ); ?>">
 					{{ data.last_used }}
 				</td>
-				<td class="last_ip column-last_ip" data-colname="<?php echo esc_attr( 'Last IP' ); ?>">
+				<td class="last_ip column-last_ip" data-colname="<?php esc_attr_e( 'Last IP' ); ?>">
 					{{ data.last_ip }}
 				</td>
-				<td class="revoke column-revoke" data-colname="<?php echo esc_attr( 'Revoke' ); ?>">
+				<td class="revoke column-revoke" data-colname="<?php esc_attr_e( 'Revoke' ); ?>">
 					<input type="submit" name="revoke-application-password" class="button delete" value="<?php esc_attr_e( 'Revoke' ); ?>">
 				</td>
 			</tr>
