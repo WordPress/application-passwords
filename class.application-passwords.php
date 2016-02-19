@@ -18,7 +18,7 @@ class Application_Passwords {
 	 * The length of generated application passwords.
 	 * @type integer
 	 */
-	const PW_LENGTH = 16;
+	const PW_LENGTH = 24;
 
 	/**
 	 * Add various hooks.
