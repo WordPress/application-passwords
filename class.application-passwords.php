@@ -512,7 +512,7 @@ class Application_Passwords {
 	}
 
 	/**
-	 * Sanitize and then split a passowrd into smaller chunks.
+	 * Sanitize and then split a password into smaller chunks.
 	 *
 	 * @since 0.1-dev
 	 *
