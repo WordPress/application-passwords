@@ -29,33 +29,12 @@ class Application_Passwords {
 	 * @access public
 	 * @static
 	 */
-	 public static function add_hooks($file) {
-		add_filter( 'plugin_action_links_' . $file,		array( __CLASS__, 'add_action_links' ) );
- 		add_filter( 'authenticate',                		array( __CLASS__, 'authenticate' ), 10, 3 );
- 		add_action( 'show_user_profile',           		array( __CLASS__, 'show_user_profile' ) );
- 		add_action( 'rest_api_init',               		array( __CLASS__, 'rest_api_init' ) );
- 		add_filter( 'determine_current_user',      		array( __CLASS__, 'rest_api_auth_handler' ), 20 );
- 		add_filter( 'wp_rest_server_class',        		array( __CLASS__, 'wp_rest_server_class' ) );
-	}
-
-	/**
-	 * Add a new plugin link to the Application passwords.  Without this link it is hard to find out where to go
-	 * to create these passwords.
-	 *
-	 * @since 0.1-dev
-	 *
-	 * @access public
-	 * @static
-	 * @param mixed $links
-	 * @return array
-	 */
-	public static function add_action_links($links) {
-
-		$password_link = array(
-			'<a href="' . admin_url( 'profile.php#application-passwords' ) . '">' . __('Passwords') . '</a>',
-		);
-
-		return array_merge( $links, $password_link );
+	 public static function add_hooks() {
+ 		add_filter( 'authenticate',		array( __CLASS__, 'authenticate' ), 10, 3 );
+ 		add_action( 'show_user_profile',	array( __CLASS__, 'show_user_profile' ) );
+ 		add_action( 'rest_api_init',		array( __CLASS__, 'rest_api_init' ) );
+ 		add_filter( 'determine_current_user',	array( __CLASS__, 'rest_api_auth_handler' ), 20 );
+ 		add_filter( 'wp_rest_server_class',	array( __CLASS__, 'wp_rest_server_class' ) );
 	}
 
 	/**
