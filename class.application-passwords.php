@@ -15,6 +15,13 @@ class Application_Passwords {
 	const USERMETA_KEY_APPLICATION_PASSWORDS = '_application_passwords';
 
 	/**
+	 * The length of generated application passwords.
+	 *
+	 * @type integer
+	 */
+	const PW_LENGTH = 24;
+
+	/**
 	 * Add various hooks.
 	 *
 	 * @since 0.1-dev
@@ -421,7 +428,7 @@ class Application_Passwords {
 	 * @return array          The first key in the array is the new password, the second is its row in the table.
 	 */
 	public static function create_new_application_password( $user_id, $name ) {
-		$new_password    = wp_generate_password( 16, false );
+		$new_password    = wp_generate_password( SELF::PW_LENGTH, false );
 		$hashed_password = wp_hash_password( $new_password );
 
 		$new_item = array(
@@ -512,7 +519,7 @@ class Application_Passwords {
 	}
 
 	/**
-	 * Sanitize and then split a passowrd into smaller chunks.
+	 * Sanitize and then split a password into smaller chunks.
 	 *
 	 * @since 0.1-dev
 	 *
@@ -539,7 +546,11 @@ class Application_Passwords {
 	 * @return array
 	 */
 	public static function get_user_application_passwords( $user_id ) {
-		return get_user_meta( $user_id, self::USERMETA_KEY_APPLICATION_PASSWORDS, true );
+		$passwords = get_user_meta( $user_id, self::USERMETA_KEY_APPLICATION_PASSWORDS, true );
+		if ( ! is_array( $passwords ) ) {
+			return array();
+		}
+		return $passwords;
 	}
 
 	/**
