@@ -15,6 +15,12 @@ class Application_Passwords {
 	const USERMETA_KEY_APPLICATION_PASSWORDS = '_application_passwords';
 
 	/**
+	 * The length of generated application passwords.
+	 * @type integer
+	 */
+	const PW_LENGTH = 16;
+
+	/**
 	 * Add various hooks.
 	 *
 	 * @since 0.1-dev
@@ -421,7 +427,7 @@ class Application_Passwords {
 	 * @return array          The first key in the array is the new password, the second is its row in the table.
 	 */
 	public static function create_new_application_password( $user_id, $name ) {
-		$new_password    = wp_generate_password( 16, false );
+		$new_password    = wp_generate_password( SELF::PW_LENGTH, false );
 		$hashed_password = wp_hash_password( $new_password );
 
 		$new_item = array(
