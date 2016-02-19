@@ -545,7 +545,11 @@ class Application_Passwords {
 	 * @return array
 	 */
 	public static function get_user_application_passwords( $user_id ) {
-		return get_user_meta( $user_id, self::USERMETA_KEY_APPLICATION_PASSWORDS, true );
+		$passwords = get_user_meta( $user_id, self::USERMETA_KEY_APPLICATION_PASSWORDS, true );
+		if ( ! is_array( $passwords ) ) {
+			return array();
+		}
+		return $passwords;
 	}
 
 	/**
