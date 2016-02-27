@@ -30,11 +30,12 @@ class Application_Passwords {
 	 * @static
 	 */
 	 public static function add_hooks() {
- 		add_filter( 'authenticate',		array( __CLASS__, 'authenticate' ), 10, 3 );
- 		add_action( 'show_user_profile',	array( __CLASS__, 'show_user_profile' ) );
- 		add_action( 'rest_api_init',		array( __CLASS__, 'rest_api_init' ) );
- 		add_filter( 'determine_current_user',	array( __CLASS__, 'rest_api_auth_handler' ), 20 );
- 		add_filter( 'wp_rest_server_class',	array( __CLASS__, 'wp_rest_server_class' ) );
+ 		add_filter( 'authenticate',           array( __CLASS__, 'authenticate' ), 10, 3 );
+ 		add_action( 'show_user_profile',      array( __CLASS__, 'show_user_profile' ) );
+ 		add_action( 'rest_api_init',          array( __CLASS__, 'rest_api_init' ) );
+ 		add_filter( 'determine_current_user', array( __CLASS__, 'rest_api_auth_handler' ), 20 );
+ 		add_filter( 'wp_rest_server_class',   array( __CLASS__, 'wp_rest_server_class' ) );
+		add_action( 'admin_menu',             array( __CLASS__, 'admin_menu' ) );
 	}
 
 	/**
@@ -308,6 +309,58 @@ class Application_Passwords {
 
 		// By default, return what we've been passed.
 		return $input_user;
+	}
+
+	/**
+	 * Registers the hidden admin page to handle auth.
+	 */
+	public static function admin_menu() {
+		add_submenu_page( null, __( 'Approve Application' ), null, 'exist', 'auth_app', array( __CLASS__, 'auth_app_page' ) );
+	}
+
+	/**
+	 * Page for authorizing applications.
+	 */
+	public static function auth_app_page() {
+		$title       = ! empty( $_GET['title'] )       ? $_GET['title']       : 'Sparkly Pants';
+		$success_url = ! empty( $_GET['success_url'] ) ? $_GET['success_url'] : null;
+		$reject_url  = ! empty( $_GET['reject_url'] )  ? $_GET['reject_url']  : null;
+		?>
+		<div class="wrap">
+			<h1><?php esc_html_e( 'Authorize Application' ); ?></h1>
+
+			<div class="card">
+				<h2 class="title"><?php esc_html_e( 'An application would like to connect to your account.' ); ?></h2>
+				<p><?php printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $title ) . '</strong>' ); ?></p>
+				<form action="#">
+					<?php
+						echo '<label for="app_title">' . esc_html__( 'Application Title:' ) . '</label> ';
+						printf( '<input type="text" id="app_title" name="app_title" value="%1$s" />', esc_attr( $title ) );
+
+						echo '<p>';
+						submit_button( __( 'Yes, I approve of this connection.' ), 'primary', 'approve', false );
+						if ( $success_url ) {
+							printf( '<input type="hidden" name="success_url" value="%1$s" />', esc_url( $success_url ) );
+							printf( __( '<br /><em>You will be sent to <strong><tt>%1$s</tt></strong></em>' ), esc_html( $success_url ) );
+						} else {
+							_e( '<br /><em>You will be given a password to manually enter into the application in question.</em>' );
+						}
+						echo '</p>';
+
+						echo '<p>';
+						submit_button( __( 'No, I do not approve of this connection.' ), 'secondary', 'reject', false );
+						if ( $success_url ) {
+							printf( '<input type="hidden" name="reject_url" value="%1$s" />', esc_url( $reject_url ) );
+							printf( __( '<br /><em>You will be sent to <strong><tt>%1$s</tt></strong></em>' ), esc_html( $reject_url ) );
+						} else {
+							_e( '<br /><em>You will be returned to the WordPress Dashboard, and we will <strong>never speak of this again</strong>.</em>' );
+						}
+						echo '</p>';
+					?>
+				</form>
+			</div>
+		</div>
+		<?php
 	}
 
 	/**
