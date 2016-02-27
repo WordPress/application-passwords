@@ -322,7 +322,7 @@ class Application_Passwords {
 	 * Page for authorizing applications.
 	 */
 	public static function auth_app_page() {
-		$title       = ! empty( $_GET['title'] )       ? $_GET['title']       : 'Sparkly Pants';
+		$app_name    = ! empty( $_GET['app_name'] )    ? $_GET['app_name']    : 'Sparkly Pants';
 		$success_url = ! empty( $_GET['success_url'] ) ? $_GET['success_url'] : null;
 		$reject_url  = ! empty( $_GET['reject_url'] )  ? $_GET['reject_url']  : null;
 		?>
@@ -331,11 +331,11 @@ class Application_Passwords {
 
 			<div class="card">
 				<h2 class="title"><?php esc_html_e( 'An application would like to connect to your account.' ); ?></h2>
-				<p><?php printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $title ) . '</strong>' ); ?></p>
+				<p><?php printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' ); ?></p>
 				<form action="#">
 
-					<label for="app_title"><?php esc_html_e( 'Application Title:' ); ?></label>
-					<input type="text" id="app_title" name="app_title" value="<?php echo esc_attr( $title ); ?>" />
+					<label for="app_name"><?php esc_html_e( 'Application Title:' ); ?></label>
+					<input type="text" id="app_name" name="app_name" value="<?php echo esc_attr( $app_name ); ?>" />
 
 					<p><?php submit_button( __( 'Yes, I approve of this connection.' ), 'primary', 'approve', false ); ?>
 						<br /><em>
