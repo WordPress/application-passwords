@@ -1,4 +1,4 @@
-
+/* global authApp */
 (function($,authApp){
 	var $appNameField = $('#app_name'),
 		$approveBtn   = $('#approve'),
