@@ -333,32 +333,32 @@ class Application_Passwords {
 				<h2 class="title"><?php esc_html_e( 'An application would like to connect to your account.' ); ?></h2>
 				<p><?php printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $title ) . '</strong>' ); ?></p>
 				<form action="#">
-					<?php
-					echo '<label for="app_title">' . esc_html__( 'Application Title:' ) . '</label> ';
-					printf( '<input type="text" id="app_title" name="app_title" value="%1$s" />', esc_attr( $title ) );
 
-					echo '<p>';
-					submit_button( __( 'Yes, I approve of this connection.' ), 'primary', 'approve', false );
-					echo '<br /><em>';
-					if ( $success_url ) {
-						printf( '<input type="hidden" name="success_url" value="%1$s" />', esc_url( $success_url ) );
-						printf( esc_html__( 'You will be sent to %1$s' ), '<strong><tt>' . esc_html( $success_url ) . '</tt></strong>' );
-					} else {
-						esc_html_e( 'You will be given a password to manually enter into the application in question.' );
-					}
-					echo '</em></p>';
+					<label for="app_title"><?php esc_html_e( 'Application Title:' ); ?></label>
+					<input type="text" id="app_title" name="app_title" value="<?php echo esc_attr( $title ); ?>" />
 
-					echo '<p>';
-					submit_button( __( 'No, I do not approve of this connection.' ), 'secondary', 'reject', false );
-					echo '<br /><em>';
-					if ( $success_url ) {
-						printf( '<input type="hidden" name="reject_url" value="%1$s" />', esc_url( $reject_url ) );
-						printf( esc_html__( 'You will be sent to %1$s' ), '<strong><tt>' . esc_html( $reject_url ) . '</tt></strong>' );
-					} else {
-						esc_html_e( 'You will be returned to the WordPress Dashboard, and we will never speak of this again.' );
-					}
-					echo '</em></p>';
-					?>
+					<p><?php submit_button( __( 'Yes, I approve of this connection.' ), 'primary', 'approve', false ); ?>
+						<br /><em>
+						<?php if ( $success_url ) : ?>
+							<input type="hidden" name="success_url" value="<?php echo esc_url( $success_url ); ?>" />
+							<?php printf( esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ), '<strong><tt>' . esc_html( $success_url ) . '</tt></strong>' ); ?>
+						<?php else: ?>
+							<?php esc_html_e( 'You will be given a password to manually enter into the application in question.' ); ?>
+						<?php endif; ?>
+						</em>
+					</p>
+
+					<p><?php submit_button( __( 'No, I do not approve of this connection.' ), 'secondary', 'reject', false ); ?>
+						<br /><em>
+						<?php if ( $reject_url ) : ?>
+							<input type="hidden" name="reject_url" value="<?php echo esc_url( $reject_url ); ?>" />
+							<?php printf( esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ), '<strong><tt>' . esc_html( $reject_url ) . '</tt></strong>' ); ?>
+						<?php else : ?>
+							<?php esc_html_e( 'You will be returned to the WordPress Dashboard, and we will never speak of this again.' ); ?>
+						<?php endif; ?>
+						</em>
+					</p>
+
 				</form>
 			</div>
 		</div>
