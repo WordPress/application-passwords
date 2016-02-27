@@ -325,11 +325,26 @@ class Application_Passwords {
 		$app_name    = ! empty( $_GET['app_name'] )    ? $_GET['app_name']    : 'Sparkly Pants';
 		$success_url = ! empty( $_GET['success_url'] ) ? $_GET['success_url'] : null;
 		$reject_url  = ! empty( $_GET['reject_url'] )  ? $_GET['reject_url']  : null;
+		$user        = wp_get_current_user();
+
+		wp_enqueue_script( 'auth-app', plugin_dir_url( __FILE__ ) . 'auth-app.js', array() );
+		wp_localize_script( 'auth-app', 'authApp', array(
+			'root'       => esc_url_raw( rest_url() ),
+			'namespace'  => '2fa/v1',
+			'nonce'      => wp_create_nonce( 'wp_rest' ),
+			'user_id'    => $user->ID,
+			'user_login' => $user->user_login,
+			'success'    => $success_url,
+			'reject'     => $reject_url ? $reject_url : admin_url(),
+			'strings'    => array(
+				'new_pass' => esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
+			)
+		) );
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Authorize Application' ); ?></h1>
 
-			<div class="card">
+			<div class="card js-auth-app-card">
 				<h2 class="title"><?php esc_html_e( 'An application would like to connect to your account.' ); ?></h2>
 				<p><?php printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' ); ?></p>
 				<form action="#">
