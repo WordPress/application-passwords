@@ -36,6 +36,8 @@ class Application_Passwords {
 		add_filter( 'determine_current_user', array( __CLASS__, 'rest_api_auth_handler' ), 20 );
 		add_filter( 'wp_rest_server_class',   array( __CLASS__, 'wp_rest_server_class' ) );
 		add_action( 'admin_menu',             array( __CLASS__, 'admin_menu' ) );
+		add_action( 'admin_post_authorize_application_password',
+		                                      array( __CLASS__, 'authorize_application_password' ) );
 	}
 
 	/**
@@ -324,7 +326,7 @@ class Application_Passwords {
 	public static function auth_app_page() {
 		$app_name    = ! empty( $_GET['app_name'] )    ? $_GET['app_name']    : 'Sparkly Pants';
 		$success_url = ! empty( $_GET['success_url'] ) ? $_GET['success_url'] : null;
-		$reject_url  = ! empty( $_GET['reject_url'] )  ? $_GET['reject_url']  : null;
+		$reject_url  = ! empty( $_GET['reject_url'] )  ? $_GET['reject_url']  : $success_url;
 		$user        = wp_get_current_user();
 
 		wp_enqueue_script( 'auth-app', plugin_dir_url( __FILE__ ) . 'auth-app.js', array() );
@@ -347,7 +349,11 @@ class Application_Passwords {
 			<div class="card js-auth-app-card">
 				<h2 class="title"><?php esc_html_e( 'An application would like to connect to your account.' ); ?></h2>
 				<p><?php printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' ); ?></p>
-				<form action="#">
+				<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+					<?php wp_nonce_field( 'authorize_application_password' ); ?>
+					<input type="hidden" name="action" value="authorize_application_password" />
+					<input type="hidden" name="success_url" value="<?php echo esc_url( $success_url ); ?>" />
+					<input type="hidden" name="reject_url" value="<?php echo esc_url( $reject_url ); ?>" />
 
 					<label for="app_name"><?php esc_html_e( 'Application Title:' ); ?></label>
 					<input type="text" id="app_name" name="app_name" value="<?php echo esc_attr( $app_name ); ?>" />
@@ -355,8 +361,10 @@ class Application_Passwords {
 					<p><?php submit_button( __( 'Yes, I approve of this connection.' ), 'primary', 'approve', false ); ?>
 						<br /><em>
 						<?php if ( $success_url ) : ?>
-							<input type="hidden" name="success_url" value="<?php echo esc_url( $success_url ); ?>" />
-							<?php printf( esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ), '<strong><tt>' . esc_html( $success_url ) . '</tt></strong>' ); ?>
+							<?php printf( esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ), '<strong><tt>' . esc_html( add_query_arg( array(
+								'username' => $user->user_login,
+								'password' => '[------]',
+							), $success_url ) ) . '</tt></strong>' ); ?>
 						<?php else: ?>
 							<?php esc_html_e( 'You will be given a password to manually enter into the application in question.' ); ?>
 						<?php endif; ?>
@@ -366,8 +374,7 @@ class Application_Passwords {
 					<p><?php submit_button( __( 'No, I do not approve of this connection.' ), 'secondary', 'reject', false ); ?>
 						<br /><em>
 						<?php if ( $reject_url ) : ?>
-							<input type="hidden" name="reject_url" value="<?php echo esc_url( $reject_url ); ?>" />
-							<?php printf( esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ), '<strong><tt>' . esc_html( $reject_url ) . '</tt></strong>' ); ?>
+							<?php printf( esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ), '<strong><tt>' . esc_html( add_query_arg( array( 'success' => 'false' ), $reject_url ) ) . '</tt></strong>' ); ?>
 						<?php else : ?>
 							<?php esc_html_e( 'You will be returned to the WordPress Dashboard, and we will never speak of this again.' ); ?>
 						<?php endif; ?>
@@ -378,6 +385,37 @@ class Application_Passwords {
 			</div>
 		</div>
 		<?php
+	}
+
+	/**
+	 *
+	 */
+	public static function authorize_application_password() {
+		$success_url = $_POST['success_url'];
+		$reject_url  = $_POST['reject_url'];
+		$app_name    = $_POST['app_name'];
+		$redirect    = admin_url();
+
+		if ( isset( $_POST['reject'] ) ) {
+			if ( $reject_url ) {
+				// Explicitly not using wp_safe_redirect b/c sends to arbitrary domain.
+				$redirect = esc_url_raw( add_query_arg( 'success', 'false', $reject_url ) );
+			}
+		} elseif ( isset( $_POST['approve'] ) ) {
+			list( $new_password, $new_item ) = self::create_new_application_password( get_current_user_id(), $app_name );
+			if ( empty( $success_url ) ) {
+				wp_die( '<h1>' . esc_html__( 'Your New Application Password:' ) . '</h1>'
+						. '<h3><kbd>' . self::chunk_password( $new_password ) . '</kbd></h3>' );
+			}
+			$redirect = add_query_arg( array(
+				'username' => wp_get_current_user()->user_login,
+				'password' => $new_password,
+			), $success_url );
+		}
+
+		wp_redirect( $redirect );
+		exit;
+
 	}
 
 	/**
