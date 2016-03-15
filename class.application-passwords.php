@@ -36,8 +36,7 @@ class Application_Passwords {
 		add_filter( 'determine_current_user', array( __CLASS__, 'rest_api_auth_handler' ), 20 );
 		add_filter( 'wp_rest_server_class',   array( __CLASS__, 'wp_rest_server_class' ) );
 		add_action( 'admin_menu',             array( __CLASS__, 'admin_menu' ) );
-		add_action( 'admin_post_authorize_application_password',
-		                                      array( __CLASS__, 'authorize_application_password' ) );
+		add_action( 'admin_post_authorize_application_password', array( __CLASS__, 'authorize_application_password' ) );
 	}
 
 	/**
@@ -340,7 +339,7 @@ class Application_Passwords {
 			'reject'     => $reject_url ? $reject_url : admin_url(),
 			'strings'    => array(
 				'new_pass' => esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
-			)
+			),
 		) );
 		?>
 		<div class="wrap">
@@ -365,7 +364,7 @@ class Application_Passwords {
 								'username' => $user->user_login,
 								'password' => '[------]',
 							), $success_url ) ) . '</tt></strong>' ); ?>
-						<?php else: ?>
+						<?php else : ?>
 							<?php esc_html_e( 'You will be given a password to manually enter into the application in question.' ); ?>
 						<?php endif; ?>
 						</em>
@@ -388,7 +387,7 @@ class Application_Passwords {
 	}
 
 	/**
-	 *
+	 * Handle non-JS submissions via traditional posting.
 	 */
 	public static function authorize_application_password() {
 		check_admin_referer( 'authorize_application_password' );
@@ -406,8 +405,7 @@ class Application_Passwords {
 		} elseif ( isset( $_POST['approve'] ) ) {
 			list( $new_password, $new_item ) = self::create_new_application_password( get_current_user_id(), $app_name );
 			if ( empty( $success_url ) ) {
-				wp_die( '<h1>' . esc_html__( 'Your New Application Password:' ) . '</h1>'
-						. '<h3><kbd>' . self::chunk_password( $new_password ) . '</kbd></h3>' );
+				wp_die( '<h1>' . esc_html__( 'Your New Application Password:' ) . '</h1><h3><kbd>' . esc_html( self::chunk_password( $new_password ) ) . '</kbd></h3>' );
 			}
 			$redirect = add_query_arg( array(
 				'username' => wp_get_current_user()->user_login,
