@@ -1,11 +1,11 @@
 /* global authApp */
-(function($,authApp){
-	var $appNameField = $('#app_name'),
-		$approveBtn   = $('#approve'),
-		$rejectBtn    = $('#reject'),
-		$form         = $appNameField.closest('form');
+(function( $, authApp ) {
+	var $appNameField = $( '#app_name' ),
+		$approveBtn   = $( '#approve' ),
+		$rejectBtn    = $( '#reject' ),
+		$form         = $appNameField.closest( 'form' );
 
-	$approveBtn.click( function(e){
+	$approveBtn.click( function( e ) {
 		e.preventDefault();
 		var name = $appNameField.val();
 
@@ -48,21 +48,21 @@
 
 				var $display = $('.js-password-display');
 				// We're using .text() to write the variables to avoid any chance of XSS
-				$display.find('strong').text( name );
-				$display.find('kbd').text( response.password );
+				$display.find( 'strong' ).text( name );
+				$display.find( 'kbd' ).text( response.password );
 			}
 		} );
 	});
 
-	$rejectBtn.click( function(e){
+	$rejectBtn.click( function( e ) {
 		e.preventDefault();
 
 		// @todo: Make a better way to do this so it feels like less of a semi-open redirect.
 		window.location = authApp.reject;
 	});
 
-	$form.on( 'submit', function(e){
+	$form.on( 'submit', function( e ) {
 		e.preventDefault();
 	});
 
-})(jQuery,authApp);
+})( jQuery, authApp );
