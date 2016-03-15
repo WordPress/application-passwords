@@ -391,6 +391,8 @@ class Application_Passwords {
 	 *
 	 */
 	public static function authorize_application_password() {
+		check_admin_referer( 'authorize_application_password' );
+
 		$success_url = $_POST['success_url'];
 		$reject_url  = $_POST['reject_url'];
 		$app_name    = $_POST['app_name'];
