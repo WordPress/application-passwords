@@ -72,9 +72,6 @@ class Application_Passwords {
 	 * @static
 	 */
 	public static function rest_api_init() {
-		#add_filter( 'determine_current_user',	array( __CLASS__, 'rest_api_auth_handler' ), 200 );
-		#add_filter( 'authenticate',		array( __CLASS__, 'authenticate' ), 10, 3 );
-
 		// List existing application passwords
 		register_rest_route( '2fa/v1', '/application-passwords/(?P<user_id>[\d]+)', array(
 			'methods' => WP_REST_Server::READABLE,
