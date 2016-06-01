@@ -34,7 +34,34 @@ class Application_Passwords {
  		add_action( 'show_user_profile',	array( __CLASS__, 'show_user_profile' ) );
  		add_action( 'rest_api_init',		array( __CLASS__, 'rest_api_init' ) );
  		add_filter( 'determine_current_user',	array( __CLASS__, 'rest_api_auth_handler' ), 20 );
- 		add_filter( 'wp_rest_server_class',	array( __CLASS__, 'wp_rest_server_class' ) );
+ 		add_filter( 'rest_authentication_errors', array( __CLASS__, 'rest_authenticate' ) );
+ 		#add_filter( 'wp_rest_server_class',	array( __CLASS__, 'wp_rest_server_class' ) );
+	}
+
+	/**
+	 * Check authentication of REST API calls
+	 *
+	 * @param WP_Error|null|bool WP_Error if authentication error, null if authentication
+	 *                              method wasn't used, true if authentication succeeded.
+	 * @return WP_Error|null|bool
+	 */
+	public static function rest_authenticate( $result ) {
+		// Skip if some other method of authentication has been done.
+		if ( null !== $result ) {
+			return $result;
+		}
+
+		if ( ! isset( $_SERVER['PHP_AUTH_USER'] ) || ! isset( $_SERVER['PHP_AUTH_PW'] ) ) {
+			return $result;
+		}
+
+		$user = self::authenticate( null, $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
+
+		if ( $user instanceof WP_User ) {
+			return true;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -75,6 +102,9 @@ class Application_Passwords {
 	 * @static
 	 */
 	public static function rest_api_init() {
+		#add_filter( 'determine_current_user',	array( __CLASS__, 'rest_api_auth_handler' ), 200 );
+		#add_filter( 'authenticate',		array( __CLASS__, 'authenticate' ), 10, 3 );
+
 		// List existing application passwords
 		register_rest_route( '2fa/v1', '/application-passwords/(?P<user_id>[\d]+)', array(
 			'methods' => WP_REST_Server::READABLE,
