@@ -40,8 +40,8 @@ class Application_Passwords {
 	/**
 	 * Check authentication of REST API calls
 	 *
-	 * @param WP_Error|null|bool WP_Error if authentication error, null if authentication
-	 *                              method wasn't used, true if authentication succeeded.
+	 * @param WP_Error|null|bool $result WP_Error if authentication error, null if authentication
+	 *                                      method wasn't used, true if authentication succeeded.
 	 * @return WP_Error|null|bool
 	 */
 	public static function rest_authenticate( $result ) {
