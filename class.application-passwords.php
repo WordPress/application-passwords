@@ -57,6 +57,8 @@ class Application_Passwords {
 		$user = self::authenticate( null, $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 
 		if ( $user instanceof WP_User ) {
+			wp_set_current_user( $user->ID );
+
 			return true;
 		}
 
