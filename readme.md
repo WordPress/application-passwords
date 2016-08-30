@@ -27,6 +27,27 @@ With Application Passwords you are able to authenticate a user without providing
 5. Click *Install Plugin*.
 6. Activate.
 
+### Installation with composer ###
+Assuming that you already have a working composer setup, edit your composer.json and add the following:
+
+```json
+{
+  "repositories": [
+    ...
+    {
+      "type": "vcs",
+      "url": "https://github.com/pelmered/application-passwords.git"
+    }
+  ],
+  "require": {
+    ...
+    "georgestephanis/application-passwords": "dev-master"
+  }
+}
+```
+
+Then run `composer update georgestephanis/application-passwords` and then login into WP-Admin and activate the plugin.
+
 ## Screenshots ##
 
 ### In your user profile screen, by default it will just be a field to create a new Application Password.
