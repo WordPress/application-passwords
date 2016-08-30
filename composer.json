@@ -1,0 +1,21 @@
+{
+    "name"       : "georgestephanis/application-passwords",
+    "description": "Provide Application Passwords for WordPress core",
+    "homepage"   : "https://github.com/georgestephanis/application-passwords",
+    "keywords"    : ["wordpress", "application Ppasswords", "api"],
+    "type"       : "wordpress-plugin",
+    "license"    : "GPL-2.0+",
+    "authors"     : [
+    {
+        "name"    : "George Stephanis",
+        "email"   : "georgestephanis@automattic.com",
+        "homepage": "http://Stephanis.info"
+    }
+    ],
+    "support"     : {
+        "issues": "https://github.com/georgestephanis/application-passwords/issues"
+    },
+    "require"    : {
+        "composer/installers": "~1.0"
+    }
+}
