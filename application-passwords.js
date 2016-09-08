@@ -1,6 +1,6 @@
 /* global appPass, console, wp */
 (function($,appPass){
-	var $appPassSection        	  = $( '#application-passwords-section' ),
+	var $appPassSection           = $( '#application-passwords-section' ),
 		$newAppPassForm           = $appPassSection.find( '.create-application-password' ),
 		$newAppPassField          = $newAppPassForm.find( '.input' ),
 		$newAppPassButton         = $newAppPassForm.find( '.button' ),
@@ -9,7 +9,27 @@
 		$appPassTrNoItems         = $appPassTbody.find( '.no-items' ),
 		$removeAllBtn             = $( '#revoke-all-application-passwords' ),
 		tmplNewAppPass            = wp.template( 'new-application-password' ),
-		tmplAppPassRow            = wp.template( 'application-password-row' );
+		tmplAppPassRow            = wp.template( 'application-password-row' ),
+		tmplNotice                = wp.template( 'application-password-notice' ),
+		testBasicAuthUser         = Math.random().toString(36).replace(/[^a-z]+/g, ''),
+		testBasicAuthPassword     = Math.random().toString(36).replace(/[^a-z]+/g, '');
+
+	$.ajax( {
+		url        : appPass.root + appPass.namespace + '/test-basic-authorization-header',
+		method     : 'POST',
+		beforeSend : function ( xhr ) {
+			xhr.setRequestHeader( 'Authorization', 'Basic ' + btoa( testBasicAuthUser + ':' + testBasicAuthPassword ) );
+		}
+	} ).done( function ( response ) {
+		if ( response.PHP_AUTH_USER === testBasicAuthUser && response.PHP_AUTH_PW === testBasicAuthPassword ) {
+			// Save the success in SessionStorage or the like, so we don't do it on every page load?
+		} else {
+			$newAppPassForm.before( tmplNotice( {
+				type    : 'error',
+				message : appPass.text.no_credentials
+			} ) );
+		}
+	} );
 
 	$newAppPassButton.click( function(e){
 		e.preventDefault();
