@@ -296,6 +296,11 @@ class Application_Passwords {
 
 		$hashed_passwords = get_user_meta( $user->ID, self::USERMETA_KEY_APPLICATION_PASSWORDS, true );
 
+		// If there aren't any, there's nothing to return.  Avoid the foreach.
+		if ( empty( $hashed_passwords ) ) {
+			return $input_user;
+		}
+
 		foreach ( $hashed_passwords as $key => $item ) {
 			if ( wp_check_password( $password, $item['password'], $user->ID ) ) {
 				$item['last_used'] = time();
