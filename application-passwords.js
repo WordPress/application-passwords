@@ -99,7 +99,6 @@
 				xhr.setRequestHeader( 'X-WP-Nonce', appPass.nonce );
 			}
 		} ).done( function( response ) {
-			// If we've successfully removed them…
 			if ( parseInt( response, 10 ) > 0 ) {
 				$appPassTbody.children().remove();
 				$appPassSection.children( '.new-application-password' ).remove();
