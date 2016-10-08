@@ -11,27 +11,27 @@
 		tmplNewAppPass            = wp.template( 'new-application-password' ),
 		tmplAppPassRow            = wp.template( 'application-password-row' ),
 		tmplNotice                = wp.template( 'application-password-notice' ),
-		testBasicAuthUser         = Math.random().toString(36).replace(/[^a-z]+/g, ''),
-		testBasicAuthPassword     = Math.random().toString(36).replace(/[^a-z]+/g, '');
+		testBasicAuthUser         = Math.random().toString( 36 ).replace( /[^a-z]+/g, '' ),
+		testBasicAuthPassword     = Math.random().toString( 36 ).replace( /[^a-z]+/g, '' );
 
 	$.ajax( {
-		url        : appPass.root + appPass.namespace + '/test-basic-authorization-header',
-		method     : 'POST',
-		beforeSend : function ( xhr ) {
+		url:        appPass.root + appPass.namespace + '/test-basic-authorization-header',
+		method:     'POST',
+		beforeSend: function( xhr ) {
 			xhr.setRequestHeader( 'Authorization', 'Basic ' + btoa( testBasicAuthUser + ':' + testBasicAuthPassword ) );
 		}
-	} ).done( function ( response ) {
+	} ).done( function( response ) {
 		if ( response.PHP_AUTH_USER === testBasicAuthUser && response.PHP_AUTH_PW === testBasicAuthPassword ) {
 			// Save the success in SessionStorage or the like, so we don't do it on every page load?
 		} else {
 			$newAppPassForm.before( tmplNotice( {
-				type    : 'error',
-				message : appPass.text.no_credentials
+				type:    'error',
+				message: appPass.text.no_credentials
 			} ) );
 		}
 	} );
 
-	$newAppPassButton.click( function(e){
+	$newAppPassButton.click( function( e ){
 		e.preventDefault();
 		var name = $newAppPassField.val();
 
@@ -40,25 +40,25 @@
 			return;
 		}
 
-		$newAppPassField.prop('disabled', true);
-		$newAppPassButton.prop('disabled', true);
+		$newAppPassField.prop( 'disabled', true );
+		$newAppPassButton.prop( 'disabled', true );
 
 		$.ajax( {
-			url        : appPass.root + appPass.namespace + '/application-passwords/' + appPass.user_id + '/add',
-			method     : 'POST',
-			beforeSend : function ( xhr ) {
+			url:        appPass.root + appPass.namespace + '/application-passwords/' + appPass.user_id + '/add',
+			method:     'POST',
+			beforeSend: function( xhr ) {
 				xhr.setRequestHeader( 'X-WP-Nonce', appPass.nonce );
 			},
-			data       : {
+			data:       {
 				name : name
 			}
-		} ).done( function ( response ) {
+		} ).done( function( response ) {
 			$newAppPassField.prop( 'disabled', false ).val('');
 			$newAppPassButton.prop( 'disabled', false );
 
 			$newAppPassForm.after( tmplNewAppPass( {
-				name     : name,
-				password : response.password
+				name:     name,
+				password: response.password
 			} ) );
 
 			$appPassTbody.prepend( tmplAppPassRow( response.row ) );
@@ -68,15 +68,15 @@
 		} );
 	});
 
-	$appPassTbody.on( 'click', '.delete', function(e){
+	$appPassTbody.on( 'click', '.delete', function( e ){
 		e.preventDefault();
 		var $tr  = $( e.target ).closest( 'tr' ),
 			slug = $tr.data( 'slug' );
 
 		$.ajax( {
-			url        : appPass.root + appPass.namespace + '/application-passwords/' + appPass.user_id + '/' + slug,
-			method     : 'DELETE',
-			beforeSend : function ( xhr ) {
+			url:        appPass.root + appPass.namespace + '/application-passwords/' + appPass.user_id + '/' + slug,
+			method:     'DELETE',
+			beforeSend: function( xhr ) {
 				xhr.setRequestHeader( 'X-WP-Nonce', appPass.nonce );
 			}
 		} ).done( function ( response ) {
@@ -89,13 +89,13 @@
 		} );
 	});
 
-	$removeAllBtn.on( 'click', function(e) {
+	$removeAllBtn.on( 'click', function( e ) {
 		e.preventDefault();
 
 		$.ajax( {
-			url        : appPass.root + appPass.namespace + '/application-passwords/' + appPass.user_id,
-			method     : 'DELETE',
-			beforeSend : function ( xhr ) {
+			url:        appPass.root + appPass.namespace + '/application-passwords/' + appPass.user_id,
+			method:     'DELETE',
+			beforeSend: function ( xhr ) {
 				xhr.setRequestHeader( 'X-WP-Nonce', appPass.nonce );
 			}
 		} ).done( function ( response ) {
@@ -108,7 +108,7 @@
 		} );
 	});
 
-	$(document).on('click', '.application-password-modal-dismiss', function(e){
+	$(document).on( 'click', '.application-password-modal-dismiss', function( e ){
 		e.preventDefault();
 
 		$('.new-application-password.notification-dialog-wrap').hide();
