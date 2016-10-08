@@ -257,7 +257,7 @@ class Application_Passwords {
 
 		$user = self::authenticate( $input_user, $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 
-		if ( is_a( $user, 'WP_User' ) ) {
+		if ( $user instanceof WP_User ) {
 			return $user->ID;
 		}
 
