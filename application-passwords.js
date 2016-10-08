@@ -31,7 +31,7 @@
 		}
 	} );
 
-	$newAppPassButton.click( function( e ){
+	$newAppPassButton.click( function( e ) {
 		e.preventDefault();
 		var name = $newAppPassField.val();
 
@@ -68,7 +68,7 @@
 		} );
 	});
 
-	$appPassTbody.on( 'click', '.delete', function( e ){
+	$appPassTbody.on( 'click', '.delete', function( e ) {
 		e.preventDefault();
 		var $tr  = $( e.target ).closest( 'tr' ),
 			slug = $tr.data( 'slug' );
@@ -95,10 +95,10 @@
 		$.ajax( {
 			url:        appPass.root + appPass.namespace + '/application-passwords/' + appPass.user_id,
 			method:     'DELETE',
-			beforeSend: function ( xhr ) {
+			beforeSend: function( xhr ) {
 				xhr.setRequestHeader( 'X-WP-Nonce', appPass.nonce );
 			}
-		} ).done( function ( response ) {
+		} ).done( function( response ) {
 			// If we've successfully removed them…
 			if ( parseInt( response, 10 ) > 0 ) {
 				$appPassTbody.children().remove();
@@ -108,7 +108,7 @@
 		} );
 	});
 
-	$(document).on( 'click', '.application-password-modal-dismiss', function( e ){
+	$( document ).on( 'click', '.application-password-modal-dismiss', function( e ) {
 		e.preventDefault();
 
 		$('.new-application-password.notification-dialog-wrap').hide();
@@ -118,4 +118,4 @@
 	if ( 0 === $appPassTbody.children( 'tr' ).not( $appPassTrNoItems ).length ) {
 		$appPassTwrapper.hide();
 	}
-})(jQuery,appPass);
+})( jQuery, appPass );
