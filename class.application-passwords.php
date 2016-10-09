@@ -29,41 +29,40 @@ class Application_Passwords {
 	 * @access public
 	 * @static
 	 */
-	 public static function add_hooks() {
- 		add_filter( 'authenticate',		array( __CLASS__, 'authenticate' ), 10, 3 );
- 		add_action( 'show_user_profile',	array( __CLASS__, 'show_user_profile' ) );
- 		add_action( 'rest_api_init',		array( __CLASS__, 'rest_api_init' ) );
- 		add_filter( 'determine_current_user',	array( __CLASS__, 'rest_api_auth_handler' ), 20 );
- 		add_filter( 'wp_rest_server_class',	array( __CLASS__, 'wp_rest_server_class' ) );
+	public static function add_hooks() {
+		add_filter( 'authenticate',               array( __CLASS__, 'authenticate' ), 10, 3 );
+		add_action( 'show_user_profile',          array( __CLASS__, 'show_user_profile' ) );
+		add_action( 'rest_api_init',              array( __CLASS__, 'rest_api_init' ) );
+		add_filter( 'determine_current_user',     array( __CLASS__, 'rest_api_auth_handler' ), 20 );
+		add_filter( 'rest_authentication_errors', array( __CLASS__, 'rest_authenticate' ) );
 	}
 
 	/**
-	 * Prevent caching of unauthenticated status.  See comment below.
+	 * Check authentication of REST API calls
 	 *
-	 * We don't actually care about the `wp_rest_server_class` filter, it just
-	 * happens right after the constant we do care about is defined.
-	 *
-	 * @since 0.1-dev
-	 *
-	 * @access public
-	 * @static
+	 * @param WP_Error|null|bool $result WP_Error if authentication error, null if authentication
+	 *                                      method wasn't used, true if authentication succeeded.
+	 * @return WP_Error|null|bool
 	 */
-	public static function wp_rest_server_class( $class ) {
-		global $current_user;
-		if ( defined( 'REST_REQUEST' )
-		     && REST_REQUEST
-		     && $current_user instanceof WP_User
-		     && 0 === $current_user->ID ) {
-			/*
-			 * For our authentication to work, we need to remove the cached lack
-			 * of a current user, so the next time it checks, we can detect that
-			 * this is a rest api request and allow our override to happen.  This
-			 * is because the constant is defined later than the first get current
-			 * user call may run.
-			 */
-			$current_user = null;
+	public static function rest_authenticate( $result ) {
+		// Skip if some other method of authentication has been done.
+		if ( null !== $result ) {
+			return $result;
 		}
-		return $class;
+
+		if ( ! isset( $_SERVER['PHP_AUTH_USER'] ) || ! isset( $_SERVER['PHP_AUTH_PW'] ) ) {
+			return $result;
+		}
+
+		$user = self::authenticate( null, $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
+
+		if ( $user instanceof WP_User ) {
+			wp_set_current_user( $user->ID );
+
+			return true;
+		}
+
+		return $result;
 	}
 
 	/**
