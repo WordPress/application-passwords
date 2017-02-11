@@ -32,6 +32,7 @@ class Application_Passwords {
 	 public static function add_hooks() {
  		add_filter( 'authenticate',		array( __CLASS__, 'authenticate' ), 10, 3 );
  		add_action( 'show_user_profile',	array( __CLASS__, 'show_user_profile' ) );
+		add_action( 'edit_user_profile',	array( __CLASS__, 'show_user_profile' ) );
  		add_action( 'rest_api_init',		array( __CLASS__, 'rest_api_init' ) );
  		add_filter( 'determine_current_user',	array( __CLASS__, 'rest_api_auth_handler' ), 20 );
  		add_filter( 'wp_rest_server_class',	array( __CLASS__, 'wp_rest_server_class' ) );
