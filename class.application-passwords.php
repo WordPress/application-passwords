@@ -32,6 +32,7 @@ class Application_Passwords {
 	public static function add_hooks() {
 		add_filter( 'authenticate',           array( __CLASS__, 'authenticate' ), 10, 3 );
 		add_action( 'show_user_profile',      array( __CLASS__, 'show_user_profile' ) );
+		add_action( 'edit_user_profile',	    array( __CLASS__, 'show_user_profile' ) );
 		add_action( 'rest_api_init',          array( __CLASS__, 'rest_api_init' ) );
 		add_filter( 'determine_current_user', array( __CLASS__, 'rest_api_auth_handler' ), 20 );
 		add_filter( 'wp_rest_server_class',   array( __CLASS__, 'wp_rest_server_class' ) );
@@ -108,6 +109,12 @@ class Application_Passwords {
 			'methods' => WP_REST_Server::DELETABLE,
 			'callback' => __CLASS__ . '::rest_delete_all_application_passwords',
 			'permission_callback' => __CLASS__ . '::rest_edit_user_callback',
+		) );
+
+		// Some hosts that run PHP in FastCGI mode won't be given the Authentication header.
+		register_rest_route( '2fa/v1', '/test-basic-authorization-header/', array(
+			'methods' => WP_REST_Server::READABLE . ', ' . WP_REST_Server::CREATABLE,
+			'callback' => __CLASS__ . '::rest_test_basic_authorization_header',
 		) );
 	}
 
@@ -253,12 +260,35 @@ class Application_Passwords {
 
 		$user = self::authenticate( $input_user, $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 
-		if ( is_a( $user, 'WP_User' ) ) {
+		if ( $user instanceof WP_User ) {
 			return $user->ID;
 		}
 
 		// If it wasn't a user what got returned, just pass on what we had received originally.
 		return $input_user;
+	}
+
+	/**
+	 * Test whether PHP can see Basic Authorization headers passed to the web server.
+	 *
+	 * @return WP_Error|array
+	 */
+	public static function rest_test_basic_authorization_header() {
+		$response = array();
+
+		if ( isset( $_SERVER['PHP_AUTH_USER'] ) ) {
+			$response['PHP_AUTH_USER'] = $_SERVER['PHP_AUTH_USER'];
+		}
+
+		if ( isset( $_SERVER['PHP_AUTH_PW'] ) ) {
+			$response['PHP_AUTH_PW'] = $_SERVER['PHP_AUTH_PW'];
+		}
+
+		if ( empty( $response ) ) {
+			return new WP_Error( 'no-credentials', __( 'No HTTP Basic Authorization credentials were found submitted with this request.' ), array( 'status' => 404 ) );
+		}
+
+		return $response;
 	}
 
 	/**
@@ -297,6 +327,11 @@ class Application_Passwords {
 		$password = preg_replace( '/[^a-z\d]/i', '', $password );
 
 		$hashed_passwords = get_user_meta( $user->ID, self::USERMETA_KEY_APPLICATION_PASSWORDS, true );
+
+		// If there aren't any, there's nothing to return.  Avoid the foreach.
+		if ( empty( $hashed_passwords ) ) {
+			return $input_user;
+		}
 
 		foreach ( $hashed_passwords as $key => $item ) {
 			if ( wp_check_password( $password, $item['password'], $user->ID ) ) {
@@ -438,6 +473,9 @@ class Application_Passwords {
 			'namespace'  => '2fa/v1',
 			'nonce'      => wp_create_nonce( 'wp_rest' ),
 			'user_id'    => $user->ID,
+			'text'       => array(
+				'no_credentials' => __( 'Due to a potential server misconfiguration, it seems that HTTP Basic Authorization may not work for the REST API on this site: `Authorization` headers are not being sent to WordPress by the web server.' ),
+			),
 		) );
 
 		?>
@@ -498,6 +536,10 @@ class Application_Passwords {
 					<input type="submit" name="revoke-application-password" class="button delete" value="<?php esc_attr_e( 'Revoke' ); ?>">
 				</td>
 			</tr>
+		</script>
+
+		<script type="text/html" id="tmpl-application-password-notice">
+			<div class="notice notice-{{ data.type }}"><p>{{ data.message }}</p></div>
 		</script>
 		<?php
 	}
