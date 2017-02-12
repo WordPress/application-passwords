@@ -297,7 +297,7 @@ class Application_Passwords {
 	 */
 	public static function fallback_populate_username_password() {
 		// If we don't have anything to pull from, return early.
-		if ( ! isset( $_SERVER['REMOTE_USER'], $_SERVER['REDIRECT_REMOTE_USER'] ) ) {
+		if ( ! isset( $_SERVER['REMOTE_USER'] ) && ! isset( $_SERVER['REDIRECT_REMOTE_USER'] ) ) {
 			return;
 		}
 
