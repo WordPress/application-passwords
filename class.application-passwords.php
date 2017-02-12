@@ -296,7 +296,7 @@ class Application_Passwords {
 	 */
 	public static function fallback_populate_username_password() {
 		// If we don't have anything to pull from, return early.
-		if ( empty( $_SERVER['REDIRECT_REMOTE_USER'] ) ) {
+		if ( ! isset( $_SERVER['REMOTE_USER'], $_SERVER['REDIRECT_REMOTE_USER'] ) ) {
 			return;
 		}
 
@@ -305,7 +305,8 @@ class Application_Passwords {
 			return;
 		}
 
-		$header = $_SERVER['REDIRECT_REMOTE_USER'];
+		// From our prior conditional, one of these must be set.
+		$header = isset( $_SERVER['REMOTE_USER'] ) ? $_SERVER['REMOTE_USER'] : $_SERVER['REDIRECT_REMOTE_USER'];
 
 		// Test to make sure the pattern matches expected.
 		if ( ! preg_match( '%^Basic [a-z\d/+]*={0,2}$%i', $header ) ) {
