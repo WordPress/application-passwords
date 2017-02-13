@@ -38,6 +38,7 @@ class Application_Passwords {
 		add_filter( 'wp_rest_server_class',   array( __CLASS__, 'wp_rest_server_class' ) );
 		add_action( 'admin_menu',             array( __CLASS__, 'admin_menu' ) );
 		add_action( 'admin_post_authorize_application_password', array( __CLASS__, 'authorize_application_password' ) );
+		self::fallback_populate_username_password();
 	}
 
 	/**
@@ -289,6 +290,42 @@ class Application_Passwords {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Some servers running in CGI or FastCGI mode don't pass the Authorization
+	 * header on to WordPress.  If it's been rewritten to the `REMOTE_USER` header,
+	 * fill in the proper $_SERVER variables instead.
+	 */
+	public static function fallback_populate_username_password() {
+		// If we don't have anything to pull from, return early.
+		if ( ! isset( $_SERVER['REMOTE_USER'] ) && ! isset( $_SERVER['REDIRECT_REMOTE_USER'] ) ) {
+			return;
+		}
+
+		// If either PHP_AUTH key is already set, do nothing.
+		if ( isset( $_SERVER['PHP_AUTH_USER'] ) || isset( $_SERVER['PHP_AUTH_PW'] ) ) {
+			return;
+		}
+
+		// From our prior conditional, one of these must be set.
+		$header = isset( $_SERVER['REMOTE_USER'] ) ? $_SERVER['REMOTE_USER'] : $_SERVER['REDIRECT_REMOTE_USER'];
+
+		// Test to make sure the pattern matches expected.
+		if ( ! preg_match( '%^Basic [a-z\d/+]*={0,2}$%i', $header ) ) {
+			return;
+		}
+
+		// Removing `Bearer ` the token would start six characters in.
+		$token               = substr( $header, 6 );
+		$userpass            = base64_decode( $token );
+		list( $user, $pass ) = explode( ':', $userpass );
+
+		// Now shove them in the proper keys where we're expecting later on.
+		$_SERVER['PHP_AUTH_USER'] = $user;
+		$_SERVER['PHP_AUTH_PW']   = $pass;
+
+		return array( $user, $pass );
 	}
 
 	/**
