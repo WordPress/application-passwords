@@ -403,7 +403,7 @@ class Application_Passwords {
 			'nonce'      => wp_create_nonce( 'wp_rest' ),
 			'user_id'    => $user->ID,
 			'text'       => array(
-				'no_credentials' => __( 'Due to a potential server misconfiguration, it seems that HTTP Basic Authorization may not work for the REST API on this site: `Authorization` headers are not being sent to WordPress by the web server.' ),
+				'no_credentials' => __( 'Due to a potential server misconfiguration, it seems that HTTP Basic Authorization may not work for the REST API on this site: `Authorization` headers are not being sent to WordPress by the web server. <a href="https://github.com/georgestephanis/application-passwords/wiki/Basic-Authorization-Header----Missing">You can learn more about this problem, and a possible solution, on our GitHub Wiki.</a>' ),
 			),
 		) );
 
@@ -468,7 +468,7 @@ class Application_Passwords {
 		</script>
 
 		<script type="text/html" id="tmpl-application-password-notice">
-			<div class="notice notice-{{ data.type }}"><p>{{ data.message }}</p></div>
+			<div class="notice notice-{{ data.type }}"><p>{{{ data.message }}}</p></div>
 		</script>
 		<?php
 	}
