@@ -31,6 +31,18 @@ With Application Passwords you are able to authenticate a user without providing
 
 == Creating a New Application Password ==
 
+### For an application to get a user to generate an application password:
+
+Direct the user to `http://example.com/wp-admin/admin.php?page=auth_app`
+
+The following GET variables are supported currently to append to ^^ that url
+
+- `app_name` - ( required-ish ) - The human readable identifier for your app.  This will be the name of the generated application password, so structure it like ... "WordPress Mobile App on iPhone 5" for uniqueness between multiple versions.  If omitted, the user will be required to provide an application name.
+- `success_url` - ( recommended ) - The URL that you'd like the user to be sent to if they approve the connection.  Two GET variables will be appended when they are passed back -- `user_login` and `password` -- these credentials can then be used for API calls.  If the `success_url` variable is omitted, a password will be generated and displayed to the user, to manually enter into your application.
+- `reject_url` - ( optional ) - If included, the user will get sent there if they reject the connection.  If omitted, the user will be sent to the `success_url`, with `?success=false` appended to the end.  If the `success_url` is omitted, the user will be sent to their dashboard.
+
+### For a user to manually generate an application password:
+
 1. Go the User Profile page of the user that you want to generate a new application password for.  To do so, click *Users* on the left side of the WordPress admin, then click on the user that you want to manage.
 2. Scroll down until you see the Application Passwords section.  This is typically at the bottom of the page.
 3. Within the input field, type in a name for your new application password, then click *Add New*.
