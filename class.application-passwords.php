@@ -427,7 +427,7 @@ class Application_Passwords {
 					<input type="hidden" name="reject_url" value="<?php echo esc_url( $reject_url ); ?>" />
 
 					<label for="app_name"><?php esc_html_e( 'Application Title:' ); ?></label>
-					<input type="text" id="app_name" name="app_name" value="<?php echo esc_attr( $app_name ); ?>" />
+					<input type="text" id="app_name" name="app_name" value="<?php echo esc_attr( $app_name ); ?>" placeholder="<?php esc_attr_e( 'Name this connection&hellip;' ); ?>" required />
 
 					<p><?php submit_button( __( 'Yes, I approve of this connection.' ), 'primary', 'approve', false ); ?>
 						<br /><em>
