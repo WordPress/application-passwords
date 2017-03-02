@@ -419,7 +419,11 @@ class Application_Passwords {
 
 			<div class="card js-auth-app-card">
 				<h2 class="title"><?php esc_html_e( 'An application would like to connect to your account.' ); ?></h2>
-				<p><?php printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' ); ?></p>
+				<?php if ( $app_name ) : ?>
+					<p><?php printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' ); ?></p>
+				<?php else : ?>
+					<p><?php esc_html_e( 'Would you like to give this application access to your account?  You should only do this if you trust the app in question.' ); ?></p>
+				<?php endif; ?>
 				<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
 					<?php wp_nonce_field( 'authorize_application_password' ); ?>
 					<input type="hidden" name="action" value="authorize_application_password" />
