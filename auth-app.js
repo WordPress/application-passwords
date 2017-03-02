@@ -36,7 +36,6 @@
 					'user_login=' + encodeURIComponent( authApp.user_login ) +
 					'&password=' + encodeURIComponent( response.password );
 
-				// @todo: Make a better way to do this so it feels like less of a semi-open redirect.
 				window.location = url;
 			} else {
 
