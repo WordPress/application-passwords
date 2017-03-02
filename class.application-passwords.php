@@ -395,7 +395,7 @@ class Application_Passwords {
 	 * Page for authorizing applications.
 	 */
 	public static function auth_app_page() {
-		$app_name    = ! empty( $_GET['app_name'] )    ? $_GET['app_name']    : 'Sparkly Pants';
+		$app_name    = ! empty( $_GET['app_name'] )    ? $_GET['app_name']    : '';
 		$success_url = ! empty( $_GET['success_url'] ) ? $_GET['success_url'] : null;
 		$reject_url  = ! empty( $_GET['reject_url'] )  ? $_GET['reject_url']  : $success_url;
 		$user        = wp_get_current_user();
