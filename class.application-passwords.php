@@ -362,6 +362,9 @@ class Application_Passwords {
 		$password = preg_replace( '/[^a-z\d]/i', '', $password );
 
 		$hashed_passwords = get_user_meta( $user->ID, self::USERMETA_KEY_APPLICATION_PASSWORDS, true );
+		if ( ! is_array( $hashed_passwords ) ) {
+			return $input_user;
+		}
 
 		// If there aren't any, there's nothing to return.  Avoid the foreach.
 		if ( empty( $hashed_passwords ) ) {
