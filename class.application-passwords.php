@@ -361,7 +361,7 @@ class Application_Passwords {
 		 */
 		$password = preg_replace( '/[^a-z\d]/i', '', $password );
 
-		$hashed_passwords = get_user_meta( $user->ID, self::USERMETA_KEY_APPLICATION_PASSWORDS, true );
+		$hashed_passwords = get_user_meta( $user->ID, self::USERMETA_KEY_APPLICATION_PASSWORDS );
 
 		// If there aren't any, there's nothing to return.  Avoid the foreach.
 		if ( empty( $hashed_passwords ) ) {
