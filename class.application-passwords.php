@@ -373,7 +373,9 @@ class Application_Passwords {
 				$item['last_used'] = time();
 				$item['last_ip']   = $_SERVER['REMOTE_ADDR'];
 				$hashed_passwords[ $key ] = $item;
-				update_user_meta( $user->ID, self::USERMETA_KEY_APPLICATION_PASSWORDS, $hashed_passwords );
+				if(apply_filters('application_password_update_last_used', true)) {
+					update_user_meta( $user->ID, self::USERMETA_KEY_APPLICATION_PASSWORDS, $hashed_passwords );
+				}
 				return $user;
 			}
 		}
