@@ -55,9 +55,9 @@ class Application_Passwords {
 	public static function wp_rest_server_class( $class ) {
 		global $current_user;
 		if ( defined( 'REST_REQUEST' )
-			 && REST_REQUEST
-			 && $current_user instanceof WP_User
-			 && 0 === $current_user->ID ) {
+			&& REST_REQUEST
+			&& $current_user instanceof WP_User
+			&& 0 === $current_user->ID ) {
 			/*
 			 * For our authentication to work, we need to remove the cached lack
 			 * of a current user, so the next time it checks, we can detect that
@@ -413,6 +413,7 @@ class Application_Passwords {
 				'success'    => $success_url,
 				'reject'     => $reject_url ? $reject_url : admin_url(),
 				'strings'    => array(
+                    // translators: application, password
 					'new_pass' => esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
 				),
 			)
