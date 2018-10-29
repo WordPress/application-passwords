@@ -90,7 +90,7 @@ echo -n "admin:mypassword123" | base64
 
 2. Once your username and password are base64 encoded, you are now able to make a simple REST API call using the terminal window to update a post.  Because you are performing a POST request, you will need to authorize the request using your newly created base64 encoded access token. If authorized correctly, you will see the post title update to "New Title."
 ```shell
-curl --header "Authorization: Basic ACCESS_TOKEN" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID}
+curl --header "Authorization: Basic ACCESS_TOKEN" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID
 ```
    When running this command, be sure to replace *ACCESS_TOKEN* with your newly generated access token, *LOCALHOST* with the location of your local WordPress installation, and *POST_ID* with the ID of the post that you want to edit.
 

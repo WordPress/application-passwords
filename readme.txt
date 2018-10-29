@@ -2,7 +2,7 @@
 Contributors: georgestephanis, valendesigns, kraftbj
 Tags: application-passwords, rest api, xml-rpc, security, authentication
 Requires at least: 4.4
-Tested up to: 4.5
+Tested up to: 4.9
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -82,3 +82,4 @@ Once you have created a new application password, it's time to send a request to
 curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>APPLICATION_PASSWORD</value></param></params></methodCall>' LOCALHOST
 ```
 In the above example, replace *USERNAME* with your username, and *APPLICATION_PASSWORD* with your new application password.  This should output a response containing all users on your site.
+

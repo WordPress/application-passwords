@@ -19,6 +19,14 @@
 		method:     'POST',
 		beforeSend: function( xhr ) {
 			xhr.setRequestHeader( 'Authorization', 'Basic ' + btoa( testBasicAuthUser + ':' + testBasicAuthPassword ) );
+		},
+		error:      function( jqXHR ) {
+			if ( 404 === jqXHR.status ) {
+				$newAppPassForm.before( tmplNotice( {
+					type:    'error',
+					message: appPass.text.no_credentials
+				} ) );
+			}
 		}
 	} ).done( function( response ) {
 		if ( response.PHP_AUTH_USER === testBasicAuthUser && response.PHP_AUTH_PW === testBasicAuthPassword ) {
