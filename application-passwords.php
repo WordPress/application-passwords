@@ -8,6 +8,8 @@
  * Author URI: http://stephanis.info
  */
 
+define( 'APPLICATION_PASSWORDS_VERSION', '0.1-dev' );
+
 /**
  * Include the application passwords system.
  */

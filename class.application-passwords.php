@@ -395,12 +395,12 @@ class Application_Passwords {
 	 * Page for authorizing applications.
 	 */
 	public static function auth_app_page() {
-		$app_name    = ! empty( $_GET['app_name'] ) ? $_GET['app_name'] : '';
-		$success_url = ! empty( $_GET['success_url'] ) ? $_GET['success_url'] : null;
-		$reject_url  = ! empty( $_GET['reject_url'] ) ? $_GET['reject_url'] : $success_url;
+		$app_name    = ! empty( $_GET['app_name'] ) ? $_GET['app_name'] : ''; // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+		$success_url = ! empty( $_GET['success_url'] ) ? $_GET['success_url'] : null; // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+		$reject_url  = ! empty( $_GET['reject_url'] ) ? $_GET['reject_url'] : $success_url; // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
 		$user        = wp_get_current_user();
 
-		wp_enqueue_script( 'auth-app', plugin_dir_url( __FILE__ ) . 'auth-app.js', array() );
+		wp_enqueue_script( 'auth-app', plugin_dir_url( __FILE__ ) . 'auth-app.js', array(), APPLICATION_PASSWORDS_VERSION, true );
 		wp_localize_script(
 			'auth-app',
 			'authApp',
@@ -413,7 +413,7 @@ class Application_Passwords {
 				'success'    => $success_url,
 				'reject'     => $reject_url ? $reject_url : admin_url(),
 				'strings'    => array(
-					// translators: application, password
+					// translators: application, password.
 					'new_pass' => esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
 				),
 			)
@@ -425,7 +425,12 @@ class Application_Passwords {
 			<div class="card js-auth-app-card">
 				<h2 class="title"><?php esc_html_e( 'An application would like to connect to your account.' ); ?></h2>
 				<?php if ( $app_name ) : ?>
-					<p><?php printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' ); ?></p>
+					<p>
+                    <?php
+                    // translators: application name
+                    printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' );
+                    ?>
+                    </p>
 				<?php else : ?>
 					<p><?php esc_html_e( 'Would you like to give this application access to your account?  You should only do this if you trust the app in question.' ); ?></p>
 				<?php endif; ?>
@@ -440,21 +445,48 @@ class Application_Passwords {
 
 					<p><?php submit_button( __( 'Yes, I approve of this connection.' ), 'primary', 'approve', false ); ?>
 						<br /><em>
-						<?php if ( $success_url ) : ?>
-							<?php printf( esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ), '<strong><tt>' . esc_html( add_query_arg( array( 'username' => $user->user_login, 'password' => '[------]' ), $success_url ) ) . '</tt></strong>' ); ?>
-						<?php else : ?>
-							<?php esc_html_e( 'You will be given a password to manually enter into the application in question.' ); ?>
-						<?php endif; ?>
+						<?php
+						if ( $success_url ) {
+                            // translators: url
+							printf(
+                                esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ),
+                                '<strong><kbd>' . esc_html(
+                                    add_query_arg(
+							            array(
+                                            'username' => $user->user_login,
+                                            'password' => '[------]'
+                                        ),
+                                        $success_url
+                                    )
+                                ) . '</kbd></strong>'
+                            );
+						} else {
+							esc_html_e( 'You will be given a password to manually enter into the application in question.' );
+						}
+                        ?>
 						</em>
 					</p>
 
 					<p><?php submit_button( __( 'No, I do not approve of this connection.' ), 'secondary', 'reject', false ); ?>
 						<br /><em>
-						<?php if ( $reject_url ) : ?>
-							<?php printf( esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ), '<strong><tt>' . esc_html( add_query_arg( array( 'success' => 'false' ), $reject_url ) ) . '</tt></strong>' ); ?>
-						<?php else : ?>
-							<?php esc_html_e( 'You will be returned to the WordPress Dashboard, and we will never speak of this again.' ); ?>
-						<?php endif; ?>
+						<?php
+                        if ( $reject_url ) {
+                            // translators: url
+                            printf(
+                                esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ),
+                                '<strong><kbd>' . esc_html(
+                                    add_query_arg(
+                                        array(
+                                            'success' => 'false'
+                                        ),
+                                        $reject_url
+                                    )
+                                ) . '</kbd></strong>'
+                            );
+						} else {
+							esc_html_e( 'You will be returned to the WordPress Dashboard, and we will never speak of this again.' );
+                        }
+                        ?>
 						</em>
 					</p>
 
@@ -512,8 +544,8 @@ class Application_Passwords {
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 */
 	public static function show_user_profile( $user ) {
-		wp_enqueue_style( 'application-passwords-css', plugin_dir_url( __FILE__ ) . 'application-passwords.css', array() );
-		wp_enqueue_script( 'application-passwords-js', plugin_dir_url( __FILE__ ) . 'application-passwords.js', array() );
+		wp_enqueue_style( 'application-passwords-css', plugin_dir_url( __FILE__ ) . 'application-passwords.css', array(), APPLICATION_PASSWORDS_VERSION );
+		wp_enqueue_script( 'application-passwords-js', plugin_dir_url( __FILE__ ) . 'application-passwords.js', array(), APPLICATION_PASSWORDS_VERSION, true );
 		wp_localize_script( 'application-passwords-js', 'appPass', array(
 			'root'       => esc_url_raw( rest_url() ),
 			'namespace'  => '2fa/v1',
@@ -551,7 +583,7 @@ class Application_Passwords {
 						<div class="new-application-password-content">
 							<?php
 							printf(
-								// translators: application, password
+								// translators: application, password.
 								esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
 								'<strong>{{ data.name }}</strong>',
 								'<kbd>{{ data.password }}</kbd>'
