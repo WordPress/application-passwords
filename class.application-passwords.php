@@ -426,11 +426,11 @@ class Application_Passwords {
 				<h2 class="title"><?php esc_html_e( 'An application would like to connect to your account.' ); ?></h2>
 				<?php if ( $app_name ) : ?>
 					<p>
-                    <?php
-                    // translators: application name
-                    printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' );
-                    ?>
-                    </p>
+					<?php
+					// translators: application name
+					printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' );
+					?>
+					</p>
 				<?php else : ?>
 					<p><?php esc_html_e( 'Would you like to give this application access to your account?  You should only do this if you trust the app in question.' ); ?></p>
 				<?php endif; ?>
@@ -447,46 +447,46 @@ class Application_Passwords {
 						<br /><em>
 						<?php
 						if ( $success_url ) {
-                            // translators: url
+							// translators: url
 							printf(
-                                esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ),
-                                '<strong><kbd>' . esc_html(
-                                    add_query_arg(
-							            array(
-                                            'username' => $user->user_login,
-                                            'password' => '[------]'
-                                        ),
-                                        $success_url
-                                    )
-                                ) . '</kbd></strong>'
-                            );
+								esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ),
+								'<strong><kbd>' . esc_html(
+									add_query_arg(
+										array(
+											'username' => $user->user_login,
+											'password' => '[------]'
+										),
+										$success_url
+									)
+								) . '</kbd></strong>'
+							);
 						} else {
 							esc_html_e( 'You will be given a password to manually enter into the application in question.' );
 						}
-                        ?>
+						?>
 						</em>
 					</p>
 
 					<p><?php submit_button( __( 'No, I do not approve of this connection.' ), 'secondary', 'reject', false ); ?>
 						<br /><em>
 						<?php
-                        if ( $reject_url ) {
-                            // translators: url
-                            printf(
-                                esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ),
-                                '<strong><kbd>' . esc_html(
-                                    add_query_arg(
-                                        array(
-                                            'success' => 'false'
-                                        ),
-                                        $reject_url
-                                    )
-                                ) . '</kbd></strong>'
-                            );
+						if ( $reject_url ) {
+							// translators: url
+							printf(
+								esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ),
+								'<strong><kbd>' . esc_html(
+									add_query_arg(
+										array(
+											'success' => 'false'
+										),
+										$reject_url
+									)
+								) . '</kbd></strong>'
+							);
 						} else {
 							esc_html_e( 'You will be returned to the WordPress Dashboard, and we will never speak of this again.' );
-                        }
-                        ?>
+						}
+						?>
 						</em>
 					</p>
 
