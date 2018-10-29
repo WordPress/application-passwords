@@ -413,7 +413,7 @@ class Application_Passwords {
 				'success'    => $success_url,
 				'reject'     => $reject_url ? $reject_url : admin_url(),
 				'strings'    => array(
-                    // translators: application, password
+					// translators: application, password
 					'new_pass' => esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
 				),
 			)
@@ -441,10 +441,7 @@ class Application_Passwords {
 					<p><?php submit_button( __( 'Yes, I approve of this connection.' ), 'primary', 'approve', false ); ?>
 						<br /><em>
 						<?php if ( $success_url ) : ?>
-							<?php printf( esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ), '<strong><tt>' . esc_html( add_query_arg( array(
-								'username' => $user->user_login,
-								'password' => '[------]',
-							), $success_url ) ) . '</tt></strong>' ); ?>
+							<?php printf( esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ), '<strong><tt>' . esc_html( add_query_arg( array( 'username' => $user->user_login, 'password' => '[------]' ), $success_url ) ) . '</tt></strong>' ); ?>
 						<?php else : ?>
 							<?php esc_html_e( 'You will be given a password to manually enter into the application in question.' ); ?>
 						<?php endif; ?>
@@ -488,10 +485,13 @@ class Application_Passwords {
 			if ( empty( $success_url ) ) {
 				wp_die( '<h1>' . esc_html__( 'Your New Application Password:' ) . '</h1><h3><kbd>' . esc_html( self::chunk_password( $new_password ) ) . '</kbd></h3>' );
 			}
-			$redirect = add_query_arg( array(
-				'username' => wp_get_current_user()->user_login,
-				'password' => $new_password,
-			), $success_url );
+			$redirect = add_query_arg(
+				array(
+					'username' => wp_get_current_user()->user_login,
+					'password' => $new_password,
+				),
+				$success_url
+			);
 		}
 
 		wp_redirect( $redirect );
@@ -551,6 +551,7 @@ class Application_Passwords {
 						<div class="new-application-password-content">
 							<?php
 							printf(
+								// translators: application, password
 								esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
 								'<strong>{{ data.name }}</strong>',
 								'<kbd>{{ data.password }}</kbd>'
