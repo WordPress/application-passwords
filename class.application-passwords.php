@@ -30,13 +30,13 @@ class Application_Passwords {
 	 * @static
 	 */
 	public static function add_hooks() {
-		add_filter( 'authenticate',           array( __CLASS__, 'authenticate' ), 10, 3 );
-		add_action( 'show_user_profile',      array( __CLASS__, 'show_user_profile' ) );
-		add_action( 'edit_user_profile',      array( __CLASS__, 'show_user_profile' ) );
-		add_action( 'rest_api_init',          array( __CLASS__, 'rest_api_init' ) );
+		add_filter( 'authenticate', array( __CLASS__, 'authenticate' ), 10, 3 );
+		add_action( 'show_user_profile', array( __CLASS__, 'show_user_profile' ) );
+		add_action( 'edit_user_profile', array( __CLASS__, 'show_user_profile' ) );
+		add_action( 'rest_api_init', array( __CLASS__, 'rest_api_init' ) );
 		add_filter( 'determine_current_user', array( __CLASS__, 'rest_api_auth_handler' ), 20 );
-		add_filter( 'wp_rest_server_class',   array( __CLASS__, 'wp_rest_server_class' ) );
-		add_action( 'admin_menu',             array( __CLASS__, 'admin_menu' ) );
+		add_filter( 'wp_rest_server_class', array( __CLASS__, 'wp_rest_server_class' ) );
+		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
 		add_action( 'admin_post_authorize_application_password', array( __CLASS__, 'authorize_application_password' ) );
 		self::fallback_populate_username_password();
 	}
@@ -55,9 +55,9 @@ class Application_Passwords {
 	public static function wp_rest_server_class( $class ) {
 		global $current_user;
 		if ( defined( 'REST_REQUEST' )
-		     && REST_REQUEST
-		     && $current_user instanceof WP_User
-		     && 0 === $current_user->ID ) {
+			 && REST_REQUEST
+			 && $current_user instanceof WP_User
+			 && 0 === $current_user->ID ) {
 			/*
 			 * For our authentication to work, we need to remove the cached lack
 			 * of a current user, so the next time it checks, we can detect that
@@ -395,24 +395,28 @@ class Application_Passwords {
 	 * Page for authorizing applications.
 	 */
 	public static function auth_app_page() {
-		$app_name    = ! empty( $_GET['app_name'] )    ? $_GET['app_name']    : '';
+		$app_name    = ! empty( $_GET['app_name'] ) ? $_GET['app_name'] : '';
 		$success_url = ! empty( $_GET['success_url'] ) ? $_GET['success_url'] : null;
-		$reject_url  = ! empty( $_GET['reject_url'] )  ? $_GET['reject_url']  : $success_url;
+		$reject_url  = ! empty( $_GET['reject_url'] ) ? $_GET['reject_url'] : $success_url;
 		$user        = wp_get_current_user();
 
 		wp_enqueue_script( 'auth-app', plugin_dir_url( __FILE__ ) . 'auth-app.js', array() );
-		wp_localize_script( 'auth-app', 'authApp', array(
-			'root'       => esc_url_raw( rest_url() ),
-			'namespace'  => '2fa/v1',
-			'nonce'      => wp_create_nonce( 'wp_rest' ),
-			'user_id'    => $user->ID,
-			'user_login' => $user->user_login,
-			'success'    => $success_url,
-			'reject'     => $reject_url ? $reject_url : admin_url(),
-			'strings'    => array(
-				'new_pass' => esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
-			),
-		) );
+		wp_localize_script(
+			'auth-app',
+			'authApp',
+			array(
+				'root'       => esc_url_raw( rest_url() ),
+				'namespace'  => '2fa/v1',
+				'nonce'      => wp_create_nonce( 'wp_rest' ),
+				'user_id'    => $user->ID,
+				'user_login' => $user->user_login,
+				'success'    => $success_url,
+				'reject'     => $reject_url ? $reject_url : admin_url(),
+				'strings'    => array(
+					'new_pass' => esc_html_x( 'Your new password for %1$s is: %2$s', 'application, password' ),
+				),
+			)
+		);
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Authorize Application' ); ?></h1>
