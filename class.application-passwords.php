@@ -427,7 +427,7 @@ class Application_Passwords {
 				<?php if ( $app_name ) : ?>
 					<p>
 					<?php
-					// translators: application name
+					// translators: application name.
 					printf( esc_html__( 'Would you like to give the application identifying itself as %1$s access to your account?  You should only do this if you trust the app in question.' ), '<strong>' . esc_html( $app_name ) . '</strong>' );
 					?>
 					</p>
@@ -447,14 +447,14 @@ class Application_Passwords {
 						<br /><em>
 						<?php
 						if ( $success_url ) {
-							// translators: url
 							printf(
+								// translators: url.
 								esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ),
 								'<strong><kbd>' . esc_html(
 									add_query_arg(
 										array(
 											'username' => $user->user_login,
-											'password' => '[------]'
+											'password' => '[------]',
 										),
 										$success_url
 									)
@@ -471,13 +471,13 @@ class Application_Passwords {
 						<br /><em>
 						<?php
 						if ( $reject_url ) {
-							// translators: url
 							printf(
+								// translators: url.
 								esc_html_x( 'You will be sent to %1$s', '%1$s is a url' ),
 								'<strong><kbd>' . esc_html(
 									add_query_arg(
 										array(
-											'success' => 'false'
+											'success' => 'false',
 										),
 										$reject_url
 									)
@@ -526,7 +526,7 @@ class Application_Passwords {
 			);
 		}
 
-		wp_redirect( $redirect );
+		wp_redirect( $redirect ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		exit;
 
 	}
@@ -546,15 +546,19 @@ class Application_Passwords {
 	public static function show_user_profile( $user ) {
 		wp_enqueue_style( 'application-passwords-css', plugin_dir_url( __FILE__ ) . 'application-passwords.css', array(), APPLICATION_PASSWORDS_VERSION );
 		wp_enqueue_script( 'application-passwords-js', plugin_dir_url( __FILE__ ) . 'application-passwords.js', array(), APPLICATION_PASSWORDS_VERSION, true );
-		wp_localize_script( 'application-passwords-js', 'appPass', array(
-			'root'       => esc_url_raw( rest_url() ),
-			'namespace'  => '2fa/v1',
-			'nonce'      => wp_create_nonce( 'wp_rest' ),
-			'user_id'    => $user->ID,
-			'text'       => array(
-				'no_credentials' => __( 'Due to a potential server misconfiguration, it seems that HTTP Basic Authorization may not work for the REST API on this site: `Authorization` headers are not being sent to WordPress by the web server. <a href="https://github.com/georgestephanis/application-passwords/wiki/Basic-Authorization-Header----Missing">You can learn more about this problem, and a possible solution, on our GitHub Wiki.</a>' ),
-			),
-		) );
+		wp_localize_script(
+			'application-passwords-js',
+			'appPass',
+			array(
+				'root'       => esc_url_raw( rest_url() ),
+				'namespace'  => '2fa/v1',
+				'nonce'      => wp_create_nonce( 'wp_rest' ),
+				'user_id'    => $user->ID,
+				'text'       => array(
+					'no_credentials' => __( 'Due to a potential server misconfiguration, it seems that HTTP Basic Authorization may not work for the REST API on this site: `Authorization` headers are not being sent to WordPress by the web server. <a href="https://github.com/georgestephanis/application-passwords/wiki/Basic-Authorization-Header----Missing">You can learn more about this problem, and a possible solution, on our GitHub Wiki.</a>' ),
+				),
+			)
+		);
 
 		?>
 		<div class="application-passwords hide-if-no-js" id="application-passwords-section">
