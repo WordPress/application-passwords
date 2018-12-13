@@ -316,7 +316,7 @@ class Application_Passwords {
 			return;
 		}
 
-		// Removing `Bearer ` the token would start six characters in.
+		// Removing `Basic ` the token would start six characters in.
 		$token               = substr( $header, 6 );
 		$userpass            = base64_decode( $token );
 		list( $user, $pass ) = explode( ':', $userpass );
