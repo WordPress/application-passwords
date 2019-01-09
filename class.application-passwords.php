@@ -346,12 +346,11 @@ class Application_Passwords {
 			return $input_user;
 		}
 
+		$user = get_user_by( 'login', $user_name );
 		
-		if( is_email( $username ) )
-			$user = get_user_by( 'email', $username );
-      		else
-	        	$user = get_user_by( 'login',  $username );
-
+		if ( ! $user && is_email( $username ) ) {
+			$user = get_user_by( 'email', $user_name );
+		}
 
 		// If the login name is invalid, short circuit.
 		if ( ! $user ) {
