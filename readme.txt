@@ -9,25 +9,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 A feature plugin for core to provide Application Passwords
 
+
 == Description ==
 
 This is a feature plugin that is a spinoff of the main Two-Factor Authentication plugin, found at https://github.com/georgestephanis/two-factor/.
 
 With Application Passwords you are able to authenticate a user without providing that user's password directly, instead you will use a base64 encoded string of their username and a new application password.
-
-== Installation ==
-
-1. Download the zip file.
-2. Log into WordPress, hover over *Plugins*, and click *Add New*.
-3. Click on the *Upload Plugin* button.
-4. Select the zip file you downloaded.
-5. Click *Install Plugin*.
-6. Activate.
-
-== Screenshots ==
-
-1. In your user profile screen, by default it will just be a field to create a new Application Password.
-2. After at least one Application Password for you account exists, you'll see a table displaying them, allowing you to view usage and revoke them as desired.
 
 == Creating a New Application Password ==
 
@@ -80,3 +67,19 @@ Once you have created a new application password, it's time to send a request to
     curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>PASSWORD</value></param></params></methodCall>' LOCALHOST
 
 In the above example, replace `USERNAME` with your username, and `PASSWORD` with your new application password. This should output a response containing all users on your site.
+
+
+== Installation ==
+
+1. Download the zip file.
+2. Log into WordPress, hover over *Plugins*, and click *Add New*.
+3. Click on the *Upload Plugin* button.
+4. Select the zip file you downloaded.
+5. Click *Install Plugin*.
+6. Activate.
+
+
+== Screenshots ==
+
+1. New application passwords has been created.
+2. After at least one Application Password for you account exists, you'll see a table displaying them, allowing you to view usage and revoke them as desired.

@@ -30,7 +30,8 @@
   "require-dev": {
     "xwp/wp-dev-lib": "^1.2",
     "wp-coding-standards/wpcs": "^2.1",
-    "phpunit/phpunit": "^4.8"
+    "phpunit/phpunit": "^4.8",
+    "wpsh/local": "^0.2.3"
   },
   "scripts": {
     "lint-staged": [

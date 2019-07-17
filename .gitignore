@@ -1,4 +1,6 @@
+/.vagrant/
 /vendor/
 /node_modules/
 /phpcs.xml
 /phpunit.xml
+/console.log
