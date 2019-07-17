@@ -1,9 +1,9 @@
 /* global authApp */
-(function( $, authApp ) {
+( function( $, authApp ) {
 	var $appNameField = $( '#app_name' ),
-		$approveBtn   = $( '#approve' ),
-		$rejectBtn    = $( '#reject' ),
-		$form         = $appNameField.closest( 'form' );
+		$approveBtn = $( '#approve' ),
+		$rejectBtn = $( '#reject' ),
+		$form = $appNameField.closest( 'form' );
 
 	$approveBtn.click( function( e ) {
 		var name = $appNameField.val();
@@ -38,7 +38,6 @@
 
 				window.location = url;
 			} else {
-
 				// Should we maybe just reuse the js template modal from the profile page?
 				$form.replaceWith( '<p class="js-password-display">' +
 					authApp.strings.new_pass
@@ -48,22 +47,21 @@
 
 				$display = $( '.js-password-display' );
 
-				// We're using .text() to write the variables to avoid any chance of XSS
+				// We're using .text() to write the variables to avoid any chance of XSS.
 				$display.find( 'strong' ).text( name );
 				$display.find( 'kbd' ).text( response.password );
 			}
 		} );
-	});
+	} );
 
 	$rejectBtn.click( function( e ) {
 		e.preventDefault();
 
 		// @todo: Make a better way to do this so it feels like less of a semi-open redirect.
 		window.location = authApp.reject;
-	});
+	} );
 
 	$form.on( 'submit', function( e ) {
 		e.preventDefault();
-	});
-
-})( jQuery, authApp );
+	} );
+}( jQuery, authApp ) );
