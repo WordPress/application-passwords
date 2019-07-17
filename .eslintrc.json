@@ -1,0 +1,16 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": [
+    "plugin:@wordpress/eslint-plugin/es5"
+  ],
+  "rules": {
+    "camelcase": "off",
+    "vars-on-top": "warn",
+    "comma-dangle": "off"
+  },
+  "globals": {
+    "jQuery": "readonly"
+  }
+}
