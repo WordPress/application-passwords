@@ -10,7 +10,7 @@ A feature plugin for core to provide Application Passwords
 **Stable tag:** trunk (master)  
 **License:** [GPLv2 or later](http://www.gnu.org/licenses/gpl-2.0.html)  
 
-[![Build Status](https://travis-ci.org/kasparsd/application-passwords.svg?branch=master)](https://travis-ci.org/kasparsd/application-passwords) 
+[![Build Status](https://travis-ci.org/georgestephanis/application-passwords.svg?branch=master)](https://travis-ci.org/georgestephanis/application-passwords) 
 
 ## Description ##
 
