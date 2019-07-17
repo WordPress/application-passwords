@@ -49,21 +49,21 @@ This test uses the technologies listed below, but you can use any REST API reque
 * A Mac or Linux terminal
 * Local development environment (e.g. MAMP, XAMPP, DesktopServer, Vagrant) running on localhost
 
-1. Now that you have your new password, you will need to base64 encode it using a terminal window as well as your username to use it with the REST API.
-   The command you will use is as follows:
-```shell
-echo -n "USERNAME:PASSWORD" | base64
-```
-   Within this, you will replace *USERNAME:PASSWORD* with your username and newly generated application password.  For example:
-```shell
-echo -n "admin:mypassword123" | base64
-```
+Use application passwords with WordPress REST API to change a post title:
 
-2. Once your username and password are base64 encoded, you are now able to make a simple REST API call using the terminal window to update a post.  Because you are performing a POST request, you will need to authorize the request using your newly created base64 encoded access token. If authorized correctly, you will see the post title update to "New Title."
-```shell
-curl --header "Authorization: Basic ACCESS_TOKEN" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID}
-```
-   When running this command, be sure to replace *ACCESS_TOKEN* with your newly generated access token, *LOCALHOST* with the location of your local WordPress installation, and *POST_ID* with the ID of the post that you want to edit.
+1. Now that you have your new password, you will need to base64 encode it using a terminal window as well as your username to use it with the REST API. The command you will use is as follows:
+
+        echo -n "USERNAME:PASSWORD" | base64
+
+    Within this, you will replace `USERNAME:PASSWORD` with your username and newly generated application password. For example:
+
+        echo -n "admin:mypassword123" | base64
+
+2. Once your username and password are base64 encoded, you are now able to make a simple REST API call using the terminal window to update a post. Because you are performing a `POST` request, you will need to authorize the request using your newly created base64 encoded access token. If authorized correctly, you will see the post title update to "New Title."
+
+        curl --header "Authorization: Basic ACCESS_TOKEN" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID
+
+    When running this command, be sure to replace `ACCESS_TOKEN` with your newly generated access token, `LOCALHOST` with the location of your local WordPress installation, and `POST_ID` with the ID of the post that you want to edit.
 
 ### XML-RPC
 
@@ -75,8 +75,8 @@ This test uses the technologies listed below, but you can use any XML-RPC reques
 * A Mac or Linux terminal
 * Local development environment (e.g. MAMP, DesktopServer, Vagrant) running on localhost
 
-Once you have created a new application password, it's time to send a request to test it.  Unlike the WordPress REST API, XML-RPC does not require your username and password to be base64 encoded.  To begin the process, open a terminal window and enter the following:
-```shell
-curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>PASSWORD</value></param></params></methodCall>' LOCALHOST
-```
-In the above example, replace *USERNAME* with your username, and *PASSWORD* with your new application password.  This should output a response containing all users on your site.
+Once you have created a new application password, it's time to send a request to test it. Unlike the WordPress REST API, XML-RPC does not require your username and password to be base64 encoded. To begin the process, open a terminal window and enter the following:
+
+    curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>PASSWORD</value></param></params></methodCall>' LOCALHOST
+
+In the above example, replace `USERNAME` with your username, and `PASSWORD` with your new application password. This should output a response containing all users on your site.
