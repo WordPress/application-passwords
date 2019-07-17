@@ -4,13 +4,13 @@
 A feature plugin for core to provide Application Passwords
 
 **Contributors:** [georgestephanis](https://profiles.wordpress.org/georgestephanis), [valendesigns](https://profiles.wordpress.org/valendesigns), [kraftbj](https://profiles.wordpress.org/kraftbj)  
-**Tags:** [application-passwords](https://wordpress.org/plugins/tags/application-passwords), [rest api](https://wordpress.org/plugins/tags/rest api), [xml-rpc](https://wordpress.org/plugins/tags/xml-rpc), [security](https://wordpress.org/plugins/tags/security), [authentication](https://wordpress.org/plugins/tags/authentication)  
+**Tags:** [application-passwords](https://wordpress.org/plugins/tags/application-passwords), [rest api](https://wordpress.org/plugins/tags/rest-api), [xml-rpc](https://wordpress.org/plugins/tags/xml-rpc), [security](https://wordpress.org/plugins/tags/security), [authentication](https://wordpress.org/plugins/tags/authentication)  
 **Requires at least:** 4.4  
-**Tested up to:** 4.5  
+**Tested up to:** 5.2  
 **Stable tag:** trunk (master)  
 **License:** [GPLv2 or later](http://www.gnu.org/licenses/gpl-2.0.html)  
 
-[![Build Status](https://travis-ci.org/georgestephanis/application-passwords.svg?branch=master)](https://travis-ci.org/georgestephanis/application-passwords) 
+[![Build Status](https://travis-ci.org/kasparsd/application-passwords.svg?branch=master)](https://travis-ci.org/kasparsd/application-passwords) 
 
 ## Description ##
 
@@ -26,27 +26,6 @@ With Application Passwords you are able to authenticate a user without providing
 4. Select the zip file you downloaded.
 5. Click *Install Plugin*.
 6. Activate.
-
-### Installation with composer ###
-Assuming that you already have a working composer setup, edit your composer.json and add the following:
-
-```json
-{
-  "repositories": [
-    ...
-    {
-      "type": "vcs",
-      "url": "https://github.com/pelmered/application-passwords.git"
-    }
-  ],
-  "require": {
-    ...
-    "georgestephanis/application-passwords": "dev-master"
-  }
-}
-```
-
-Then run `composer update georgestephanis/application-passwords` and then login into WP-Admin and activate the plugin.
 
 ## Screenshots ##
 
@@ -78,21 +57,21 @@ This test uses the technologies listed below, but you can use any REST API reque
 * A Mac or Linux terminal
 * Local development environment (e.g. MAMP, XAMPP, DesktopServer, Vagrant) running on localhost
 
-1. Now that you have your new password, you will need to base64 encode it using a terminal window as well as your username to use it with the REST API.
-   The command you will use is as follows:
-```shell
-echo -n "USERNAME:PASSWORD" | base64
-```
-   Within this, you will replace *USERNAME:PASSWORD* with your username and newly generated application password.  For example:
-```shell
-echo -n "admin:mypassword123" | base64
-```
+Use application passwords with WordPress REST API to change a post title:
 
-2. Once your username and password are base64 encoded, you are now able to make a simple REST API call using the terminal window to update a post.  Because you are performing a POST request, you will need to authorize the request using your newly created base64 encoded access token. If authorized correctly, you will see the post title update to "New Title."
-```shell
-curl --header "Authorization: Basic ACCESS_TOKEN" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID
-```
-   When running this command, be sure to replace *ACCESS_TOKEN* with your newly generated access token, *LOCALHOST* with the location of your local WordPress installation, and *POST_ID* with the ID of the post that you want to edit.
+1. Now that you have your new password, you will need to base64 encode it using a terminal window as well as your username to use it with the REST API. The command you will use is as follows:
+
+        echo -n "USERNAME:PASSWORD" | base64
+
+    Within this, you will replace `USERNAME:PASSWORD` with your username and newly generated application password. For example:
+
+        echo -n "admin:mypassword123" | base64
+
+2. Once your username and password are base64 encoded, you are now able to make a simple REST API call using the terminal window to update a post. Because you are performing a `POST` request, you will need to authorize the request using your newly created base64 encoded access token. If authorized correctly, you will see the post title update to "New Title."
+
+        curl --header "Authorization: Basic ACCESS_TOKEN" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID
+
+    When running this command, be sure to replace `ACCESS_TOKEN` with your newly generated access token, `LOCALHOST` with the location of your local WordPress installation, and `POST_ID` with the ID of the post that you want to edit.
 
 ### XML-RPC
 
@@ -104,9 +83,9 @@ This test uses the technologies listed below, but you can use any XML-RPC reques
 * A Mac or Linux terminal
 * Local development environment (e.g. MAMP, DesktopServer, Vagrant) running on localhost
 
-Once you have created a new application password, it's time to send a request to test it.  Unlike the WordPress REST API, XML-RPC does not require your username and password to be base64 encoded.  To begin the process, open a terminal window and enter the following:
-```shell
-curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>PASSWORD</value></param></params></methodCall>' LOCALHOST
-```
-In the above example, replace *USERNAME* with your username, and *PASSWORD* with your new application password.  This should output a response containing all users on your site.
+Once you have created a new application password, it's time to send a request to test it. Unlike the WordPress REST API, XML-RPC does not require your username and password to be base64 encoded. To begin the process, open a terminal window and enter the following:
+
+    curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>PASSWORD</value></param></params></methodCall>' LOCALHOST
+
+In the above example, replace `USERNAME` with your username, and `PASSWORD` with your new application password. This should output a response containing all users on your site.
 
