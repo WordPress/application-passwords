@@ -18,18 +18,6 @@ addons:
     packages:
       - libxml2-utils # For xmllint.
 
-cache:
-  directories:
-    - $HOME/.composer/cache
-    - $HOME/.npm
-
-branches:
-  only:
-  - master
-
-notifications:
-  email: false
-
 env:
   - WP_VERSION=latest WP_MULTISITE=0
   - WP_VERSION=latest WP_MULTISITE=1
@@ -48,3 +36,15 @@ script:
 
 after_script:
   - source "$DEV_LIB_PATH/travis.after_script.sh"
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.npm
+
+branches:
+  only:
+  - master
+
+notifications:
+  email: false
