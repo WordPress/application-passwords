@@ -13,6 +13,7 @@
     "eslint": "^6.0.1"
   },
   "scripts": {
+    "postinstall": "composer install",
     "lint": "eslint ."
   }
 }
