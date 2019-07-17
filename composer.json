@@ -37,7 +37,7 @@
       "DIFF_BASE=master ./vendor/xwp/wp-dev-lib/scripts/pre-commit"
     ],
     "lint": [
-      "phpcs application-passwords.php"
+      "phpcs ."
     ]
   }
 }
