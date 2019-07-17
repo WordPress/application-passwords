@@ -19,7 +19,25 @@
   "support": {
     "issues": "https://github.com/georgestephanis/application-passwords/issues"
   },
+  "config": {
+    "platform": {
+      "php": "5.4"
+    }
+  },
   "require": {
     "composer/installers": "~1.0"
+  },
+  "require-dev": {
+    "xwp/wp-dev-lib": "^1.2",
+    "wp-coding-standards/wpcs": "^2.1",
+    "phpunit/phpunit": "^4.8"
+  },
+  "scripts": {
+    "lint-staged": [
+      "DIFF_BASE=master ./vendor/xwp/wp-dev-lib/scripts/pre-commit"
+    ],
+    "lint": [
+      "phpcs application-passwords.php"
+    ]
   }
 }

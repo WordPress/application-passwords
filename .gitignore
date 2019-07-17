@@ -1,2 +1,4 @@
-composer.lock
-vendor
+/vendor/
+/node_modules/
+/phpcs.xml
+/phpunit.xml
