@@ -48,7 +48,7 @@
 
 				$display = $( '.js-password-display' );
 
-				// We're using .text() to write the variables to avoid any chance of XSS
+				// We're using .text() to write the variables to avoid any chance of XSS.
 				$display.find( 'strong' ).text( name );
 				$display.find( 'kbd' ).text( response.password );
 			}
