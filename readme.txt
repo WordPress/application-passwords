@@ -24,10 +24,6 @@ With Application Passwords you are able to authenticate a user without providing
 5. Click *Install Plugin*.
 6. Activate.
 
-== Screenshots ==
-
-1. In your user profile screen, by default it will just be a field to create a new Application Password.
-2. After at least one Application Password for you account exists, you'll see a table displaying them, allowing you to view usage and revoke them as desired.
 
 == Creating a New Application Password ==
 
@@ -80,3 +76,7 @@ Once you have created a new application password, it's time to send a request to
     curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>PASSWORD</value></param></params></methodCall>' LOCALHOST
 
 In the above example, replace `USERNAME` with your username, and `PASSWORD` with your new application password. This should output a response containing all users on your site.
+== Screenshots ==
+
+1. New application passwords has been created.
+2. After at least one Application Password for you account exists, you'll see a table displaying them, allowing you to view usage and revoke them as desired.
