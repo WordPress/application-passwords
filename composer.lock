@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c84efb4322a29f8a41279f4a975e1f4",
+    "content-hash": "d33bf18b29d80d32d40525d0f6e5c2e5",
     "packages": [
         {
             "name": "composer/installers",
@@ -1403,6 +1403,28 @@
                 "wordpress"
             ],
             "time": "2019-05-21T02:50:00+00:00"
+        },
+        {
+            "name": "wpsh/local",
+            "version": "0.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wpsh/wpsh-local.git",
+                "reference": "17338432ed06386273a1ee4db8c8467aa8feab17"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wpsh/wpsh-local/zipball/17338432ed06386273a1ee4db8c8467aa8feab17",
+                "reference": "17338432ed06386273a1ee4db8c8467aa8feab17",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Docker Compose development environment for any project.",
+            "time": "2019-06-12T10:54:32+00:00"
         },
         {
             "name": "xwp/wp-dev-lib",
