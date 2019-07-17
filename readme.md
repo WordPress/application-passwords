@@ -19,7 +19,7 @@ See the [plugin description on WordPress.org](https://wordpress.org/plugins/appl
 
 ### Development Environment
 
-Included is a local devolopment environment using [Docker](https://www.docker.com) with an optional [Vagrant](https://www.vagrantup.com) wrapper. Run `docker-compose up -d` to start the Docker containers on your host machine or `vagrant up` to start it in a [VirtualBox](https://www.virtualbox.org) environment.
+Included is a local devolopment environment using [Docker](https://www.docker.com) with an optional [Vagrant](https://www.vagrantup.com) wrapper for network isolation and ZeroConf for automatic [application-passwords.local](http://application-passwords.local) discovery. Run `docker-compose up -d` to start the Docker containers on your host machine or `vagrant up` to start it in a [VirtualBox](https://www.virtualbox.org) environment.
 
 
 ## Contribute
