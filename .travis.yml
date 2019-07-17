@@ -1,4 +1,4 @@
-sudo: false
+dist: xenial
 
 language:
   - php
@@ -10,10 +10,13 @@ php:
   - "7.2"
   - "7.3"
 
+services:
+- mysql
+
 addons:
   apt:
     packages:
-      - libxml2-utils
+      - libxml2-utils # For xmllint.
 
 cache:
   directories:
