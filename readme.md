@@ -6,11 +6,11 @@ A feature plugin for core to provide Application Passwords
 **Contributors:** [georgestephanis](https://profiles.wordpress.org/georgestephanis), [valendesigns](https://profiles.wordpress.org/valendesigns), [kraftbj](https://profiles.wordpress.org/kraftbj)  
 **Tags:** [application-passwords](https://wordpress.org/plugins/tags/application-passwords), [rest api](https://wordpress.org/plugins/tags/rest-api), [xml-rpc](https://wordpress.org/plugins/tags/xml-rpc), [security](https://wordpress.org/plugins/tags/security), [authentication](https://wordpress.org/plugins/tags/authentication)  
 **Requires at least:** 4.4  
-**Tested up to:** 4.9  
+**Tested up to:** 5.2  
 **Stable tag:** trunk (master)  
 **License:** [GPLv2 or later](http://www.gnu.org/licenses/gpl-2.0.html)  
 
-[![Build Status](https://travis-ci.org/kasparsd/application-passwords.svg?branch=master)](https://travis-ci.org/kasparsd/application-passwords) [![Coverage Status](https://coveralls.io/repos/kasparsd/application-passwords/badge.svg?branch=master)](https://coveralls.io/github/kasparsd/application-passwords) 
+[![Build Status](https://travis-ci.org/georgestephanis/application-passwords.svg?branch=master)](https://travis-ci.org/georgestephanis/application-passwords) 
 
 ## Description ##
 
@@ -39,18 +39,6 @@ With Application Passwords you are able to authenticate a user without providing
 
 ## Creating a New Application Password ##
 
-### For an application to get a user to generate an application password:
-
-Direct the user to `http://example.com/wp-admin/admin.php?page=auth_app`
-
-The following GET variables are supported currently to append to ^^ that url
-
-- `app_name` - ( required-ish ) - The human readable identifier for your app.  This will be the name of the generated application password, so structure it like ... "WordPress Mobile App on iPhone 5" for uniqueness between multiple versions.  If omitted, the user will be required to provide an application name.
-- `success_url` - ( recommended ) - The URL that you'd like the user to be sent to if they approve the connection.  Two GET variables will be appended when they are passed back -- `user_login` and `password` -- these credentials can then be used for API calls.  If the `success_url` variable is omitted, a password will be generated and displayed to the user, to manually enter into your application.
-- `reject_url` - ( optional ) - If included, the user will get sent there if they reject the connection.  If omitted, the user will be sent to the `success_url`, with `?success=false` appended to the end.  If the `success_url` is omitted, the user will be sent to their dashboard.
-
-### For a user to manually generate an application password:
-
 1. Go the User Profile page of the user that you want to generate a new application password for.  To do so, click *Users* on the left side of the WordPress admin, then click on the user that you want to manage.
 2. Scroll down until you see the Application Passwords section.  This is typically at the bottom of the page.
 3. Within the input field, type in a name for your new application password, then click *Add New*.
@@ -69,11 +57,21 @@ This test uses the technologies listed below, but you can use any REST API reque
 * A Mac or Linux terminal
 * Local development environment (e.g. MAMP, XAMPP, DesktopServer, Vagrant) running on localhost
 
-1. Now that you have your new password, you are now able to make a simple REST API call using the terminal window to update a post. If authorized correctly, you will see the post title update to "New Title."
-```shell
-curl --user "USERNAME:APPLICATION_PASSWORD" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID
-```
-   When running this command, be sure to replace *USERNAME* and *APPLICATION_PASSWORD* with your credentials, *LOCALHOST* with the location of your local WordPress installation, and *POST_ID* with the ID of the post that you want to edit.
+Use application passwords with WordPress REST API to change a post title:
+
+1. Now that you have your new password, you will need to base64 encode it using a terminal window as well as your username to use it with the REST API. The command you will use is as follows:
+
+        echo -n "USERNAME:PASSWORD" | base64
+
+    Within this, you will replace `USERNAME:PASSWORD` with your username and newly generated application password. For example:
+
+        echo -n "admin:mypassword123" | base64
+
+2. Once your username and password are base64 encoded, you are now able to make a simple REST API call using the terminal window to update a post. Because you are performing a `POST` request, you will need to authorize the request using your newly created base64 encoded access token. If authorized correctly, you will see the post title update to "New Title."
+
+        curl --header "Authorization: Basic ACCESS_TOKEN" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID
+
+    When running this command, be sure to replace `ACCESS_TOKEN` with your newly generated access token, `LOCALHOST` with the location of your local WordPress installation, and `POST_ID` with the ID of the post that you want to edit.
 
 ### XML-RPC
 
@@ -85,9 +83,9 @@ This test uses the technologies listed below, but you can use any XML-RPC reques
 * A Mac or Linux terminal
 * Local development environment (e.g. MAMP, DesktopServer, Vagrant) running on localhost
 
-Once you have created a new application password, it's time to send a request to test it.  Unlike the WordPress REST API, XML-RPC does not require your username and password to be base64 encoded.  To begin the process, open a terminal window and enter the following:
-```shell
-curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>APPLICATION_PASSWORD</value></param></params></methodCall>' LOCALHOST
-```
-In the above example, replace *USERNAME* with your username, and *APPLICATION_PASSWORD* with your new application password.  This should output a response containing all users on your site.
+Once you have created a new application password, it's time to send a request to test it. Unlike the WordPress REST API, XML-RPC does not require your username and password to be base64 encoded. To begin the process, open a terminal window and enter the following:
+
+    curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>PASSWORD</value></param></params></methodCall>' LOCALHOST
+
+In the above example, replace `USERNAME` with your username, and `PASSWORD` with your new application password. This should output a response containing all users on your site.
 
