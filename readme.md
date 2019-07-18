@@ -16,7 +16,7 @@ Install from the official [WordPress.org plugin repository](https://wordpress.or
 
 ## Documentation
 
-See the [readme.txt](readme.txt) for usage instructions.
+See the [readme.txt.md](readme.txt.md) for usage instructions.
 
 
 ## Development Environment
