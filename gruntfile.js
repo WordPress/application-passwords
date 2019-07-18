@@ -23,18 +23,15 @@ module.exports = function( grunt ) {
 							'application-passwords.css',
 							'auth-app.js',
 							'readme.md',
+							'readme.txt',
 							'composer.json',
 							'composer.lock',
 						],
 						dest: '<%= dist_dir %>',
 						expand: true,
 					},
-					{
-						src: 'readme.txt.md',
-						dest: '<%= dist_dir %>/readme.txt',
-					}
-				]
-			}
+				],
+			},
 		},
 
 		wp_deploy: {
