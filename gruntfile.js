@@ -31,7 +31,6 @@ module.exports = function( grunt ) {
 					{
 						src: 'readme.txt.md',
 						dest: '<%= dist_dir %>/readme.txt',
-						expand: true,
 					}
 				]
 			}
