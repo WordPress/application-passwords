@@ -16,7 +16,7 @@ Install from the official [WordPress.org plugin repository](https://wordpress.or
 
 ## Documentation
 
-See the [plugin description on WordPress.org](https://wordpress.org/plugins/application-passwords/).
+See the [readme.txt](readme.txt) for usage instructions.
 
 ### Development Environment
 
