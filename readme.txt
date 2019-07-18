@@ -12,8 +12,6 @@ A feature plugin for core to provide Application Passwords
 
 == Description ==
 
-This is a feature plugin that is a spinoff of the main [Two-Factor Authentication plugin](https://github.com/georgestephanis/two-factor/).
-
 With Application Passwords you are able to authenticate a user without providing that user's password directly, instead you will use a base64 encoded string of their username and a new application password.
 
 == Requesting Password for Application ==
@@ -72,6 +70,10 @@ Once you have created a new application password, it's time to send a request to
     curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>PASSWORD</value></param></params></methodCall>' LOCALHOST
 
 In the above example, replace `USERNAME` with your username, and `PASSWORD` with your new application password. This should output a response containing all users on your site.
+
+= Plugin History =
+
+This is a feature plugin that is a spinoff of the main [Two-Factor Authentication plugin](https://github.com/georgestephanis/two-factor/).
 
 
 == Installation ==
