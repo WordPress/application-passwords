@@ -10,10 +10,25 @@
   "license": "GPL-2.0-or-later",
   "devDependencies": {
     "@wordpress/eslint-plugin": "^2.3.0",
-    "eslint": "^6.0.1"
+    "eslint": "^6.0.1",
+    "grunt": "^1.0.4",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-wp-deploy": "^2.0.0",
+    "husky": "^3.0.0",
+    "load-grunt-tasks": "^5.0.0"
   },
   "scripts": {
     "postinstall": "composer install",
-    "lint": "eslint ."
+    "lint-js": "eslint .",
+    "lint-staged": "npm run lint-js && composer lint-staged",
+    "lint": "npm run lint-js && composer lint-head",
+    "build": "grunt build",
+    "deploy": "grunt deploy"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged"
+    }
   }
 }

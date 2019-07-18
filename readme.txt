@@ -83,6 +83,11 @@ In the above example, replace `USERNAME` with your username, and `PASSWORD` with
 This is a feature plugin that is a spinoff of the main [Two-Factor Authentication plugin](https://github.com/georgestephanis/two-factor/).
 
 
+== Changelog ==
+
+See the [release notes on GitHub](https://github.com/georgestephanis/application-passwords/releases).
+
+
 == Installation ==
 
 Search for "Application Passwords" under "Plugins" → "Add New" in your WordPress dashboard to install the plugin.
