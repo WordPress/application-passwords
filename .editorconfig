@@ -11,5 +11,6 @@ indent_style = tab
 indent_style = space
 indent_size = 2
 
-[{*.txt,wp-config-sample.php}]
+# Ensure that readmes are readable on all platforms.
+[*.{md,txt}]
 end_of_line = crlf
