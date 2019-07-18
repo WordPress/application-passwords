@@ -20,13 +20,15 @@
   },
   "scripts": {
     "postinstall": "composer install",
-    "lint": "eslint . && composer lint-staged",
+    "lint-js": "eslint .",
+    "lint-staged": "npm run lint-js && composer lint-staged",
+    "lint": "npm run lint-js && composer lint-head",
     "build": "grunt build",
     "deploy": "grunt deploy"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run lint-staged"
     }
   }
 }
