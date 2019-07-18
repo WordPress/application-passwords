@@ -44,7 +44,7 @@ module.exports = function( grunt ) {
 				options: {
 					deploy_tag: false,
 					deploy_trunk: true,
-				}
+				},
 			},
 		},
 	} );
