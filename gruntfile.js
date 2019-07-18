@@ -15,6 +15,7 @@ module.exports = function( grunt ) {
 		copy: {
 			dist: {
 				files: [
+					// Ensure that all required files are included in the distribution bundle.
 					{
 						src: [
 							'*.php',
