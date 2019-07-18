@@ -12,7 +12,7 @@ Creates unique passwords for applications to authenticate users without revealin
 
 == Description ==
 
-With Application Passwords you are able to authenticate users without providing their passwordsš directly. Instead, a unique password is generated for each application without revealing the user's main password. Application passwords can be revoked for each application individually.
+With Application Passwords you are able to authenticate users without providing their passwords directly. Instead, a unique password is generated for each application without revealing the user's main password. Application passwords can be revoked for each application individually.
 
 
 = Contribute =
