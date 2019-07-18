@@ -19,7 +19,7 @@ With Application Passwords you are able to authenticate users without providing 
 
 To request a password for your application, redirect users to:
 
-	wp-admin/admin.php?page=auth_app
+	https://example.com/wp-admin/admin.php?page=auth_app
 
 and use the following `GET` request parameters to specify:
 
