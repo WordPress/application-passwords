@@ -23,11 +23,11 @@ To request a password for your application, redirect users to:
 
 and use the following `GET` request parameters to specify:
 
-- `app_name` (required) - The human readable identifier for your app. This will be the name of the generated application password, so structure it like ... "WordPress Mobile App on iPhone 5" for uniqueness between multiple versions.  If omitted, the user will be required to provide an application name.
+- `app_name` (required) - The human readable identifier for your app. This will be the name of the generated application password, so structure it like ... "WordPress Mobile App on iPhone 12" for uniqueness between multiple versions. If omitted, the user will be required to provide an application name.
 
 - `success_url` (recommended) - The URL that you'd like the user to be sent to if they approve the connection. Two GET variables will be appended when they are passed back -- `user_login` and `password` -- these credentials can then be used for API calls. If the `success_url` variable is omitted, a password will be generated and displayed to the user, to manually enter into your application.
 
-- `reject_url` (optional) - If included, the user will get sent there if they reject the connection. If omitted, the user will be sent to the `success_url`, with `?success=false` appended to the end.  If the `success_url` is omitted, the user will be sent to their dashboard.
+- `reject_url` (optional) - If included, the user will get sent there if they reject the connection. If omitted, the user will be sent to the `success_url`, with `?success=false` appended to the end. If the `success_url` is omitted, the user will be sent to their dashboard.
 
 
 = Creating Application Password Manually =
