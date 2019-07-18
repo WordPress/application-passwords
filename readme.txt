@@ -14,7 +14,8 @@ Creates unique passwords for applications to authenticate users without revealin
 
 With Application Passwords you are able to authenticate a user without providing that user's password directly, instead you will use a base64 encoded string of their username and a new application password.
 
-== Requesting Password for Application ==
+
+= Requesting Password for Application =
 
 To request a password for your application, redirect users to:
 
@@ -29,7 +30,7 @@ and use the following `GET` request parameters to specify:
 - `reject_url` (optional) - If included, the user will get sent there if they reject the connection. If omitted, the user will be sent to the `success_url`, with `?success=false` appended to the end.  If the `success_url` is omitted, the user will be sent to their dashboard.
 
 
-== Creating Application Password Manually ==
+= Creating Application Password Manually =
 
 1. Go the User Profile page of the user that you want to generate a new application password for.  To do so, click *Users* on the left side of the WordPress admin, then click on the user that you want to manage.
 2. Scroll down until you see the Application Passwords section.  This is typically at the bottom of the page.
@@ -37,9 +38,9 @@ and use the following `GET` request parameters to specify:
    **Note:** The application password name is only used to describe your password for easy management later.  It will not affect your password in any way.  Be descriptive, as it will lead to easier management if you ever need to change it later.
 4. Once the *Add New* button is clicked, your new application password will appear.  Be sure to keep this somewhere safe, as it will not be displayed to you again.  If you lose this password, it cannot be obtained again.
 
-== Testing an Application Password ==
+= Testing an Application Password ==
 
-### WordPress REST API
+#### WordPress REST API
 
 This test uses the technologies listed below, but you can use any REST API request.
 
@@ -55,7 +56,7 @@ Make a REST API call using the terminal window to update a post. Because you are
 
 When running this command, be sure to replace `USERNAME` and `APPLICATION_PASSWORD` with your credentials (curl takes care of base64 encoding and setting the `Authorization` header), `LOCALHOST` with the location of your local WordPress installation, and `POST_ID` with the ID of the post that you want to edit.
 
-### XML-RPC
+#### XML-RPC
 
 This test uses the technologies listed below, but you can use any XML-RPC request.
 
