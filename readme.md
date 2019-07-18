@@ -2,11 +2,12 @@
 
 [![Build Status](https://travis-ci.org/georgestephanis/application-passwords.svg?branch=master)](https://travis-ci.org/georgestephanis/application-passwords)
 
-A WordPress plugin for creating dedicated passwords for applications using WordPress as you.
+Creates unique passwords for applications to authenticate users without revealing their main passwords.
+
 
 ## Install
 
-Install from the official [WordPress.org plugin repository](https://wordpress.org/plugins/application-passwords/) by searching for "Application Passwords" under "Plugins" &rarr; "Add New" in your WordPress dashboard.
+Install from the official [WordPress.org plugin repository](https://wordpress.org/plugins/application-passwords/) by searching for "Application Passwords" under "Plugins" → "Add New" in your WordPress dashboard.
 
 ### Install Using Composer
 
@@ -15,7 +16,7 @@ Install from the official [WordPress.org plugin repository](https://wordpress.or
 
 ## Documentation
 
-See the [plugin description on WordPress.org](https://wordpress.org/plugins/application-passwords/).
+See the [readme.txt](readme.txt) for usage instructions.
 
 ### Development Environment
 
@@ -24,7 +25,8 @@ Included is a local devolopment environment using [Docker](https://www.docker.co
 
 ## Contribute
 
-All contributions are welcome!
+- Translate the plugin [into your language](https://translate.wordpress.org/projects/wp-plugins/application-passwords/).
+- Report issues, suggest features and contribute code [on GitHub](https://github.com/georgestephanis/application-passwords).
 
 
 ## Credits
