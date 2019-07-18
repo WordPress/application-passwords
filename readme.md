@@ -25,7 +25,8 @@ Included is a local devolopment environment using [Docker](https://www.docker.co
 
 ## Contribute
 
-All contributions are welcome!
+- Translate the plugin [into your language](https://translate.wordpress.org/projects/wp-plugins/application-passwords/).
+- Report issues, suggest features and contribute code [on GitHub](https://github.com/georgestephanis/application-passwords).
 
 
 ## Credits

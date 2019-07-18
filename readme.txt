@@ -15,6 +15,12 @@ Creates unique passwords for applications to authenticate users without revealin
 With Application Passwords you are able to authenticate users without providing their passwordsš directly. Instead, a unique password is generated for each application without revealing the user's main password. Application passwords can be revoked for each application individually.
 
 
+= Contribute =
+
+- Translate the plugin [into your language](https://translate.wordpress.org/projects/wp-plugins/application-passwords/).
+- Report issues, suggest features and contribute code [on GitHub](https://github.com/georgestephanis/application-passwords).
+
+
 = Requesting Password for Application =
 
 To request a password for your application, redirect users to:
