@@ -83,6 +83,12 @@ In the above example, replace `USERNAME` with your username, and `PASSWORD` with
 5. Click *Install Plugin*.
 6. Activate.
 
+= Using Composer =
+
+Add this plugin as a [Composer](https://getcomposer.org) dependency [from Packagist](https://packagist.org/packages/georgestephanis/application-passwords):
+
+    composer require georgestephanis/application-passwords
+
 
 == Screenshots ==
 
