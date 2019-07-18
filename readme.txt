@@ -78,10 +78,14 @@ This is a feature plugin that is a spinoff of the main [Two-Factor Authenticatio
 
 == Installation ==
 
-1. Download the zip file.
-2. Log into WordPress, hover over *Plugins*, and click *Add New*.
+Search for "Application Passwords" under "Plugins" &rarr; "Add New" in your WordPress dashboard to install the plugin.
+
+Or install it manually:
+
+1. Download the [plugin zip file](https://downloads.wordpress.org/plugin/application-passwords.zip).
+2. Go to *Plugins* &rarr; *Add New* in your WordPress admin.
 3. Click on the *Upload Plugin* button.
-4. Select the zip file you downloaded.
+4. Select the file you downloaded.
 5. Click *Install Plugin*.
 6. Activate.
 
