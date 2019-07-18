@@ -16,7 +16,7 @@ This is a feature plugin that is a spinoff of the main Two-Factor Authentication
 
 With Application Passwords you are able to authenticate a user without providing that user's password directly, instead you will use a base64 encoded string of their username and a new application password.
 
-== Requesting Application Password ==
+== Requesting Password for Application ==
 
 To request a password for your application, redirect users to:
 
