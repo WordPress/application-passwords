@@ -2,7 +2,8 @@
 
 [![Build Status](https://travis-ci.org/georgestephanis/application-passwords.svg?branch=master)](https://travis-ci.org/georgestephanis/application-passwords)
 
-A WordPress plugin for creating dedicated passwords for applications using WordPress as you.
+Creates unique passwords for applications to authenticate users without revealing their main passwords.
+
 
 ## Install
 

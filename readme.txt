@@ -7,7 +7,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A feature plugin for core to provide Application Passwords
+Creates unique passwords for applications to authenticate users without revealing their main passwords.
 
 
 == Description ==
