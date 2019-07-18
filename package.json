@@ -20,7 +20,7 @@
   },
   "scripts": {
     "postinstall": "composer install",
-    "lint": "eslint .",
+    "lint": "eslint . && composer lint-staged",
     "build": "grunt build",
     "deploy": "grunt deploy"
   },
