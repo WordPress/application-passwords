@@ -44,7 +44,7 @@ and use the following `GET` request parameters to specify:
    **Note:** The application password name is only used to describe your password for easy management later.  It will not affect your password in any way.  Be descriptive, as it will lead to easier management if you ever need to change it later.
 4. Once the *Add New* button is clicked, your new application password will appear.  Be sure to keep this somewhere safe, as it will not be displayed to you again.  If you lose this password, it cannot be obtained again.
 
-= Testing an Application Password ==
+= Testing an Application Password =
 
 #### WordPress REST API
 
