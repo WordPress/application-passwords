@@ -14,17 +14,27 @@ module.exports = function( grunt ) {
 
 		copy: {
 			dist: {
-				src: [
-					'*.php',
-					'application-passwords.js',
-					'application-passwords.css',
-					'auth-app.js',
-					'readme.md',
-					'readme.txt',
-				],
-				dest: '<%= dist_dir %>',
-				expand: true,
-			},
+				files: [
+					{
+						src: [
+							'*.php',
+							'application-passwords.js',
+							'application-passwords.css',
+							'auth-app.js',
+							'readme.md',
+							'composer.json',
+							'composer.lock',
+						],
+						dest: '<%= dist_dir %>',
+						expand: true,
+					},
+					{
+						src: 'readme.txt.md',
+						dest: '<%= dist_dir %>/readme.txt',
+						expand: true,
+					}
+				]
+			}
 		},
 
 		wp_deploy: {
