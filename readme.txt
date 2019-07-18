@@ -16,7 +16,22 @@ This is a feature plugin that is a spinoff of the main Two-Factor Authentication
 
 With Application Passwords you are able to authenticate a user without providing that user's password directly, instead you will use a base64 encoded string of their username and a new application password.
 
-== Creating a New Application Password ==
+== Requesting Application Password ==
+
+To request a password for your application, redirect users to:
+
+	wp-admin/admin.php?page=auth_app
+
+and use the following `GET` request parameters to specify:
+
+- `app_name` (required) - The human readable identifier for your app. This will be the name of the generated application password, so structure it like ... "WordPress Mobile App on iPhone 5" for uniqueness between multiple versions.  If omitted, the user will be required to provide an application name.
+
+- `success_url` (recommended) - The URL that you'd like the user to be sent to if they approve the connection. Two GET variables will be appended when they are passed back -- `user_login` and `password` -- these credentials can then be used for API calls. If the `success_url` variable is omitted, a password will be generated and displayed to the user, to manually enter into your application.
+
+- `reject_url` (optional) - If included, the user will get sent there if they reject the connection. If omitted, the user will be sent to the `success_url`, with `?success=false` appended to the end.  If the `success_url` is omitted, the user will be sent to their dashboard.
+
+
+== Creating Application Password Manually ==
 
 1. Go the User Profile page of the user that you want to generate a new application password for.  To do so, click *Users* on the left side of the WordPress admin, then click on the user that you want to manage.
 2. Scroll down until you see the Application Passwords section.  This is typically at the bottom of the page.
