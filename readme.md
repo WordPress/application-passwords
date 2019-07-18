@@ -7,7 +7,7 @@ Creates unique passwords for applications to authenticate users without revealin
 
 ## Install
 
-Install from the official [WordPress.org plugin repository](https://wordpress.org/plugins/application-passwords/) by searching for "Application Passwords" under "Plugins" &rarr; "Add New" in your WordPress dashboard.
+Install from the official [WordPress.org plugin repository](https://wordpress.org/plugins/application-passwords/) by searching for "Application Passwords" under "Plugins" → "Add New" in your WordPress dashboard.
 
 ### Install Using Composer
 
