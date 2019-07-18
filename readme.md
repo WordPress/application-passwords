@@ -25,7 +25,7 @@ Included is a local devolopment environment using [Docker](https://www.docker.co
 
 ### Scripts
 
-- `npm install` to install all project dependencies including the Composer dependencies via the `postinstall` hook. Configures a `pre-commit` hook that lints all JS and PHP code before each commit.
+- `npm install` to setup project dependencies including the Composer dependencies via the `postinstall` hook. Configures a `pre-commit` hook that lints all JS and PHP code before each commit.
 
 - `npm run build` to create a release in the `dist` directory. We include Composer files since the same bundle is used for the Composer package.
 
