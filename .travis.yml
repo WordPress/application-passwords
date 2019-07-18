@@ -31,7 +31,7 @@ install:
   - source "$DEV_LIB_PATH/travis.install.sh"
 
 script:
-  - npm run lint
+  - npm run lint-js
   - source "$DEV_LIB_PATH/travis.script.sh"
 
 after_script:
