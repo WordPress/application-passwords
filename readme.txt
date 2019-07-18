@@ -51,21 +51,11 @@ This test uses the technologies listed below, but you can use any REST API reque
 * A Mac or Linux terminal
 * Local development environment (e.g. MAMP, XAMPP, DesktopServer, Vagrant) running on localhost
 
-Use application passwords with WordPress REST API to change a post title:
+Make a REST API call using the terminal window to update a post. Because you are performing a `POST` request, you will need to authorize the request using your newly created base64 encoded access token. If authorized correctly, you will see the post title update to "New Title."
 
-1. Now that you have your new password, you will need to base64 encode it using a terminal window as well as your username to use it with the REST API. The command you will use is as follows:
+    curl --user "USERNAME:APPLICATION_PASSWORD" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID
 
-        echo -n "USERNAME:PASSWORD" | base64
-
-    Within this, you will replace `USERNAME:PASSWORD` with your username and newly generated application password. For example:
-
-        echo -n "admin:mypassword123" | base64
-
-2. Once your username and password are base64 encoded, you are now able to make a simple REST API call using the terminal window to update a post. Because you are performing a `POST` request, you will need to authorize the request using your newly created base64 encoded access token. If authorized correctly, you will see the post title update to "New Title."
-
-        curl --header "Authorization: Basic ACCESS_TOKEN" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID
-
-    When running this command, be sure to replace `ACCESS_TOKEN` with your newly generated access token, `LOCALHOST` with the location of your local WordPress installation, and `POST_ID` with the ID of the post that you want to edit.
+When running this command, be sure to replace `USERNAME` and `APPLICATION_PASSWORD` with your credentials (curl takes care of base64 encoding and setting the `Authorization` header), `LOCALHOST` with the location of your local WordPress installation, and `POST_ID` with the ID of the post that you want to edit.
 
 ### XML-RPC
 
