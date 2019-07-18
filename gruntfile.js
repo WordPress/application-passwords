@@ -41,8 +41,10 @@ module.exports = function( grunt ) {
 				assets_dir: 'assets',
 			},
 			trunk: {
-				deploy_tag: false,
-				deploy_trunk: true,
+				options: {
+					deploy_tag: false,
+					deploy_trunk: true,
+				},
 			},
 		},
 	} );
