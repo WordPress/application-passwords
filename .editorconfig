@@ -11,9 +11,5 @@ indent_style = tab
 indent_style = space
 indent_size = 2
 
-# Ensure that readmes are readable on all platforms.
-[*.{md,txt}]
-end_of_line = crlf
-
 [*.md]
 trim_trailing_whitespace = false
