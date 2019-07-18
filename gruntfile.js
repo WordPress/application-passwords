@@ -53,5 +53,4 @@ module.exports = function( grunt ) {
 			'wp_deploy:trunk',
 		]
 	);
-
 };
