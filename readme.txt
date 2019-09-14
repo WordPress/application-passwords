@@ -58,37 +58,24 @@ and use the following `GET` request parameters to specify:
 
 = Testing an Application Password =
 
+We use [curl](https://curl.haxx.se) to send HTTP requests to the API endpoints in the examples below.
+
 #### WordPress REST API
 
-This test uses the technologies listed below, but you can use any REST API request.
+Make a REST API call to update a post. Because you are performing a `POST` request, you will need to authorize the request using your newly created base64 encoded access token. If authorized correctly, you will see the post title update to "New Title."
 
-* WordPress REST API
-* cURL
-* Mac OSX or Linux
-* A Mac or Linux terminal
-* Local development environment (e.g. MAMP, XAMPP, DesktopServer, Vagrant) running on localhost
+    curl --user "USERNAME:APPLICATION_PASSWORD" -X POST -d "title=New Title" https://LOCALHOST/wp-json/wp/v2/posts/POST_ID
 
-Make a REST API call using the terminal window to update a post. Because you are performing a `POST` request, you will need to authorize the request using your newly created base64 encoded access token. If authorized correctly, you will see the post title update to "New Title."
-
-    curl --user "USERNAME:APPLICATION_PASSWORD" -X POST -d "title=New Title" http://LOCALHOST/wp-json/wp/v2/posts/POST_ID
-
-When running this command, be sure to replace `USERNAME` and `APPLICATION_PASSWORD` with your credentials (curl takes care of base64 encoding and setting the `Authorization` header), `LOCALHOST` with the location of your local WordPress installation, and `POST_ID` with the ID of the post that you want to edit.
+When running this command, be sure to replace `USERNAME` and `APPLICATION_PASSWORD` with your credentials (curl takes care of base64 encoding and setting the `Authorization` header), `LOCALHOST` with the hostname of your WordPress installation, and `POST_ID` with the ID of the post that you want to edit.
 
 #### XML-RPC
 
-This test uses the technologies listed below, but you can use any XML-RPC request.
+Unlike the WordPress REST API, XML-RPC does not require your username and password to be base64 encoded. Send an XML-RPC request to list all users:
 
-* XML-RPC enabled within WordPress
-* cURL
-* Mac OSX or Linux
-* A Mac or Linux terminal
-* Local development environment (e.g. MAMP, DesktopServer, Vagrant) running on localhost
+    curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>PASSWORD</value></param></params></methodCall>' https://LOCALHOST/xmlrpc.php
 
-Once you have created a new application password, it's time to send a request to test it. Unlike the WordPress REST API, XML-RPC does not require your username and password to be base64 encoded. To begin the process, open a terminal window and enter the following:
+In the above example, replace `USERNAME` with your username, `PASSWORD` with your new application password, and `LOCALHOST` with the hostname of your WordPress installation. This should output a response containing all users on your site.
 
-    curl -H 'Content-Type: text/xml' -d '<methodCall><methodName>wp.getUsers</methodName><params><param><value>1</value></param><param><value>USERNAME</value></param><param><value>PASSWORD</value></param></params></methodCall>' LOCALHOST
-
-In the above example, replace `USERNAME` with your username, and `PASSWORD` with your new application password. This should output a response containing all users on your site.
 
 = Plugin History =
 
