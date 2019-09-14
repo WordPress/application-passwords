@@ -17,10 +17,30 @@ Use Application Passwords to authenticate users without providing their password
 **Important:** Application Passwords can be used only for authenticating API requests and they won't work for regular login.
 
 
+= Two Factor Support =
+
+Application Passwords can be used together with the [Two Factor plugin](https://wordpress.org/plugins/two-factor/) as long as you disable the extra protection added by the Two Factor plugin which disables API requests with password authentication _for users with Two Factor enabled_.
+
+Use the `two_factor_user_api_login_enable` filter to allow API requests with password-based authentication header for all users:
+
+    add_filter( 'two_factor_user_api_login_enable', '__return_true' );
+
+This is not required if the user associated with the application password doesn't have any of the Two Factor methods enabled.
+
+
 = Contribute =
 
 - Translate the plugin [into your language](https://translate.wordpress.org/projects/wp-plugins/application-passwords/).
 - Report issues, suggest features and contribute code [on GitHub](https://github.com/georgestephanis/application-passwords).
+
+
+= Creating Application Password Manually =
+
+1. Go the User Profile page of the user that you want to generate a new application password for.  To do so, click *Users* on the left side of the WordPress admin, then click on the user that you want to manage.
+2. Scroll down until you see the Application Passwords section.  This is typically at the bottom of the page.
+3. Within the input field, type in a name for your new application password, then click *Add New*.
+   **Note:** The application password name is only used to describe your password for easy management later.  It will not affect your password in any way.  Be descriptive, as it will lead to easier management if you ever need to change it later.
+4. Once the *Add New* button is clicked, your new application password will appear.  Be sure to keep this somewhere safe, as it will not be displayed to you again.  If you lose this password, it cannot be obtained again.
 
 
 = Requesting Password for Application =
@@ -32,19 +52,9 @@ To request a password for your application, redirect users to:
 and use the following `GET` request parameters to specify:
 
 - `app_name` (required) - The human readable identifier for your app. This will be the name of the generated application password, so structure it like ... "WordPress Mobile App on iPhone 12" for uniqueness between multiple versions. If omitted, the user will be required to provide an application name.
-
 - `success_url` (recommended) - The URL that you'd like the user to be sent to if they approve the connection. Two GET variables will be appended when they are passed back -- `user_login` and `password` -- these credentials can then be used for API calls. If the `success_url` variable is omitted, a password will be generated and displayed to the user, to manually enter into your application.
-
 - `reject_url` (optional) - If included, the user will get sent there if they reject the connection. If omitted, the user will be sent to the `success_url`, with `?success=false` appended to the end. If the `success_url` is omitted, the user will be sent to their dashboard.
 
-
-= Creating Application Password Manually =
-
-1. Go the User Profile page of the user that you want to generate a new application password for.  To do so, click *Users* on the left side of the WordPress admin, then click on the user that you want to manage.
-2. Scroll down until you see the Application Passwords section.  This is typically at the bottom of the page.
-3. Within the input field, type in a name for your new application password, then click *Add New*.
-   **Note:** The application password name is only used to describe your password for easy management later.  It will not affect your password in any way.  Be descriptive, as it will lead to easier management if you ever need to change it later.
-4. Once the *Add New* button is clicked, your new application password will appear.  Be sure to keep this somewhere safe, as it will not be displayed to you again.  If you lose this password, it cannot be obtained again.
 
 = Testing an Application Password =
 
