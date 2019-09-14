@@ -14,6 +14,8 @@ Creates unique passwords for applications to authenticate users without revealin
 
 Use Application Passwords to authenticate users without providing their passwords directly. Instead, a unique password is generated for each application without revealing the user's main password. Application passwords can be revoked for each application individually.
 
+**Important:** Application Passwords can be used only for authenticating API requests and they won't work for regular login.
+
 
 = Contribute =
 
