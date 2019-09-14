@@ -14,7 +14,7 @@ Creates unique passwords for applications to authenticate users without revealin
 
 Use Application Passwords to authenticate users without providing their passwords directly. Instead, a unique password is generated for each application without revealing the user's main password. Application passwords can be revoked for each application individually.
 
-**Important:** Application Passwords can be used only for authenticating API requests and they won't work for regular login.
+**Important:** Application Passwords can be used only for authenticating API requests such as [REST API](https://developer.wordpress.org/rest-api/) and [XML-RPC](https://codex.wordpress.org/XML-RPC_WordPress_API), and they won't work for regular site logins.
 
 
 = Contribute =
