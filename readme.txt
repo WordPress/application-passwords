@@ -1,5 +1,5 @@
 === Application Passwords ===
-Contributors: georgestephanis, valendesigns, kraftbj
+Contributors: georgestephanis, valendesigns, kraftbj, kasparsd
 Tags: application-passwords, rest api, xml-rpc, security, authentication
 Requires at least: 4.4
 Tested up to: 5.2
