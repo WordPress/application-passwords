@@ -2,7 +2,7 @@
 Contributors: georgestephanis, valendesigns, kraftbj, kasparsd
 Tags: application-passwords, rest api, xml-rpc, security, authentication
 Requires at least: 4.4
-Tested up to: 5.2
+Tested up to: 5.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -20,7 +20,7 @@ Use Application Passwords to authenticate users without providing their password
 = Contribute =
 
 - Translate the plugin [into your language](https://translate.wordpress.org/projects/wp-plugins/application-passwords/).
-- Report issues, suggest features and contribute code [on GitHub](https://github.com/georgestephanis/application-passwords).
+- Report issues, suggest features and contribute code [on GitHub](https://github.com/WordPress/application-passwords).
 
 
 = Creating Application Password Manually =
@@ -79,12 +79,12 @@ In the above example, replace `USERNAME` with your username, `PASSWORD` with you
 
 = Plugin History =
 
-This is a feature plugin that is a spinoff of the main [Two-Factor Authentication plugin](https://github.com/georgestephanis/two-factor/).
+This is a feature plugin that is a spinoff of the main [Two-Factor Authentication plugin](https://github.com/WordPress/two-factor/).
 
 
 == Changelog ==
 
-See the [release notes on GitHub](https://github.com/georgestephanis/application-passwords/releases).
+See the [release notes on GitHub](https://github.com/WordPress/application-passwords/releases).
 
 
 == Installation ==

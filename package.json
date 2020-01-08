@@ -4,18 +4,18 @@
   "description": "Provide Application Passwords for WordPress core",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/georgestephanis/application-passwords.git"
+    "url": "git+https://github.com/WordPress/application-passwords.git"
   },
   "author": "George Stephanis (https://stephanis.info)",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
     "@wordpress/eslint-plugin": "^2.4.0",
-    "eslint": "^6.4.0",
+    "eslint": "^6.8.0",
     "grunt": "^1.0.4",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-wp-deploy": "^2.0.0",
-    "husky": "^3.0.5",
+    "husky": "^3.1.0",
     "load-grunt-tasks": "^5.1.0"
   },
   "scripts": {
