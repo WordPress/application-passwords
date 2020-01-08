@@ -31,7 +31,7 @@ class Test_Application_Passwords extends WP_UnitTestCase {
 		$_SERVER['PHP_AUTH_USER'] = 'http_auth_login';
 		$_SERVER['PHP_AUTH_PW']   = 'http_auth_pass';
 
-		$current_user = wp_get_current_user();
+		$current_user = wp_get_current_user(); // This calls the `determine_current_user` filter.
 
 		$this->assertEquals( $user_id, $current_user->ID );
 
