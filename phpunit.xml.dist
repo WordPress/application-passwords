@@ -6,7 +6,7 @@
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
 	>
-		<php>
+	<php>
 		<const name="WP_TEST_ACTIVATED_PLUGINS" value="application-passwords/application-passwords.php" />
 	</php>
 	<testsuites>
