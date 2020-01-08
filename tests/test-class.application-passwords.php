@@ -21,6 +21,8 @@ class Test_Application_Passwords extends WP_UnitTestCase {
 	 * @covers Application_Passwords::rest_api_auth_handler()
 	 */
 	public function test_can_login_user_through_http_auth_headers() {
+		global $wp;
+
 		$user_id = $this->factory->user->create(
 			array(
 				'user_login' => 'http_auth_login',
@@ -39,7 +41,7 @@ class Test_Application_Passwords extends WP_UnitTestCase {
 		);
 
 		// Now fake a REST API request.
-		do_action( 'rest_api_init' );
+		$wp->set_query_var( 'rest_route', 'phpunit' );
 
 		$this->assertEquals(
 			$user_id,
@@ -47,6 +49,8 @@ class Test_Application_Passwords extends WP_UnitTestCase {
 			'Only REST API requests are check for HTTP Auth headers'
 		);
 
+		// Cleanup all the global state.
 		unset( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
+		$wp->set_query_var( 'rest_route', null );
 	}
 }
