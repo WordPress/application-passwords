@@ -5,7 +5,7 @@
  * Description: Creates unique passwords for applications to authenticate users without revealing their main passwords.
  * Author: George Stephanis
  * Version: 0.1.0
- * Author URI: https://stephanis.info
+ * Author URI: https://github.com/georgestephanis
  */
 
 define( 'APPLICATION_PASSWORDS_VERSION', '0.1.0' );
