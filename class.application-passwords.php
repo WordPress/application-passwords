@@ -329,6 +329,17 @@ class Application_Passwords {
 	}
 
 	/**
+	 * Check if the current request is an API request
+	 * for which we should check the HTTP Auth headers.
+	 *
+	 * @return boolean
+	 */
+	public static function is_api_request() {
+		// Process the authentication only after the APIs have been initialized.
+		return ( ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) );
+	}
+
+	/**
 	 * Filter the user to authenticate.
 	 *
 	 * @since 0.1-dev
@@ -343,13 +354,12 @@ class Application_Passwords {
 	 * @return mixed
 	 */
 	public static function authenticate( $input_user, $username, $password ) {
-		$api_request = ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST );
-		if ( ! apply_filters( 'application_password_is_api_request', $api_request ) ) {
+		if ( ! apply_filters( 'application_password_is_api_request', self::is_api_request() ) ) {
 			return $input_user;
 		}
 
 		$user = get_user_by( 'login', $username );
-		
+
 		if ( ! $user && is_email( $username ) ) {
 			$user = get_user_by( 'email', $username );
 		}

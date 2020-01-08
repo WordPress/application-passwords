@@ -1,17 +1,16 @@
 dist: xenial
 
-language:
-  - php
-  - node_js
+language: php
 
 php:
   - "5.6"
   - "7.0"
   - "7.2"
   - "7.3"
+  - "7.4"
 
 services:
-- mysql
+  - mysql
 
 addons:
   apt:
@@ -27,7 +26,6 @@ env:
 install:
   - npm install
   - export DEV_LIB_PATH="vendor/xwp/wp-dev-lib/scripts"
-  - export DIFF_BASE="master"
   - source "$DEV_LIB_PATH/travis.install.sh"
 
 script:
@@ -44,7 +42,7 @@ cache:
 
 branches:
   only:
-  - master
+    - master
 
 notifications:
   email: false
