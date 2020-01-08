@@ -12,7 +12,7 @@ php:
   - "7.4"
 
 services:
-- mysql
+  - mysql
 
 addons:
   apt:
@@ -45,7 +45,7 @@ cache:
 
 branches:
   only:
-  - master
+    - master
 
 notifications:
   email: false
