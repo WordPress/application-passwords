@@ -1,6 +1,6 @@
 # Application Passwords for WordPress
 
-[![Build Status](https://travis-ci.org/georgestephanis/application-passwords.svg?branch=master)](https://travis-ci.org/georgestephanis/application-passwords)
+[![Build Status](https://travis-ci.org/wordpress/application-passwords.svg?branch=master)](https://travis-ci.org/wordpress/application-passwords)
 
 Creates unique passwords for applications to authenticate users without revealing their main passwords.
 
