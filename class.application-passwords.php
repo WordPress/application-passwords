@@ -335,6 +335,14 @@ class Application_Passwords {
 	 * @return boolean
 	 */
 	public static function is_api_request() {
+		// Check for the presence of the REST API route query.
+		$rest_query_var = get_query_var( 'rest_route' );
+
+		if ( ! empty( $rest_query_var ) ) {
+			return true;
+		}
+
+		// Or the legacy constants.
 		return ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST );
 	}
 
