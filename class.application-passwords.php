@@ -335,14 +335,7 @@ class Application_Passwords {
 	 * @return boolean
 	 */
 	public static function is_api_request() {
-		global $wp;
-
-		// Check for the presence of the REST API route query.
-		if ( ! empty( $wp->query_vars['rest_route'] ) ) {
-			return true;
-		}
-
-		// Or the legacy constants.
+		// Process the authentication only after the APIs have been initialized.
 		return ( ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) );
 	}
 
