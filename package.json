@@ -4,7 +4,7 @@
   "description": "Provide Application Passwords for WordPress core",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/georgestephanis/application-passwords.git"
+    "url": "git+https://github.com/WordPress/application-passwords.git"
   },
   "author": "George Stephanis (https://stephanis.info)",
   "license": "GPL-2.0-or-later",

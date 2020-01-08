@@ -1,7 +1,7 @@
 {
   "name": "georgestephanis/application-passwords",
   "description": "Provide Application Passwords for WordPress core",
-  "homepage": "https://github.com/georgestephanis/application-passwords",
+  "homepage": "https://github.com/WordPress/application-passwords",
   "keywords": [
     "wordpress",
     "application Ppasswords",
@@ -17,7 +17,7 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/georgestephanis/application-passwords/issues"
+    "issues": "https://github.com/WordPress/application-passwords/issues"
   },
   "config": {
     "platform": {
