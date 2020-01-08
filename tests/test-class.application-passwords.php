@@ -31,9 +31,21 @@ class Test_Application_Passwords extends WP_UnitTestCase {
 		$_SERVER['PHP_AUTH_USER'] = 'http_auth_login';
 		$_SERVER['PHP_AUTH_PW']   = 'http_auth_pass';
 
-		$current_user = wp_get_current_user(); // This calls the `determine_current_user` filter.
+		// Note that wp_get_current_user() calls the `determine_current_user` filter.
+		$this->assertEquals(
+			0,
+			wp_get_current_user()->ID,
+			'HTTP Auth headers are ignored for non-REST API requests'
+		);
 
-		$this->assertEquals( $user_id, $current_user->ID );
+		// Now fake a REST API request.
+		add_fiter( 'application_password_is_api_request', '__return_true' );
+		$this->assertEquals(
+			$user_id,
+			wp_get_current_user()->ID,
+			'HTTP Auth headers are ignored for non-REST API requests'
+		);
+		remove_fiter( 'application_password_is_api_request', '__return_true' );
 
 		unset( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 	}
