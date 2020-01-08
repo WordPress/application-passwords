@@ -35,17 +35,17 @@ class Test_Application_Passwords extends WP_UnitTestCase {
 		$this->assertEquals(
 			0,
 			wp_get_current_user()->ID,
-			'HTTP Auth headers are ignored for non-REST API requests'
+			'None-REST API requests are ignored'
 		);
 
 		// Now fake a REST API request.
-		add_fiter( 'application_password_is_api_request', '__return_true' );
+		do_action( 'rest_api_init' );
+
 		$this->assertEquals(
 			$user_id,
 			wp_get_current_user()->ID,
-			'HTTP Auth headers are ignored for non-REST API requests'
+			'Only REST API requests are check for HTTP Auth headers'
 		);
-		remove_fiter( 'application_password_is_api_request', '__return_true' );
 
 		unset( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 	}
