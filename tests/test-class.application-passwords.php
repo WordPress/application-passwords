@@ -16,6 +16,15 @@ class Test_Application_Passwords extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Regular front-end requests are not REST requests.
+	 *
+	 * @covers Application_Passwords::is_api_request()
+	 */
+	public function test_rest_api_request() {
+		$this->assertFalse( Application_Passwords::is_api_request() );
+	}
+
+	/**
 	 * HTTP Auth headers are used to determine the current user.
 	 *
 	 * @covers Application_Passwords::rest_api_auth_handler()
