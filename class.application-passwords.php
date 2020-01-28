@@ -390,6 +390,9 @@ class Application_Passwords {
 				$item['last_ip']   = $_SERVER['REMOTE_ADDR'];
 				$hashed_passwords[ $key ] = $item;
 				update_user_meta( $user->ID, self::USERMETA_KEY_APPLICATION_PASSWORDS, $hashed_passwords );
+
+				do_action( 'application_password_did_authenticate', $user, $item );
+
 				return $user;
 			}
 		}
