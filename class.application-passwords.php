@@ -79,14 +79,14 @@ class Application_Passwords {
 	 * @static
 	 */
 	public static function rest_api_init() {
-		// List existing application passwords
+		// List existing application passwords.
 		register_rest_route( '2fa/v1', '/application-passwords/(?P<user_id>[\d]+)', array(
 			'methods' => WP_REST_Server::READABLE,
 			'callback' => __CLASS__ . '::rest_list_application_passwords',
 			'permission_callback' => __CLASS__ . '::rest_edit_user_callback',
 		) );
 
-		// Add new application passwords
+		// Add new application passwords.
 		register_rest_route( '2fa/v1', '/application-passwords/(?P<user_id>[\d]+)/add', array(
 			'methods' => WP_REST_Server::CREATABLE,
 			'callback' => __CLASS__ . '::rest_add_application_password',
@@ -98,14 +98,14 @@ class Application_Passwords {
 			),
 		) );
 
-		// Delete an application password
+		// Delete an application password.
 		register_rest_route( '2fa/v1', '/application-passwords/(?P<user_id>[\d]+)/(?P<slug>[\da-fA-F]{12})', array(
 			'methods' => WP_REST_Server::DELETABLE,
 			'callback' => __CLASS__ . '::rest_delete_application_password',
 			'permission_callback' => __CLASS__ . '::rest_edit_user_callback',
 		) );
 
-		// Delete all application passwords for a given user
+		// Delete all application passwords for a given user.
 		register_rest_route( '2fa/v1', '/application-passwords/(?P<user_id>[\d]+)', array(
 			'methods' => WP_REST_Server::DELETABLE,
 			'callback' => __CLASS__ . '::rest_delete_all_application_passwords',
@@ -249,7 +249,7 @@ class Application_Passwords {
 	 * @return WP_User|bool
 	 */
 	public static function rest_api_auth_handler( $input_user ){
-		// Don't authenticate twice
+		// Don't authenticate twice.
 		if ( ! empty( $input_user ) ) {
 			return $input_user;
 		}
@@ -728,7 +728,7 @@ class Application_Passwords {
 	}
 
 	/**
-	 * Generate a unique repeateable slug from the hashed password, name, and when it was created.
+	 * Generate a unique repeatable slug from the hashed password, name, and when it was created.
 	 *
 	 * @since 0.1-dev
 	 *
