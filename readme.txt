@@ -34,11 +34,18 @@ Use Application Passwords to authenticate users without providing their password
 
 = Two Factor Support =
 
-Application Passwords can be used together with the [Two Factor plugin](https://wordpress.org/plugins/two-factor/) as long as you disable the extra protection added by the Two Factor plugin which disables API requests with password authentication _for users with Two Factor enabled_.
+Application Passwords can be used together with the [Two Factor plugin](https://wordpress.org/plugins/two-factor/) as long as you bypass the API acccess restrictions added by the Two Factor plugin. Those protections disable API requests with password authentication _for users with Two Factor enabled_.
 
-Use the `two_factor_user_api_login_enable` filter to allow API requests with password-based authentication header for all users:
+Use the `two_factor_user_api_login_enable` filter to allow API requests authenticated using an application passwords:
 
-    add_filter( 'two_factor_user_api_login_enable', '__return_true' );
+    add_filter( 'two_factor_user_api_login_enable', function( $enable ) {
+        // Allow API login when using an application password even with 2fa enabled.
+        if ( did_action( 'application_password_did_authenticate' ) ) {
+            return true;
+        }
+
+        return $enable;
+    } );
 
 This is not required if the user associated with the application password doesn't have any of the Two Factor methods enabled.
 
