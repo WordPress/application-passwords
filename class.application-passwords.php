@@ -116,6 +116,7 @@ class Application_Passwords {
 		register_rest_route( '2fa/v1', '/test-basic-authorization-header/', array(
 			'methods' => WP_REST_Server::READABLE . ', ' . WP_REST_Server::CREATABLE,
 			'callback' => __CLASS__ . '::rest_test_basic_authorization_header',
+			'permission_callback' => '__return_true',
 		) );
 	}
 
