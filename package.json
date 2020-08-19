@@ -25,5 +25,10 @@
     "lint": "npm run lint-js && composer lint-head",
     "build": "grunt build",
     "deploy": "grunt deploy"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged"
+    }
   }
 }
