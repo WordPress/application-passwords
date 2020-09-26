@@ -568,11 +568,13 @@ class Application_Passwords {
 			'application-passwords-js',
 			'appPass',
 			array(
-				'root'      => esc_url_raw( rest_url() ),
-				'namespace' => '2fa/v1',
-				'nonce'     => wp_create_nonce( 'wp_rest' ),
-				'user_id'   => $user->ID,
-				'text'      => array(
+				'root'                 => esc_url_raw( rest_url() ),
+				'namespace'            => '2fa/v1',
+				'nonce'                => wp_create_nonce( 'wp_rest' ),
+				'user_id'              => $user->ID,
+				'revoke_password'      => esc_attr__( 'Are you sure you want to revoke this password? This action cannot be undone.' ),
+				'revoke_all_passwords' => esc_attr__( 'Are you sure you want to revoke all passwords? This action cannot be undone.' ),
+				'text'                 => array(
 					'no_credentials' => __( 'Due to a potential server misconfiguration, it seems that HTTP Basic Authorization may not work for the REST API on this site: `Authorization` headers are not being sent to WordPress by the web server. <a href="https://github.com/georgestephanis/application-passwords/wiki/Basic-Authorization-Header----Missing">You can learn more about this problem, and a possible solution, on our GitHub Wiki.</a>' ),
 				),
 			)
