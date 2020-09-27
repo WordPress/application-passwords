@@ -623,6 +623,7 @@ class Application_Passwords {
 			<tr data-slug="{{ data.slug }}">
 				<td class="name column-name has-row-actions column-primary" data-colname="<?php esc_attr_e( 'Name' ); ?>">
 					{{ data.name }}
+					<button type="button" class="toggle-row"><span class="screen-reader-text"><?php esc_html_e( 'Show more details' ); ?></span></button>
 				</td>
 				<td class="created column-created" data-colname="<?php esc_attr_e( 'Created' ); ?>">
 					{{ data.created }}
