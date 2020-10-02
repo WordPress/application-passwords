@@ -1,4 +1,5 @@
 /* global appPass, wp */
+/* eslint-disable no-alert */
 ( function( $, appPass ) {
 	var $appPassSection = $( '#application-passwords-section' ),
 		$newAppPassForm = $appPassSection.find( '.create-application-password' ),
@@ -78,6 +79,11 @@
 
 	$appPassTbody.on( 'click', '.delete', function( e ) {
 		e.preventDefault();
+
+		if ( ! confirm( appPass.text.revoke_password ) ) {
+			return;
+		}
+
 		var $tr = $( e.target ).closest( 'tr' ),
 			slug = $tr.data( 'slug' );
 
@@ -99,6 +105,10 @@
 
 	$removeAllBtn.on( 'click', function( e ) {
 		e.preventDefault();
+
+		if ( ! confirm( appPass.text.revoke_all_passwords ) ) {
+			return;
+		}
 
 		$.ajax( {
 			url: appPass.root + appPass.namespace + '/application-passwords/' + appPass.user_id,
