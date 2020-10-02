@@ -80,7 +80,7 @@
 	$appPassTbody.on( 'click', '.delete', function( e ) {
 		e.preventDefault();
 
-		if ( ! confirm( appPass.revoke_password ) ) {
+		if ( ! confirm( appPass.text.revoke_password ) ) {
 			return;
 		}
 
@@ -106,7 +106,7 @@
 	$removeAllBtn.on( 'click', function( e ) {
 		e.preventDefault();
 
-		if ( ! confirm( appPass.revoke_all_passwords ) ) {
+		if ( ! confirm( appPass.text.revoke_all_passwords ) ) {
 			return;
 		}
 
