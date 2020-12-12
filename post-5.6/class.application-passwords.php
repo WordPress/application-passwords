@@ -51,4 +51,41 @@ class Application_Passwords {
 			wp_safe_redirect( $new_url );
 		}
 	}
+
+	// Add backcompat functions from legacy implementation.
+	public static function is_api_request() {
+		_doing_it_wrong(
+			__CLASS__ . '::' . __METHOD__,
+			__( 'Please use the WordPress Core implementation introduced in 5.6 instead.' ),
+			'WP/5.6'
+		);
+	}
+
+	public static function create_new_application_password( $user_id, $name ) {
+
+	}
+
+	public static function delete_application_password( $user_id, $slug ) {
+
+	}
+
+	public static function delete_all_application_passwords( $user_id ) {
+
+	}
+
+	public static function password_unique_slug( $item ) {
+
+	}
+
+	public static function chunk_password( $raw_password ) {
+
+	}
+
+	public static function get_user_application_passwords( $user_id ) {
+
+	}
+
+	public static function set_user_application_passwords( $user_id, $passwords ) {
+
+	}
 }
