@@ -11,7 +11,7 @@
 	</php>
 	<testsuites>
 		<testsuite>
-			<directory suffix=".php">tests</directory>
+			<directory suffix=".php">pre-5.6/tests</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
