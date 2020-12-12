@@ -39,6 +39,9 @@ class Application_Passwords {
 		<?php
 	}
 
+	/**
+	 * If someone who isn't an admin tries the old page, just pass them along.
+	 */
 	public static function redirect_auth_app() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$new_url = admin_url( 'authorize-application.php' );
