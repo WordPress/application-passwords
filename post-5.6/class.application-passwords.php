@@ -13,6 +13,7 @@ class Application_Passwords {
 	public static function add_hooks() {
 		// Anything we need to do, add the actions or filters in here.
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
+		add_action( 'load-admin_page_auth_app', array( __CLASS__, 'redirect_auth_app' ) );
 	}
 
 	/**
@@ -36,5 +37,15 @@ class Application_Passwords {
 			<p><a href="<?php echo esc_url( $new_url ); ?>" class="button button-primary"><?php esc_html_e( 'You may continue to the new authorization page here 🔗' ); ?></a></p>
 		</div>
 		<?php
+	}
+
+	public static function redirect_auth_app() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$new_url = admin_url( 'authorize-application.php' );
+			$new_url = add_query_arg( $_GET, $new_url );
+			$new_url = remove_query_arg( 'page', $new_url );
+
+			wp_safe_redirect( $new_url );
+		}
 	}
 }
