@@ -12,6 +12,10 @@ Creates unique passwords for applications to authenticate users without revealin
 
 == Description ==
 
+**⚠️ IMPORTANT: This plugin has been merged into WordPress core version 5.6 and doesn't have to be installed separately. [View the integration guide →](https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/)**
+
+---
+
 Use Application Passwords to authenticate users without providing their passwords directly. Instead, a unique password is generated for each application without revealing the user's main password. Application passwords can be revoked for each application individually.
 
 **Important:** Application Passwords can be used only for authenticating API requests such as [REST API](https://developer.wordpress.org/rest-api/) and [XML-RPC](https://codex.wordpress.org/XML-RPC_WordPress_API), and they won't work for regular site logins.
