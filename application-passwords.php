@@ -4,11 +4,11 @@
  * Plugin URI: https://github.com/WordPress/application-passwords
  * Description: Creates unique passwords for applications to authenticate users without revealing their main passwords.
  * Author: George Stephanis
- * Version: 0.1.2
+ * Version: 0.1.3
  * Author URI: https://github.com/georgestephanis
  */
 
-define( 'APPLICATION_PASSWORDS_VERSION', '0.1.2' );
+define( 'APPLICATION_PASSWORDS_VERSION', '0.1.3' );
 
 /**
  * Include the application passwords system.
