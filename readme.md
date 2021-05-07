@@ -1,6 +1,6 @@
 # Application Passwords for WordPress
 
-**⚠️ IMPORTANT: This plugin has been merged into WordPress core and doesn't have to be installed separately. [View the integration guide →](https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/)**
+**⚠️ IMPORTANT: This plugin has been merged into WordPress core version 5.6 and doesn't have to be installed separately. [View the integration guide →](https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/)**
 
 ---
 
