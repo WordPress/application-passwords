@@ -337,7 +337,8 @@ class Application_Passwords {
 	 */
 	public static function is_api_request() {
 		// Process the authentication only after the APIs have been initialized.
-		return ( ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) );
+		$WPGRAPHQL_REQUEST = function_exists('is_graphql_http_request') ? is_graphql_http_request() : false;
+		return ( ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || $WPGRAPHQL_REQUEST );
 	}
 
 	/**
