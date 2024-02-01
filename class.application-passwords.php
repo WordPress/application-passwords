@@ -39,6 +39,10 @@ class Application_Passwords {
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
 		add_action( 'admin_post_authorize_application_password', array( __CLASS__, 'authorize_application_password' ) );
 		self::fallback_populate_username_password();
+
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			self::cli_register();
+		}
 	}
 
 	/**
@@ -291,6 +295,88 @@ class Application_Passwords {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Register commands for WP-CLI to use.
+	 */
+	public static function cli_register() {
+		WP_CLI::add_command( 'user app-pass', array( __CLASS__, 'cli_app_pass' ), array(
+			'shortdesc' => __( 'Lists a user\'s application passwords.' ),
+			'synopsis' => array(
+				array(
+					'type'     => 'positional',
+					'name'     => 'id',
+					'optional' => false,
+					'multiple' => false,
+				),
+				array(
+					'type'     => 'assoc',
+					'name'     => 'format',
+					'optional' => true,
+					'default'  => 'table',
+					'options'  => array( 'table', 'json', 'csv', 'yaml', 'count' ),
+				),
+			),
+		) );
+
+		WP_CLI::add_command( 'user app-pass create', array( __CLASS__, 'cli_app_pass_create' ), array(
+			'shortdesc' => __( 'Create a new application password for a user.' ),
+			'synopsis' => array(
+				array(
+					'type'     => 'positional',
+					'name'     => 'id',
+					'optional' => false,
+					'multiple' => false,
+				),
+				array(
+					'type'     => 'assoc',
+					'name'     => 'name',
+					'optional' => true,
+					'default'  => sprintf( __( 'WP-CLI Generated Password on %s' ), date( 'c' ) ),
+				),
+			),
+		) );
+	}
+
+	/**
+	 * WP-CLI route to list application passwords for a given user.
+	 *
+	 * @param $args
+	 * @param $assoc
+	 */
+	public static function cli_app_pass( $args, $assoc ) {
+		if ( ! is_numeric( $args[0] ) ) {
+			WP_CLI::error( __( 'Malformed User ID' ) );
+		}
+		$passwords = self::get_user_application_passwords( $args[0] );
+
+		foreach ( $passwords as &$password ) {
+			$password['slug'] = self::password_unique_slug( $password );
+		}
+		unset( $password );
+
+		WP_CLI\Utils\format_items( $assoc['format'], $passwords, array(
+			'slug',
+			'name',
+			'created',
+			'last_used',
+			'last_ip'
+		) );
+	}
+
+	/**
+	 * WP-CLI route to create a new application password for a given user.
+	 *
+	 * @param $args
+	 * @param $assoc
+	 */
+	public static function cli_app_pass_create( $args, $assoc ) {
+		if ( ! is_numeric( $args[0] ) ) {
+			WP_CLI::error( __( 'Malformed User ID' ) );
+		}
+		list( $new_password, $new_item ) = self::create_new_application_password( $args[0], $assoc['name'] );
+		WP_CLI::success( $new_password );
 	}
 
 	/**
